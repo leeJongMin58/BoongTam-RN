@@ -9,7 +9,7 @@ const Colors = {
   },
   orange: {
       orange300: '#F57C00',   // 진한 주황색
-      orange200: '#FF9800',   // 프라이머리 색!!!(메인 색)
+      orange200: '#FF9800',   // 프라이머리 색!!!(메인 색) 
       orange100: '#FFB74D',
       orange000: '#FFCC80',   // 연한 주황색
   },
@@ -31,4 +31,4 @@ const Colors = {
 }
 
 
-export default Colors;
+export default Colors

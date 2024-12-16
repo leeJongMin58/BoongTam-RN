@@ -1,7 +1,7 @@
 import Color from '../constants/Colors'
 import { TextStyle } from 'react-native';
 
-const Typos: { [key: string]: { [key: string]: TextStyle } } = {
+const Typography: { [key: string]: { [key: string]: TextStyle } } = {
     display: {
         display_large: {
             fontFamily: 'Roboto Mono',
@@ -10,7 +10,7 @@ const Typos: { [key: string]: { [key: string]: TextStyle } } = {
             lineHeight: 150,
             color: Color.gray.gray500,
         },
-        display_medium: {
+        display_medium: { 
             fontFamily: 'Roboto Mono',
             fontSize: 45,
             fontWeight: '500',
@@ -103,4 +103,4 @@ const Typos: { [key: string]: { [key: string]: TextStyle } } = {
     }
 };
 
-export default Typos;
+export default Typography
