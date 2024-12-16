@@ -13,7 +13,7 @@ const Colors = {
       orange100: '#FFB74D',
       orange000: '#FFCC80',   // 연한 주황색
   },
-  system: {
+  system: { 
     red: '#FF5252',     // 빨간색
     blue: '#448AFF',    // 파랑색
     brown: '#8D6E63',   // 갈색

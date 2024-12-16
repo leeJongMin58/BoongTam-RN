@@ -13,7 +13,7 @@ const Typography: { [key: string]: { [key: string]: TextStyle } } = {
         display_medium: { 
             fontFamily: 'Roboto Mono',
             fontSize: 45,
-            fontWeight: '500',
+            fontWeight: '500', 
             lineHeight: 150,
             color: Color.gray.gray500,
         },

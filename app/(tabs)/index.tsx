@@ -9,7 +9,7 @@ const App = () => {
         <View style={styles.container}>
             <View style={styles.colorbox}>      
               <Text style={styles.Orange000}>orange000</Text>
-              <Text style={styles.Orange100}>orange100</Text>
+              <Text style={styles.Orange100}>orange100</Text> 
               <Text style={styles.Orange200}>orange200</Text>
               <Text style={styles.Orange300}>orange300</Text>     
             </View>
