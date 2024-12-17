@@ -2,7 +2,7 @@ const Colors = {
   gray: {
       gray500: '#212121',     // 진한 회색
       gray400: '#616161',  
-      gray300: '#9F9F9F',  
+      gray300: '#9E9E9E',  
       gray200: '#E0E0E0',     
       gray100: '#F5F5F5',      // 연한 회색
       white: '#FFFFFF',        // 하얀색
@@ -14,9 +14,9 @@ const Colors = {
       orange000: '#FFCC80',   // 연한 주황색
   },
   system: { 
-    red: '#FF5252',     // 빨간색
-    blue: '#448AFF',    // 파랑색
-    brown: '#8D6E63',   // 갈색
+    red100: '#FF5252',     // 빨간색
+    blue100: '#448AFF',    // 파랑색
+    brown100: '#8D6E63',   // 갈색
   },
   light: {
     tint: '#2f95dc', 

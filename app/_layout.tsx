@@ -14,12 +14,16 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'Maplestory-Bold': require('../assets/fonts/Maplestory Bold.ttf'),
+    'Maplestory-Light': require('../assets/fonts/Maplestory Light.ttf'),
+    'NanumSquare-Bold': require('../assets/fonts/NanumSquareB.ttf'),
+    'NanumSquare-Regular': require('../assets/fonts/NanumSquareR.ttf'),
   });
 
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      console.log('Fonts loaded:', loaded)
     }
   }, [loaded]);
 
