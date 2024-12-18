@@ -5,10 +5,10 @@ import Typography from '@/constants/Typography';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={Typography.display.display_large}>Maplestory Light 적용</Text>
-      <Text style={Typography.display.display_medium}>Maplestory Bold 적용</Text>
-      <Text style={Typography.body.body_large}>NanumSquare Regular 적용</Text>
-      <Text style={Typography.body.body_large_bold}>NanumSquare Bold 적용</Text>
+      <Text style={styles.displayLarge}>Maplestory Light 적용</Text>
+      <Text style={styles.displaysmall}>Maplestory Bold 적용</Text>
+      <Text style={styles.bodyLarge}>NanumSquare Regular 적용</Text>
+      <Text style={styles.bodyLargeBold}>NanumSquare Bold 적용</Text>
     </View>
   );
 }
@@ -19,4 +19,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  displayLarge: StyleSheet.flatten([
+    Typography.heading.large,
+  ]),
+  displaysmall: StyleSheet.flatten([
+    Typography.heading.small_bold,
+  ]),
+  bodyLarge: StyleSheet.flatten([
+    Typography.body.large,
+  ]),
+  bodyLargeBold: StyleSheet.flatten([
+    Typography.body.large_bold,
+  ]),
 });
