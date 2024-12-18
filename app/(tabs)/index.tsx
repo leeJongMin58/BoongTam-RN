@@ -10,7 +10,7 @@ export default function App() {
       <Text style={styles.bodyLarge}>NanumSquare Regular 적용</Text>
       <Text style={styles.bodyLargeBold}>NanumSquare Bold 적용</Text>
     </View>
-  );
+  ); 
 }
 
 const styles = StyleSheet.create({

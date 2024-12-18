@@ -25,7 +25,7 @@ const Typography: { [key: string]: { [key: string]: TextStyle } } = {
             color: Color.gray.gray500, 
         },
     },
-    heading: { 
+    heading: {  
         large: {
             fontFamily: 'Maplestory-Light',
             fontSize: 32,
