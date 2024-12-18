@@ -4,7 +4,7 @@ import Typography from '@/constants/Typography';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View style={styles.container}> 
       <Text style={styles.displayLarge}>Maplestory Light 적용</Text>
       <Text style={styles.displaysmall}>Maplestory Bold 적용</Text>
       <Text style={styles.bodyLarge}>NanumSquare Regular 적용</Text>
