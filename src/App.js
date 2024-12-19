@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { TypographyProvider, useTypography } from './utils/TypographyContext'
 import colors from './styles/color'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function AppContent() {
 	const { typography, fontsLoaded } = useTypography() // Context에서 typography 가져오기
@@ -12,6 +13,7 @@ function AppContent() {
 
 	return (
 		<View style={styles.container}>
+			<MaterialIcons name="phishing" size={30} color={colors.gray500} />
 			<Text style={typography.heading.medium}>
 				헤딩 미디움 붕어빵
 			</Text>
