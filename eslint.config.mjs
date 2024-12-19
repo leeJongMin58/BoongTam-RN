@@ -1,20 +1,20 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginReact from "eslint-plugin-react";
+import globals from 'globals'
+import pluginJs from '@eslint/js'
+import pluginReact from 'eslint-plugin-react'
 
 /** @type {import('eslint').Linter.Config} */
 export default {
-  files: ["**/*.{js,mjs,cjs,jsx}"],
-  languageOptions: {
-    globals: globals.browser,
-  },
-  extends: [
-    "airbnb-base",
-    "prettier",
-    pluginJs.configs.recommended,
-    pluginReact.configs.flat.recommended,
-  ],
-  rules: {
-    // 추가 규칙 설정 (필요 시)
-  },
-};
+	files: ['**/*.{js,mjs,cjs,jsx}'],
+	languageOptions: {
+		globals: globals.browser,
+	},
+	extends: [
+		'airbnb-base',
+		'prettier',
+		pluginJs.configs.recommended,
+		pluginReact.configs.flat.recommended,
+	],
+	rules: {
+		// 추가 규칙 설정 (필요 시)
+	},
+}
