@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router'
 import colors from '../../src/styles/color'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import BoongIcon from '../../assets/icon/ic_boong'
+import { STRINGS } from '../../src/config/string'
 
 const getTabBarIcon = (iconName, focused) => (
 	<MaterialIcons
@@ -19,14 +20,14 @@ export default function TabLayout() {
 				colors: colors.gray200,
 				tabBarStyle: {
 					height: 80,
-					backgroundColor: colors.white
+					backgroundColor: colors.white,
 				},
 			}}
 		>
 			<Tabs.Screen
 				name="(boongtam)/(main)/boongtam"
 				options={{
-					title: 'boongtam',
+					title: STRINGS.BOONG_TAM.TITLE,
 					tabBarIcon: ({ focused }) => (
 						<BoongIcon
 							color={focused ? colors.orange200 : colors.gray200}
@@ -37,28 +38,30 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="(community)/(main)/community"
 				options={{
-					title: 'community',
+					title: STRINGS.COMMYNUITY.TITLE,
 					tabBarIcon: ({ focused }) => getTabBarIcon('chat', focused),
 				}}
 			/>
 			<Tabs.Screen
 				name="(pay)/(main)/pay"
 				options={{
-					title: 'pay',
-					tabBarIcon: ({ focused }) => getTabBarIcon('phishing', focused),
+					title: STRINGS.PAY.TITLE,
+					tabBarIcon: ({ focused }) =>
+						getTabBarIcon('phishing', focused),
 				}}
 			/>
 			<Tabs.Screen
 				name="(shop)/(main)/shop"
 				options={{
-					title: 'shop',
-					tabBarIcon: ({ focused }) => getTabBarIcon('shopping-cart', focused),
+					title: STRINGS.SHOP.TITLE,
+					tabBarIcon: ({ focused }) =>
+						getTabBarIcon('shopping-cart', focused),
 				}}
 			/>
 			<Tabs.Screen
 				name="(my)/(main)/my"
 				options={{
-					title: 'my',
+					title: STRINGS.MY.TITLE,
 					tabBarIcon: ({ focused }) =>
 						getTabBarIcon('account-circle', focused),
 				}}
