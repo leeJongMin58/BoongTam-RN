@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useFonts } from 'expo-font'
-import typography from '../styles/typhography'
+import typography from '../../src/styles/typhography'
 
 const TypographyContext = createContext()
 
@@ -11,7 +11,7 @@ export const useTypography = () => {
 export const TypographyProvider = ({ children }) => {
 	const [fontsLoaded] = useFonts({
 		'Maplestory-Bold': require('../../assets/font/Maplestory Bold.ttf'),
-        'Maplestory-Light': require('../../assets/font/Maplestory Light.ttf'),
+		'Maplestory-Light': require('../../assets/font/Maplestory Light.ttf'),
 		'NanumSquare-Bold': require('../../assets/font/NanumSquareB.ttf'),
 		'NanumSquare-Regular': require('../../assets/font/NanumSquareR.ttf'),
 	})
@@ -95,3 +95,5 @@ export const TypographyProvider = ({ children }) => {
 		</TypographyContext.Provider>
 	)
 }
+
+export default TypographyProvider
