@@ -11,14 +11,16 @@ import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../src/styles/color';
 import Typography from '../../../src/styles/typhography';
+import { STRINGS } from '../../../src/config/string';
+import Container from '../../../src/components/container';
+
+// 상수 정의
+const MIN_NICKNAME_LENGTH = 4;
 
 const LoginNickname = () => {
   const [nickname, setNickname] = useState('');
   const [isDuplicateChecked, setIsDuplicateChecked] = useState(false);
   const router = useRouter();
-
-  // Mock 데이터베이스의 닉네임 배열 (임시 데이터)
-  const existingNicknames = ['user1', 'user2', 'testname'];
 
   const handleNicknameChange = (text) => {
     setNickname(text.trim()); // 공백 제거
@@ -26,26 +28,27 @@ const LoginNickname = () => {
   };
 
   const handleDuplicateCheck = () => {
-    if (existingNicknames.some(existing => existing.toLowerCase() === nickname.toLowerCase())) {
-      // 닉네임이 데이터베이스에 존재할 때 알림
-      Alert.alert('중복체크 실패', '이미 존재하는 닉네임입니다. 다른 닉네임을 사용해주세요.');
-    } else {
-      // 닉네임 사용 가능할 때 알림
-      setIsDuplicateChecked(true);
-      Alert.alert('중복체크 완료', '사용 가능한 닉네임입니다!');
+    // 중복체크 로직 추가 필요 (API 호출 등) 완료 후 수정 할 것
+    if (!nickname) {
+      Alert.alert('오류', '닉네임을 입력해주세요.');
+      return;
     }
+
+    // 임시 로직: 입력된 닉네임이 "사용 가능"이라고 가정
+    setIsDuplicateChecked(true);
+    Alert.alert('중복체크 완료', '사용 가능한 닉네임입니다!');
   };
 
   const isNextButtonEnabled = isDuplicateChecked;
 
   return (
-    <View style={styles.container}>
+    <Container>
       {/* 상단 네비게이션 */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <MaterialIcons name='arrow-back' size={30} color={Colors.gray500} />
+          <MaterialIcons name='arrow-back' size={24} color={Colors.gray500} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>회원가입</Text>
+        <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
         <Text style={styles.pageIndicator}>1 / 3</Text>
       </View>
 
@@ -62,10 +65,10 @@ const LoginNickname = () => {
           <TouchableOpacity
             style={[
               styles.duplicateCheckButton,
-              { backgroundColor: nickname.length >= 4 ? Colors.orange100 : Colors.gray200 },
+              { backgroundColor: nickname.length >= MIN_NICKNAME_LENGTH ? Colors.orange100 : Colors.gray200 },
             ]}
             onPress={handleDuplicateCheck}
-            disabled={nickname.length < 4}
+            disabled={nickname.length < MIN_NICKNAME_LENGTH}
           >
             <Text style={styles.duplicateCheckText}>중복 체크</Text>
           </TouchableOpacity>
@@ -87,7 +90,7 @@ const LoginNickname = () => {
           disabled={!isNextButtonEnabled}
           onPress={() => {
             if (isNextButtonEnabled) {
-              router.push('/nextStep'); // 다음 화면으로 이동
+              router.push('/nextStep'); // 다음화면 제작 후 수정할 것
             }
           }}
         >
@@ -96,16 +99,11 @@ const LoginNickname = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: Colors.white,
-  },
   header: {
     position: 'absolute',
     top: 20,
@@ -133,7 +131,7 @@ const styles = StyleSheet.create({
   }, 
   label: {
     ...Typography.body.large_bold,
-    marginBottom: 10,
+    marginBottom: 8,
     alignSelf: 'flex-start'
   },
   inputRow: {
