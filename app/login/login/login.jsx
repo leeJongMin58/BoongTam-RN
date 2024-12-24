@@ -9,6 +9,7 @@ import { Link } from 'expo-router'
 import { useTypography } from '../../../src/utils/TypographyContext'
 import colors from '../../../src/styles/color'
 
+
 export default function LoginScreen() {
 	const { typography, fontsLoaded } = useTypography()
 
@@ -18,12 +19,11 @@ export default function LoginScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={typography.heading.medium}>로그인 화면</Text>
-
+			<Link href="/login/signup/loginNickname" style={styles.button}>
+				<Text style={typography.heading.medium}>로그인화면</Text>
+			</Link>
 			<Link href="(tabs)/boongtam" asChild style={styles.button}>
-				<Pressable>
-					<Text style={typography.heading.medium}>메인화면으로</Text>
-				</Pressable>
+				<Text style={typography.heading.medium}>메인화면으로</Text>
 			</Link>
 		</View>
 	)
