@@ -8,12 +8,13 @@ import {
 import colors from '../src/styles/color'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import LoginScreen from './login/login/login'
+import StoreReivew from '../src/componants/store_review/Store_reivew'
 
 export default function App() {
 	return (
 		<TypographyProvider>
 			<StatusBar style="auto" />
-			<LoginScreen />
+			<StoreReivew />
 		</TypographyProvider>
 	)
 }
