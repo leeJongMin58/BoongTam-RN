@@ -17,4 +17,7 @@ export const STRINGS = {
 	SHOP: {
 		TITLE: 'Shop',
 	},
+	SIGNUP: {
+		TITLE: '회원가입'
+	}
 }
