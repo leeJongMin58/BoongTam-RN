@@ -26,7 +26,7 @@ export default function LoginScreen() {
 				<Text style={typography.heading.medium}>메인화면으로</Text>
 			</Link>
 		</View>
-	)
+	) 
 }
 
 const styles = StyleSheet.create({

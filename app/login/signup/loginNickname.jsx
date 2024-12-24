@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start', // 수직 위치 조정
     alignItems: 'center',         // 수평 위치 중앙
     marginTop: 300,                // 원하는 여백 추가
-  },
+  }, 
   label: {
     ...Typography.body.large_bold,
     marginBottom: 10,
