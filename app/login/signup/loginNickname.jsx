@@ -90,7 +90,7 @@ const LoginNickname = () => {
           disabled={!isNextButtonEnabled}
           onPress={() => {
             if (isNextButtonEnabled) {
-              router.push('/nextStep'); // 다음화면 제작 후 수정할 것
+              router.push('/login/signup/loginEmail');
             }
           }}
         >
