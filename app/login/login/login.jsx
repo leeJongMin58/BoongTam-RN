@@ -76,7 +76,7 @@ export default function LoginScreen() {
 			</View>
 
 			<Link href="/login/signup/loginNickname" asChild>
-				<Pressable style={styles.kakaoButton}>
+				<TouchableOpacity style={styles.kakaoButton}>
 					<Image source={require('../../../assets/icon/kakao_login_medium_narrow.png')} style={styles.kakaoImage} />
 				</TouchableOpacity>
 			</Link>
