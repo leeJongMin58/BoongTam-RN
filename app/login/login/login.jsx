@@ -74,8 +74,9 @@ export default function LoginScreen() {
 					<View key={index} style={[styles.dot, currentSlide === index && styles.activeDot]} />
 				))}
 			</View>
-			<Link href="(tabs)/my" asChild>
-				<TouchableOpacity style={styles.kakaoButton}>
+
+			<Link href="/login/signup/loginNickname" asChild>
+				<Pressable style={styles.kakaoButton}>
 					<Image source={require('../../../assets/icon/kakao_login_medium_narrow.png')} style={styles.kakaoImage} />
 				</TouchableOpacity>
 			</Link>
