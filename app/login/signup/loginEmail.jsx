@@ -5,6 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -30,63 +34,71 @@ const LoginEmail = () => {
   const isNextButtonEnabled = EMAIL_REGEX.test(email); // 이메일 양식 검사
 
   return (
-    <Container>
-      {/* 상단 네비게이션 */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
-        <Text style={styles.pageIndicator}>2 / 3</Text>
-      </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        {/* 상단 네비게이션 */}
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+            <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
+          <Text style={styles.pageIndicator}>2 / 3</Text>
+        </View>
 
-      {/* 이메일 입력 */}
-      <View style={styles.emailSection}>
-        <Text style={styles.label}>이메일</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="이메일"
-          value={email}
-          onChangeText={handleEmailChange}
-          keyboardType="email-address"
-        />
-        <Text style={styles.helperText}>이메일 양식에 맞춰 작성해주세요.</Text>
-      </View>
+        {/* 이메일 입력 */}
+        <View style={styles.emailSection}>
+          <Text style={styles.label}>이메일</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="이메일"
+            value={email}
+            onChangeText={handleEmailChange}
+            keyboardType="email-address"
+          />
+          <Text style={styles.helperText}>이메일 양식에 맞춰 작성해주세요.</Text>
+        </View>
 
-      {/* 하단 버튼 */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={[
-            styles.nextButton,
-            {
-              backgroundColor:
-                email.length === MIN_EMAIL_LENGTH || isNextButtonEnabled
-                  ? Colors.orange100
-                  : Colors.gray200,
-            },
-          ]}
-          disabled={email.length > MIN_EMAIL_LENGTH && !isNextButtonEnabled}
-          onPress={() => {
-            if (isNextButtonEnabled || email.length === MIN_EMAIL_LENGTH) {
-              router.push('/login/signup/loginAddress'); 
-            }
-          }}
-        >
-          <Text style={styles.nextButtonText}>
-            {email.length === MIN_EMAIL_LENGTH
-              ? '건너뛰기'
-              : isNextButtonEnabled
-              ? '다음'
-              : '건너뛰기'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </Container>
+        {/* 하단 버튼 */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={[
+              styles.nextButton,
+              {
+                backgroundColor:
+                  email.length === MIN_EMAIL_LENGTH || isNextButtonEnabled
+                    ? Colors.orange100
+                    : Colors.gray200,
+              },
+            ]}
+            disabled={email.length > MIN_EMAIL_LENGTH && !isNextButtonEnabled}
+            onPress={() => {
+              if (isNextButtonEnabled || email.length === MIN_EMAIL_LENGTH) {
+                router.push('/login/signup/loginAddress');
+              }
+            }}
+          >
+            <Text style={styles.nextButtonText}>
+              {email.length === MIN_EMAIL_LENGTH
+                ? '건너뛰기'
+                : isNextButtonEnabled
+                  ? '다음'
+                  : '건너뛰기'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'space-between'
+  },
   header: {
+    marginTop: 20,
     position: 'absolute',
     top: 20,
     left: 20,
@@ -107,9 +119,8 @@ const styles = StyleSheet.create({
   },
   emailSection: {
     flex: 1,
-    justifyContent: 'flex-start', // 수직 위치 조정
+    justifyContent: 'center', // 수직 위치 조정
     alignItems: 'center',         // 수평 위치 중앙
-    marginTop: 300,                // 원하는 여백 추가
   },
   label: {
     ...Typography.body.large_bold,

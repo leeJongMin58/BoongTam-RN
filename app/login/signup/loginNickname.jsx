@@ -6,13 +6,16 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../src/styles/color';
 import Typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
-import Container from '../../../src/components/container';
 
 // 상수 정의
 const MIN_NICKNAME_LENGTH = 4;
@@ -42,69 +45,78 @@ const LoginNickname = () => {
   const isNextButtonEnabled = isDuplicateChecked;
 
   return (
-    <Container>
-      {/* 상단 네비게이션 */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <MaterialIcons name='arrow-back' size={24} color={Colors.gray500} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
-        <Text style={styles.pageIndicator}>1 / 3</Text>
-      </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        {/* 상단 네비게이션 */}
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+            <MaterialIcons name='arrow-back' size={24} color={Colors.gray500} />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
+          <Text style={styles.pageIndicator}>1 / 3</Text>
+        </View>
 
-      {/* 닉네임 입력 */}
-      <View style={styles.nicknameSection}>
-        <Text style={styles.label}>닉네임</Text>
-        <View style={styles.inputRow}>
-          <TextInput
-            style={styles.input}
-            placeholder="닉네임"
-            value={nickname}
-            onChangeText={handleNicknameChange}
-          />
+        {/* 닉네임 입력 */}
+        <View style={styles.nicknameSection}>
+          <Text style={styles.label}>닉네임</Text>
+          <View style={styles.inputRow}>
+            <TextInput
+              style={styles.input}
+              placeholder="닉네임"
+              value={nickname}
+              onChangeText={handleNicknameChange}
+            />
+            <TouchableOpacity
+              style={[
+                styles.duplicateCheckButton,
+                { backgroundColor: nickname.length >= MIN_NICKNAME_LENGTH ? Colors.orange100 : Colors.gray200 },
+              ]}
+              onPress={handleDuplicateCheck}
+              disabled={nickname.length < MIN_NICKNAME_LENGTH}
+            >
+              <Text style={styles.duplicateCheckText}>중복 체크</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.helperText}>
+            닉네임은 이모티콘 제외 4~10글자로 만들어주세요
+          </Text>
+        </View>
+
+        {/* 하단 버튼 */}
+        <View style={styles.footer}>
           <TouchableOpacity
             style={[
-              styles.duplicateCheckButton,
-              { backgroundColor: nickname.length >= MIN_NICKNAME_LENGTH ? Colors.orange100 : Colors.gray200 },
+              styles.nextButton,
+              {
+                backgroundColor: isNextButtonEnabled ? Colors.orange100 : Colors.gray200,
+              },
             ]}
-            onPress={handleDuplicateCheck}
-            disabled={nickname.length < MIN_NICKNAME_LENGTH}
+            disabled={!isNextButtonEnabled}
+            onPress={() => {
+              if (isNextButtonEnabled) {
+                router.push('/login/signup/loginEmail');
+              }
+            }}
           >
-            <Text style={styles.duplicateCheckText}>중복 체크</Text>
+            <Text style={styles.nextButtonText}>
+              {isNextButtonEnabled ? '다음' : '건너뛰기'}
+            </Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.helperText}>
-          닉네임은 이모티콘 제외 4~10글자로 만들어주세요
-        </Text>
-      </View>
-
-      {/* 하단 버튼 */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={[
-            styles.nextButton,
-            {
-              backgroundColor: isNextButtonEnabled ? Colors.orange100 : Colors.gray200,
-            },
-          ]}
-          disabled={!isNextButtonEnabled}
-          onPress={() => {
-            if (isNextButtonEnabled) {
-              router.push('/login/signup/loginEmail');
-            }
-          }}
-        >
-          <Text style={styles.nextButtonText}>
-            {isNextButtonEnabled ? '다음' : '건너뛰기'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </Container>
+        {/* </TouchableWithoutFeedback> */}
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'space-between'
+  },
   header: {
+    marginTop: 20,
     position: 'absolute',
     top: 20,
     left: 20,
@@ -125,10 +137,9 @@ const styles = StyleSheet.create({
   },
   nicknameSection: {
     flex: 1,
-    justifyContent: 'flex-start', // 수직 위치 조정
-    alignItems: 'center',         // 수평 위치 중앙
-    marginTop: 300,                // 원하는 여백 추가
-  }, 
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   label: {
     ...Typography.body.large_bold,
     marginBottom: 8,

@@ -5,6 +5,10 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -24,66 +28,74 @@ const AddressInput = () => {
     const isSkipButtonEnabled = address.length === MIN_ADDRESS_LENGTH && detailedAddress.length === MIN_ADDRESS_LENGTH;
 
     return (
-        <Container>
-            {/* 상단 네비게이션 */}
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                    <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
-                <Text style={styles.pageIndicator}>3 / 3</Text>
-            </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+                {/* 상단 네비게이션 */}
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                        <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
+                    <Text style={styles.pageIndicator}>3 / 3</Text>
+                </View>
 
-            {/* 주소 입력 */}
-            <View style={styles.addressSection}>
-                <Text style={styles.label}>주소</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="주소"
-                    value={address}
-                    onChangeText={(text) => setAddress(text.trim())}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="상세주소"
-                    value={detailedAddress}
-                    onChangeText={(text) => setDetailedAddress(text.trim())}
-                />
-                <Text style={styles.helperText}>주소에 이모티콘은 사용할 수 없습니다.</Text>
-            </View>
+                {/* 주소 입력 */}
+                <View style={styles.addressSection}>
+                    <Text style={styles.label}>주소</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="주소"
+                        value={address}
+                        onChangeText={(text) => setAddress(text.trim())}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="상세주소"
+                        value={detailedAddress}
+                        onChangeText={(text) => setDetailedAddress(text.trim())}
+                    />
+                    <Text style={styles.helperText}>주소에 이모티콘은 사용할 수 없습니다.</Text>
+                </View>
 
-            {/* 하단 버튼 */}
-            <View style={styles.footer}>
-                <TouchableOpacity
-                    style={[
-                        styles.nextButton,
-                        {
-                            backgroundColor: 
-                            isNextButtonEnabled || isSkipButtonEnabled
-                                ? Colors.orange100
-                                : Colors.gray200,
-                        },
-                    ]}
-                    disabled={!isNextButtonEnabled && !isSkipButtonEnabled}
-                    onPress={() => {
-                        if (isNextButtonEnabled) {
-                            router.push('/login/signup/loginSuccess'); // 다음 화면으로 이동 제작 후 수정(메인화면)
-                        } else if (isSkipButtonEnabled) {
-                            router.push('/login/signup/loginSuccess'); // 건너뛰기 로직 추가
-                        }
-                    }}
-                >
-                    <Text style={styles.nextButtonText}>
-                        {isNextButtonEnabled ? '다음' : '건너뛰기'}
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </Container>
+                {/* 하단 버튼 */}
+                <View style={styles.footer}>
+                    <TouchableOpacity
+                        style={[
+                            styles.nextButton,
+                            {
+                                backgroundColor:
+                                    isNextButtonEnabled || isSkipButtonEnabled
+                                        ? Colors.orange100
+                                        : Colors.gray200,
+                            },
+                        ]}
+                        disabled={!isNextButtonEnabled && !isSkipButtonEnabled}
+                        onPress={() => {
+                            if (isNextButtonEnabled) {
+                                router.push('/login/signup/loginSuccess'); // 다음 화면으로 이동 제작 후 수정(메인화면)
+                            } else if (isSkipButtonEnabled) {
+                                router.push('/login/signup/loginSuccess'); // 건너뛰기 로직 추가
+                            }
+                        }}
+                    >
+                        <Text style={styles.nextButtonText}>
+                            {isNextButtonEnabled ? '다음' : '건너뛰기'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        justifyContent: 'space-between'
+      },
     header: {
+        marginTop: 20,
         position: 'absolute',
         top: 20,
         left: 20,
@@ -104,9 +116,8 @@ const styles = StyleSheet.create({
     },
     addressSection: {
         flex: 1,
-        justifyContent: 'flex-start', // 위치 조정 가능
+        justifyContent: 'center', // 위치 조정 가능
         alignItems: 'center',
-        marginTop: 300,
     },
     label: {
         ...Typography.body.large_bold,
