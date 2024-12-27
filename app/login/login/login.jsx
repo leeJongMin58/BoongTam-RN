@@ -4,7 +4,7 @@ import {
 	View,
 	StyleSheet,
 	ActivityIndicator,
-	Pressable,
+	TouchableOpacity,
 	Image,
 	Animated,
 	PanResponder,
@@ -22,7 +22,6 @@ const slides = [
 	{ text: STRINGS.LOGIN.SLIDE3.TITLE, description: STRINGS.LOGIN.SLIDE3.DESCRIPTION },
 	{ text: STRINGS.LOGIN.SLIDE4.TITLE, description: STRINGS.LOGIN.SLIDE4.DESCRIPTION },
 ];
-
 
 export default function LoginScreen() {
 	const { typography, fontsLoaded } = useTypography();
@@ -52,7 +51,11 @@ export default function LoginScreen() {
 	});
 
 	if (!fontsLoaded) {
-		return <ActivityIndicator size="large" color={colors.orange200} />;
+		return (
+			<SafeAreaView style={styles.container}>
+				<ActivityIndicator size="large" color={colors.orange200} />
+			</SafeAreaView>
+		);
 	}
 
 	return (
@@ -71,10 +74,11 @@ export default function LoginScreen() {
 					<View key={index} style={[styles.dot, currentSlide === index && styles.activeDot]} />
 				))}
 			</View>
+
 			<Link href="/login/signup/loginNickname" asChild>
 				<Pressable style={styles.kakaoButton}>
 					<Image source={require('../../../assets/icon/kakao_login_medium_narrow.png')} style={styles.kakaoImage} />
-				</Pressable>
+				</TouchableOpacity>
 			</Link>
 		</SafeAreaView>
 	);
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'flex-start',
 		alignItems: 'center',
+
 		padding: 20,
 	},
 	dotsContainer: {
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
 	kakaoButton: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		backgroundColor: '#FEE500', // 배경색 유지
+		backgroundColor: '#FEE500',
 		borderRadius: 12,
 		paddingVertical: 10,
 		paddingHorizontal: 20,
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
 		marginBottom: 120,
 	},
 	kakaoImage: {
-		width: 200, // 이미지 너비를 늘려 중앙 정렬
-		height: 30, // 이미지 높이를 버튼에 맞게 조정
+		width: 200,
+		height: 30,
 	},
 });
