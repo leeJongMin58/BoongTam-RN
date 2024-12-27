@@ -4,101 +4,119 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { Link } from "expo-router";
-import colors from "../../../../src/styles/color"; // Colors.ts를 참고합니다
+import colors from "../../../../src/styles/color";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { STRINGS } from "../../../../src/config/string";
-import { useTypography } from "../../../../src/utils/TypographyContext";
 import typography from "../../../../src/styles/typhography";
 
 export default function Profile() {
-  const { typography } = useTypography();
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.container}>
-        {/* 상단 프로필 영역 */}
-        <View style={styles.profileContainer}>
-          {/* 기존 이미지 대신 MaterialIcons 아이콘으로 대체 */}
-          <MaterialIcons name="account-circle" size={150} color={colors.gray300} style={styles.profileImage} />
-          
-          <Text style={styles.profileName}>{STRINGS.MY.info.nickname}</Text>
-          <Link href="/my_page_edit" style={styles.editButton}>
-            <Text style={styles.editButtonText}>✏️ {STRINGS.MY.info.info_edit}</Text>
-          </Link>
+    <SafeAreaView style={styles.safeContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          {/* 상단 프로필 영역 */}
+          <View style={styles.profileContainer}>
+            {/* 기존 이미지 대신 MaterialIcons 아이콘으로 대체 */}
+            <MaterialIcons name="account-circle" size={150} color={colors.gray300} style={styles.profileImage} />
+
+            <Text style={styles.profileName}>{STRINGS.MY.info.nickname}</Text>
+            <Link href="/my_page_edit" asChild>
+              <TouchableOpacity style={styles.editButton}>
+                <Text style={styles.editButtonText}>✏️ {STRINGS.MY.info.info_edit}</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+
+          {/* 보유 포인트 표시 */}
+          <View style={styles.pointSection}>
+            <Text style={styles.pointText}>🏆 {STRINGS.MY.info.point}: 1,000P</Text>
+          </View>
+
+          {/* 버튼 영역 */}
+          <View style={styles.buttonContainer}>
+            <Link href="/my_page_review" asChild>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>{STRINGS.MY.info.review_manage}</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link href="/my_page_suttle" asChild>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>{STRINGS.MY.info.suttle_check}</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link href="/my_page_bill" asChild>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>{STRINGS.MY.info.bill_paper}</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+
+          {/* 하단 메뉴 영역 */}
+          <View style={styles.menuContainer}>
+            <Link href="/my_page_notice" asChild>
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuIconWrapper}>
+                  <MaterialIcons name="campaign" style={styles.menuIcon} />
+                </View>
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>{STRINGS.MY.info.policy.name}</Text>
+                  <Text style={styles.menuItemSubText}>{STRINGS.MY.info.policy.description}</Text>
+                </View>
+                <MaterialIcons name="chevron-right" style={styles.rightIcon} />
+              </TouchableOpacity>
+            </Link>
+
+            <Link href="/my_page_service" asChild>
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuIconWrapper}>
+                  <MaterialIcons name="help-outline" style={styles.menuIcon} />
+                </View>
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>{STRINGS.MY.info.service.name}</Text>
+                  <Text style={styles.menuItemSubText}>{STRINGS.MY.info.service.description}</Text>
+                </View>
+                <MaterialIcons name="chevron-right" style={styles.rightIcon} />
+              </TouchableOpacity>
+            </Link>
+
+            <Link href="/my_page_police" asChild>
+              <TouchableOpacity style={styles.menuItem}>
+                <View style={styles.menuIconWrapper}>
+                  <MaterialIcons name="description" style={styles.menuIcon} />
+                </View>
+                <View style={styles.menuItemContent}>
+                  <Text style={styles.menuItemText}>{STRINGS.MY.info.notice.name}</Text>
+                  <Text style={styles.menuItemSubText}>{STRINGS.MY.info.notice.description}</Text>
+                </View>
+                <MaterialIcons name="chevron-right" style={styles.rightIcon} />
+              </TouchableOpacity>
+            </Link>
+          </View>
+
+          {/* 하단 버전 표시 */}
+          <Text style={styles.versionText}>{STRINGS.MY.info.version}</Text>
         </View>
-
-        {/* 보유 포인트 표시 */}
-        <View style={styles.pointSection}>
-          <Text style={styles.pointText}>🏆 {STRINGS.MY.info.point}: 1,000P</Text>
-        </View>
-
-        {/* 버튼 영역 */}
-        <View style={styles.buttonContainer}>
-          <Link href="/my_page_review" style={styles.button}>
-            <Text style={styles.buttonText}>{STRINGS.MY.info.review_manage}</Text>
-          </Link>
-          <Link href="/my_page_suttle" style={styles.button}>
-            <Text style={styles.buttonText}>{STRINGS.MY.info.suttle_check}</Text>
-          </Link>
-          <Link href="/my_page_bill" style={styles.button}>
-            <Text style={styles.buttonText}>{STRINGS.MY.info.bill_paper}</Text>
-          </Link>
-        </View>
-
-        {/* 하단 메뉴 영역 */}
-        <View style={styles.menuContainer}>
-          <Link href="/my_page_notice" style={styles.menuItem}>
-            <View style={styles.menuIconWrapper}>
-              <MaterialIcons name="campaign" style={styles.menuIcon} />
-            </View>
-            <View style={styles.menuItemContent}>
-              {/* 객체의 name과 description을 정확히 렌더링 */}
-              <Text style={styles.menuItemText}>{STRINGS.MY.info.policy.name}</Text>
-              <Text style={styles.menuItemSubText}>{STRINGS.MY.info.policy.description}</Text>
-            </View>
-            <MaterialIcons name="chevron-right" style={styles.rightIcon} />
-          </Link>
-
-          <Link href="/my_page_service" style={styles.menuItem}>
-            <View style={styles.menuIconWrapper}>
-              <MaterialIcons name="help-outline" style={styles.menuIcon} />
-            </View>
-            <View style={styles.menuItemContent}>
-              <Text style={styles.menuItemText}>{STRINGS.MY.info.service.name}</Text>
-              <Text style={styles.menuItemSubText}>{STRINGS.MY.info.service.description}</Text>
-            </View>
-            <MaterialIcons name="chevron-right" style={styles.rightIcon} />
-          </Link>
-
-          <Link href="/my_page_police" style={styles.menuItem}>
-            <View style={styles.menuIconWrapper}>
-              <MaterialIcons name="description" style={styles.menuIcon} />
-            </View>
-            <View style={styles.menuItemContent}>
-              <Text style={styles.menuItemText}>{STRINGS.MY.info.notice.name}</Text>
-              <Text style={styles.menuItemSubText}>{STRINGS.MY.info.notice.description}</Text>
-            </View>
-            <MaterialIcons name="chevron-right" style={styles.rightIcon} />
-          </Link>
-        </View>
-
-        {/* 하단 버전 표시 */}
-        <Text style={styles.versionText}>{STRINGS.MY.info.version}</Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: colors.gray200,
+  },
   scrollContainer: {
     flexGrow: 1,
     paddingBottom: 20,
   },
   container: {
     flex: 1,
-    backgroundColor: colors.gray200 || "#fff",
     padding: 20,
   },
   profileContainer: {
@@ -112,10 +130,10 @@ const styles = StyleSheet.create({
     ...typography.heading.large,
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.gray500 || "#333",
+    color: colors.gray500,
   },
   editButton: {
-    backgroundColor: colors.orange100 || "#ffa500",
+    backgroundColor: colors.orange100,
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 20,
@@ -128,7 +146,7 @@ const styles = StyleSheet.create({
   pointSection: {
     alignItems: "center",
     marginBottom: 20,
-    backgroundColor: colors.gray300 || "#f7f7f7",
+    backgroundColor: colors.gray300,
     padding: 10,
     borderRadius: 10,
   },
@@ -136,13 +154,13 @@ const styles = StyleSheet.create({
     ...typography.body.medium,
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.white || "#333",
+    color: colors.white,
   },
   buttonContainer: {
     marginBottom: 30,
   },
   button: {
-    backgroundColor: colors.orange200 || "#ffa500",
+    backgroundColor: colors.orange200,
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -160,27 +178,27 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   menuItem: {
-    flexDirection: 'row', // 가로 배치
-    alignItems: 'center', // 수직 정렬
+    flexDirection: 'row',
+    alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray500 || "#ddd",
+    borderBottomColor: colors.gray500,
     paddingVertical: 15,
   },
   menuIconWrapper: {
-    borderRadius: 10, // 원형
-    backgroundColor: colors.orange100, // 회색 배경
-    width: 40, // 아이콘 배경 크기
+    borderRadius: 10,
+    backgroundColor: colors.orange100,
+    width: 40,
     height: 40,
     alignItems: "center",
-    justifyContent: "center", 
+    justifyContent: "center",
   },
   menuIcon: {
     fontSize: 24,
     color: colors.gray500,
   },
   menuItemContent: {
-    flex: 1, // 텍스트가 남은 공간을 차지
-    marginLeft: 16, // 아이콘과 텍스트 간격
+    flex: 1,
+    marginLeft: 16,
   },
   menuItemText: {
     ...typography.body.medium,
@@ -192,11 +210,11 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     fontSize: 24,
-    color: colors.gray500 || "#666",
+    color: colors.gray500,
   },
   versionText: {
     ...typography.label.small,
     textAlign: "center",
-    color: colors.gray500 || "#666",
+    color: colors.gray500,
   },
 });
