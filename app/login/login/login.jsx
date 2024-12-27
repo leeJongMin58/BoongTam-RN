@@ -23,6 +23,7 @@ const slides = [
 	{ text: STRINGS.LOGIN.SLIDE4.TITLE, description: STRINGS.LOGIN.SLIDE4.DESCRIPTION },
 ];
 
+
 export default function LoginScreen() {
 	const { typography, fontsLoaded } = useTypography();
 	const [currentSlide, setCurrentSlide] = useState(0);
