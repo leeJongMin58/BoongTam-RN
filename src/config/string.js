@@ -20,7 +20,54 @@ export const STRINGS = {
 		},
 	},	
 	BOONG_TAM: {
-		TITLE: 'BoongTam',
+		TITLE: '붕탐 오더',
+		FILTER: '필터',
+		STORE: {
+			STORE_INFO: '매장 정보',
+			STORE_FORM: '가게 형태',
+			STORE_APPEARANCE: '출몰 시기',
+			STORE_TIME: '출몰 시간'
+		},
+		INFO: {
+			FIND_LOAD: '길찾기',
+			REPORTING: '제보하기',
+			MENU: '메뉴',
+			PHOTO: '사진',
+			FOOD: '음식',
+			OUTSIDE: '외부',
+			INSIDE: '내부',
+			LIKE: '좋아요순',
+			LATEST: '최신순',
+			ADD_MENU: '메뉴 더 담기',
+			PICKUP: '이 때 받으러 갈게요~',
+			POINT: '포인트',
+			BOONG_POINT: '붕 포인트',
+			APPLICATION: '적용'
+		},
+		REVIEW: {
+			WRITE_REVIEW: '리뷰 쓰기',
+			REVIEW: '리뷰'
+		},
+		PAY: {
+			TOTAL_PAYMENT: '총 주문 금액',
+			PAYMENT_METHOD: '결제 수단',
+			WON: '원',
+			PAYMENT_AMOUNT: '결제 금액',
+			ORDER_AMOUNT: '주문 금액',
+			USE_POINT: '포인트 사용',
+			FINAL_AMOUNT: '최종 결제 금액'
+		},
+		ORDER: {
+			ORDER: '주문하기',
+			BOONG_TAM_ORDER: '붕탐오더 주문하기',
+			BOONG_TAM_ORDER_CURRENT: '붕탐 오더 주문현황',
+			BOONG_TAM_ORDER_PRODUCT: '주문 상품 정보',
+			BOONG_TAM_ORDER_VIEW: '주문 현황 보기',
+			BOONG_TAM_ORDER_RECEIPT: '주문 접수 확인',
+			CHECK_ORDER: '가게에서 주문을 확인 중 이에요!',
+			AFTER_TIME: '이만큼 남았어요~',
+			CANCEL_ORDER: '주문 취소'
+		}
 	},
 	COMMYNUITY: {
 		TITLE: 'Community',
