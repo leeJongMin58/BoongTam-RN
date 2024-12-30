@@ -37,7 +37,7 @@ const slides = [
 ]
 
 export default function LoginScreen() {
-	const { typography, fontsLoaded } = useTypography()
+	const { fontsLoaded } = useTypography()
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const translateX = useState(new Animated.Value(0))[0]
 
@@ -79,16 +79,12 @@ export default function LoginScreen() {
 
 	const [isDialogVisible, setDialogVisible] = useState(false)
 
-	const openDialog = () => {
+	const openKakakoLoginDialog = () => {
 		setDialogVisible(true)
 	}
 
-	const closeDialog = () => {
+	const closeKakakoLoginDialog = () => {
 		setDialogVisible(false)
-	}
-
-	const kakaoLogin = () => {
-		;<kakakoLoginWebView />
 	}
 
 	if (!fontsLoaded) {
@@ -132,17 +128,16 @@ export default function LoginScreen() {
 				))}
 			</View>
 
-			<TouchableOpacity style={styles.kakaoButton} onPress={openDialog}>
+			<TouchableOpacity style={styles.kakaoButton} onPress={openKakakoLoginDialog}>
 				<Image
 					source={require('../../../assets/icon/kakao_login_medium_narrow.png')}
 					style={styles.kakaoImage}
 				/>
 			</TouchableOpacity>
 
-			{/* Kakao WebView Dialog */}
 			<KakaoLoginWebViewDialog
 				visible={isDialogVisible}
-				onClose={closeDialog}
+				onClose={closeKakakoLoginDialog}
 			/>
 
 			{/* <Link href="/login/signup/loginNickname" asChild>
@@ -215,27 +210,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		alignSelf: 'center',
 		elevation: 2,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 3,
+		boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.1)',
 		marginBottom: 120,
 	},
 	kakaoImage: {
 		width: 200,
 		height: 30,
-	},
-	kakaoButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		backgroundColor: '#FEE500',
-		borderRadius: 12,
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		elevation: 2,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 3,
 	},
 })
