@@ -13,6 +13,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../../src/styles/color';
 import Typography from '../../../../src/styles/typhography';
+import { STRINGS } from '../../../../src/config/string';
 
 const BoongtamOrderSuccess = () => {
     const router = useRouter();
@@ -45,15 +46,15 @@ const BoongtamOrderSuccess = () => {
                             <TouchableOpacity onPress={() => router.push('/boongtamDetail')} style={styles.backButton}>
                                 <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                             </TouchableOpacity>
-                            <Text style={styles.headerTitle}>붕탐 오더 주문현황</Text>
+                            <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_CURRENT}</Text>
                         </View>
 
                         {/* 주문 현황 */}
                         <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>주문 현황 보기</Text>
+                            <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_VIEW}</Text>
                             <View style={styles.statusContainer}>
-                                <Text style={styles.statusText}>주문 접수 확인</Text>
-                                <Text style={styles.statusSubText}>가게에서 주문을 확인 중 이에요!</Text>
+                                <Text style={styles.statusText}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_RECEIPT}</Text>
+                                <Text style={styles.statusSubText}>{STRINGS.BOONG_TAM.ORDER.CHECK_ORDER}</Text>
                             </View>
                         </View>
 
@@ -65,7 +66,7 @@ const BoongtamOrderSuccess = () => {
                     <>
                         {/* 주문 상품 정보 */}
                         <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>주문 상품 정보</Text>
+                            <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_PRODUCT}</Text>
                             {parsedOrderItems.map((item) => (
                                 <View key={item.id} style={styles.itemContainer}>
                                     {/* 상품 이미지 */}
@@ -84,7 +85,7 @@ const BoongtamOrderSuccess = () => {
                         </View>
                         {/* 남은 시간 */}
                         <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>이만큼 남았어요~</Text>
+                            <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.ORDER.AFTER_TIME}</Text>
                             <View style={styles.timeContainer}>
                                 <Text style={styles.timeText}>50분 뒤에 완성 예정이에요!</Text>
                             </View>
@@ -92,30 +93,36 @@ const BoongtamOrderSuccess = () => {
 
                         {/* 결제 정보 */}
                         <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>총 주문 금액</Text>
+                            <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.PAY.TOTAL_PAYMENT}</Text>
                             <View style={styles.priceRow}>
-                                <Text style={styles.priceLabel}>주문 금액</Text>
-                                <Text style={styles.priceValue}>{parsedTotalAmount.toLocaleString()}원</Text>
+                                <Text style={styles.priceLabel}>{STRINGS.BOONG_TAM.PAY.ORDER_AMOUNT}</Text>
+                                <Text style={styles.priceValue}>{parsedTotalAmount.toLocaleString()}{STRINGS.BOONG_TAM.PAY.WON}</Text>
                             </View>
                             <View style={styles.priceRow}>
-                                <Text style={styles.priceLabel}>포인트 사용</Text>
+                                <Text style={styles.priceLabel}>{STRINGS.BOONG_TAM.PAY.USE_POINT}</Text>
                                 <Text style={styles.priceValue}>0P</Text>
                             </View>
                             <View style={styles.totalRow}>
-                                <Text style={styles.totalLabel}>최종 결제 금액</Text>
-                                <Text style={styles.totalValue}>{parsedTotalAmount.toLocaleString()}원</Text>
+                                <Text style={styles.totalLabel}>{STRINGS.BOONG_TAM.PAY.FINAL_AMOUNT}</Text>
+                                <Text style={styles.totalValue}>{parsedTotalAmount.toLocaleString()}{STRINGS.BOONG_TAM.PAY.WON}</Text>
                             </View>
                             <View style={styles.paymentMethodRow}>
-                                <Text style={styles.priceLabel}>결제 방법</Text>
-                                <Text style={styles.priceValue}>
-                                    {paymentMethod === 'pay' ? 'Pay' : '신용/체크카드'}
-                                </Text>
+                                <Text style={styles.priceLabel}>{STRINGS.BOONG_TAM.PAY.PAYMENT_METHOD}</Text>
+                                {paymentMethod === 'pay' ? (
+                                    <Image
+                                        style={styles.kakaoLogo}
+                                        source={require('../../../../assets/icon/kakao_pay.png')}
+                                        resizeMode="contain" // 이미지 비율 유지
+                                    />
+                                ) : (
+                                    <Text style={styles.priceValue}>신용/체크카드</Text>
+                                )}
                             </View>
                         </View>
 
                         {/* 주문 취소 버튼 */}
                         <TouchableOpacity onPress={handleCancelOrder} style={styles.cancelButton}>
-                            <Text style={styles.cancelButtonText}>주문 취소 하기</Text>
+                            <Text style={styles.cancelButtonText}>{STRINGS.BOONG_TAM.ORDER.CANCEL_ORDER}</Text>
                         </TouchableOpacity>
                     </>
                 }
@@ -236,6 +243,10 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     cancelButtonText: { color: Colors.white, ...Typography.body.large_bold },
+    kakaoLogo: {
+        width:40,
+        height: 20
+    }
 });
 
 export default BoongtamOrderSuccess;

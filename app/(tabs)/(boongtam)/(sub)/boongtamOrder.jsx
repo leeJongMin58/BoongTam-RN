@@ -14,6 +14,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../../src/styles/color';
 import Typography from '../../../../src/styles/typhography';
+import { STRINGS } from '../../../../src/config/string';
 
 const BoongtamOrder = () => {
     const router = useRouter();
@@ -108,17 +109,17 @@ const BoongtamOrder = () => {
                     <TouchableOpacity onPress={() => router.push('/boongtamMenuList')} style={styles.backButton}>
                         <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}>붕탐오더 주문하기</Text>
+                    <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER}</Text>
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>주문 상품 정보</Text>
+                    <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_PRODUCT}</Text>
                     {items.map((item) => (
                         <View key={item.id} style={styles.itemContainer}>
                             <Image source={{ uri: item.image }} style={styles.itemImage} />
                             <View style={styles.itemDetails}>
                                 <Text style={styles.itemName}>{item.name}</Text>
-                                <Text style={styles.itemPrice}>{item.price.toLocaleString()}원</Text>
+                                <Text style={styles.itemPrice}>{item.price.toLocaleString()}{STRINGS.BOONG_TAM.PAY.WON}</Text>
                             </View>
                             <View style={styles.quantityContainer}>
                                 <TouchableOpacity
@@ -142,12 +143,12 @@ const BoongtamOrder = () => {
                 <TouchableOpacity onPress={handleAddMoreItems} style={styles.addMoreButton}>
                     <View style={styles.addMoreButtonContent}>
                         <MaterialIcons name='add' size={24} color={Colors.orange100} />
-                        <Text style={styles.addMoreButtonText}>메뉴 더 담기</Text>
+                        <Text style={styles.addMoreButtonText}>{STRINGS.BOONG_TAM.INFO.ADD_MENU}</Text>
                     </View>
                 </TouchableOpacity>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>이 때 받으러 갈게요~</Text>
+                    <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.INFO.PICKUP}</Text>
                     <View style={styles.timeContainer}>
                         {['지금', '+5분', '+10분', '+15분', '+20분', '+30분', '+40분', '1시간 이상'].map((time) => (
                             <TouchableOpacity
@@ -165,7 +166,7 @@ const BoongtamOrder = () => {
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>포인트</Text>
+                    <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.INFO.POINT}</Text>
                     <View style={styles.pointContainer}>
                         <TextInput
                             style={styles.pointInput}
@@ -175,30 +176,30 @@ const BoongtamOrder = () => {
                             onChangeText={setPoints}
                         />
                         <TouchableOpacity onPress={applyPoints} style={styles.applyButton}>
-                            <Text style={styles.applyButtonText}>적용</Text>
+                            <Text style={styles.applyButtonText}>{STRINGS.BOONG_TAM.INFO.APPLICATION}</Text>
                         </TouchableOpacity>
-                        <Text style={styles.boongPoint}>붕 포인트: {usedPoints}P</Text>
+                        <Text style={styles.boongPoint}>{STRINGS.BOONG_TAM.INFO.BOONG_POINT}: {usedPoints}P</Text>
                     </View>
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>결제 금액</Text>
+                    <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.PAY.PAYMENT_AMOUNT}</Text>
                     <View style={styles.row}>
-                        <Text style={styles.labelText}>주문 금액</Text>
+                        <Text style={styles.labelText}>{STRINGS.BOONG_TAM.PAY.ORDER_AMOUNT}</Text>
                         <Text style={styles.valueText}>{orderAmount.toLocaleString()}원</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.labelText}>포인트 차감</Text>
+                        <Text style={styles.labelText}>{STRINGS.BOONG_TAM.PAY.USE_POINT}</Text>
                         <Text style={styles.valueText}>{usedPoints}P</Text>
                     </View>
                     <View style={[styles.row, styles.finalAmountRow]}>
-                        <Text style={styles.finalLabelText}>최종 결제 금액</Text>
-                        <Text style={styles.finalValueText}>{finalAmount.toLocaleString()}원</Text>
+                        <Text style={styles.finalLabelText}>{STRINGS.BOONG_TAM.PAY.FINAL_AMOUNT}</Text>
+                        <Text style={styles.finalValueText}>{finalAmount.toLocaleString()}{STRINGS.BOONG_TAM.PAY.WON}</Text>
                     </View>
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>결제 수단</Text>
+                    <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.PAY.PAYMENT_METHOD}</Text>
                     <View style={styles.paymentMethodContainer}>
                         <TouchableOpacity
                             style={[
@@ -207,7 +208,11 @@ const BoongtamOrder = () => {
                             ]}
                             onPress={() => handlePaymentMethodSelect('pay')}
                         >
-                            <Text style={styles.paymentMethodText}>Pay</Text>
+                            <Image
+                                style={styles.kakaoLogo}
+                                source={require('../../../../assets/icon/kakao_pay.png')}
+                                resizeMode='contain'
+                            ></Image>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[
@@ -222,7 +227,7 @@ const BoongtamOrder = () => {
                 </View>
 
                 <TouchableOpacity onPress={handleOrderSubmit} style={styles.orderButton}>
-                    <Text style={styles.orderButtonText}>붕탐오더 주문하기</Text>
+                    <Text style={styles.orderButtonText}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER}</Text>
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
@@ -405,9 +410,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         borderRadius: 5,
         textAlign: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: 70
     },
-    selectedPaymentMethodButton: { 
+    selectedPaymentMethodButton: {
         backgroundColor: Colors.orange100,
         height: 70,
     },
@@ -420,6 +426,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     orderButtonText: { color: Colors.white, ...Typography.body.large_bold },
+    kakaoLogo: {
+        width: '80%',
+        height: '80%'
+    }
 });
 
 export default BoongtamOrder;
