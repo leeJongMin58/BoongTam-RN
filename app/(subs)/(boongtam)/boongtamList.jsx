@@ -12,9 +12,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Menu, MenuItem } from 'react-native-material-menu';
 import { MaterialIcons } from '@expo/vector-icons';
-import Colors from '../../../../src/styles/color';
-import Typography from '../../../../src/styles/typhography';
-import { STRINGS } from '../../../../src/config/string';
+import Colors from '../../../src/styles/color';
+import Typography from '../../../src/styles/typhography';
+import { STRINGS } from '../../../src/config/string';
 
 const BoongtamList = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const BoongtamList = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => router.push(`/boongtamDetail?id=${item.id}`)}>
+      <TouchableOpacity onPress={() => router.push(`/(subs)/(boongtam)/boongtamDetail?id=${item.id}`)}>
         <View style={styles.card}>
           <Image source={{ uri: item.image }} style={styles.image} />
           <View style={styles.cardContent}>
@@ -51,7 +51,7 @@ const BoongtamList = () => {
             <View style={styles.cardActions}>
               <TouchableOpacity
                 style={styles.orderButton}
-                onPress={() => router.push(`/boongtamMenuList`)}
+                onPress={() => router.push(`/(subs)/(boongtam)/boongtamMenuList`)}
               >
                 <View style={styles.orderButtonContent}>
                   <MaterialIcons name="phishing" size={24} color={Colors.gray500} />
@@ -60,7 +60,7 @@ const BoongtamList = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.routeButton}
-                onPress={() => router.push('/boongtam/map')}
+                onPress={() => router.push('/boongtammap')}
               >
                 <View style={styles.naviButtonContent}>
                   <MaterialIcons name="navigation" size={24} color={Colors.gray500} />
