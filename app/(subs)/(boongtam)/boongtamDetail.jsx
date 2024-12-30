@@ -10,10 +10,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from 'react-native-vector-icons';
 import { Menu, MenuItem } from 'react-native-material-menu';
-import Colors from '../../../../src/styles/color';
-import Typography from '../../../../src/styles/typhography';
+import Colors from '../../../src/styles/color';
+import Typography from '../../../src/styles/typhography';
 import { useRouter } from 'expo-router';
-import { STRINGS } from '../../../../src/config/string';
+import { STRINGS } from '../../../src/config/string';
 
 const BoongtamDetail = () => {
     const router = useRouter();
@@ -53,7 +53,7 @@ const BoongtamDetail = () => {
             <ScrollView ref={scrollViewRef}>
                 {/* 상단 네비게이션 */}
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.backbutton} onPress={() => router.push('/boongtamList')}>
+                    <TouchableOpacity style={styles.backbutton} onPress={() => router.push('/(subs)/(boongtam)/boongtamList')}>
                         <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.STORE.STORE_INFO}</Text>
@@ -127,7 +127,7 @@ const BoongtamDetail = () => {
                 <View style={styles.section}>
                     <TouchableOpacity
                         style={styles.orderButton}
-                        onPress={() => router.push('/boongtamMenuList')}
+                        onPress={() => router.push('/(subs)/(boongtam)/boongtamMenuList')}
                     >
                         <Text style={styles.orderButtonText}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER}</Text>
                     </TouchableOpacity>
