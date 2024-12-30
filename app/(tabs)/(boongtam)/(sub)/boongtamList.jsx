@@ -55,7 +55,7 @@ const BoongtamList = () => {
               >
                 <View style={styles.orderButtonContent}>
                   <MaterialIcons name="phishing" size={24} color={Colors.gray500} />
-                  <Text style={styles.orderButtonText}>붕탐 오더</Text>
+                  <Text style={styles.orderButtonText}>{STRINGS.BOONG_TAM.TITLE}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -64,7 +64,7 @@ const BoongtamList = () => {
               >
                 <View style={styles.naviButtonContent}>
                   <MaterialIcons name="navigation" size={24} color={Colors.gray500} />
-                  <Text style={styles.routeButtonText}>길찾기</Text>
+                  <Text style={styles.routeButtonText}>{STRINGS.BOONG_TAM.INFO.FIND_LOAD}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -111,23 +111,23 @@ const BoongtamList = () => {
             <TouchableOpacity style={styles.filterButton} onPress={showMenu}>
               <View style={styles.filterButtonContent}>
                 <MaterialIcons name='menu' size={24} color={Colors.orange100} />
-                <Text style={styles.filterMenuText}>필터</Text>
+                <Text style={styles.filterMenuText}>{STRINGS.BOONG_TAM.FILTER}</Text>
               </View>
             </TouchableOpacity>
           }
           onRequestClose={hideMenu}
         >
           <MenuItem onPress={() => { hideMenu(); console.log('좋아요순 선택'); }}>
-            <Text>좋아요순</Text>
+            <Text>{STRINGS.BOONG_TAM.INFO.LIKE}</Text>
           </MenuItem>
-          <MenuItem onPress={() => { hideMenu(); console.log('리뷰순 선택'); }}>
-            <Text>리뷰순</Text>
+          <MenuItem onPress={() => { hideMenu(); console.log('최신순 선택'); }}>
+            <Text>{STRINGS.BOONG_TAM.INFO.LATEST}</Text>
           </MenuItem>
         </Menu>
         <TouchableOpacity style={styles.statusButton} onPress={() => router.push('/boongtam/status')}>
           <View style={styles.statusButtonContent}>
             <MaterialIcons name='phishing' size={24} color={Colors.orange100} />
-            <Text style={styles.menuText}>붕탐 오더 현황보기</Text>
+            <Text style={styles.menuText}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_CURRENT}</Text>
           </View>
         </TouchableOpacity>
       </View>

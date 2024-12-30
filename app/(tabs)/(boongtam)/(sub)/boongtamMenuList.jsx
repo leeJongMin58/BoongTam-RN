@@ -12,6 +12,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../../src/styles/color';
 import Typography from '../../../../src/styles/typhography';
+import { STRINGS } from '../../../../src/config/string';
 
 const BoongtamMenuList = () => {
     const router = useRouter();
@@ -99,7 +100,7 @@ const BoongtamMenuList = () => {
                 <TouchableOpacity onPress={() => router.push('/boongtamDetail')} style={styles.backButton}>
                     <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>붕탐오더 주문하기</Text>
+                <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER}</Text>
             </View>
 
             {/* 메뉴 리스트 */}
@@ -114,7 +115,7 @@ const BoongtamMenuList = () => {
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.orderButton} onPress={handleOrderButtonClick}>
                     <Text style={styles.orderButtonText}>
-                        {calculateTotal().toLocaleString()}원 주문하기
+                        {calculateTotal().toLocaleString()}{STRINGS.BOONG_TAM.PAY.WON} {STRINGS.BOONG_TAM.ORDER.ORDER}
                     </Text>
                 </TouchableOpacity>
             </View>

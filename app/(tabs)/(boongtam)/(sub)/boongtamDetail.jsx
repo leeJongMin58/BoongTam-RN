@@ -13,6 +13,7 @@ import { Menu, MenuItem } from 'react-native-material-menu';
 import Colors from '../../../../src/styles/color';
 import Typography from '../../../../src/styles/typhography';
 import { useRouter } from 'expo-router';
+import { STRINGS } from '../../../../src/config/string';
 
 const BoongtamDetail = () => {
     const router = useRouter();
@@ -55,7 +56,7 @@ const BoongtamDetail = () => {
                     <TouchableOpacity style={styles.backbutton} onPress={() => router.push('/boongtamList')}>
                         <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}>매장 정보</Text>
+                    <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.STORE.STORE_INFO}</Text>
                 </View>
 
                 {/* 가게 정보 */}
@@ -80,15 +81,15 @@ const BoongtamDetail = () => {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton}>
                             <MaterialIcons name="navigation" size={24} color={Colors.orange100} />
-                            <Text style={styles.actionButtonText}>길찾기</Text>
+                            <Text style={styles.actionButtonText}>{STRINGS.BOONG_TAM.INFO.FIND_LOAD}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton}>
                             <MaterialIcons name="rate-review" size={24} color={Colors.orange100} />
-                            <Text style={styles.actionButtonText}>리뷰 쓰기</Text>
+                            <Text style={styles.actionButtonText}>{STRINGS.BOONG_TAM.REVIEW.WRITE_REVIEW}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton}>
                             <MaterialIcons name="report" size={24} color={Colors.orange100} />
-                            <Text style={styles.actionButtonText}>제보하기</Text>
+                            <Text style={styles.actionButtonText}>{STRINGS.BOONG_TAM.INFO.REPORTING}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -105,19 +106,19 @@ const BoongtamDetail = () => {
                 {/* 가게 정보 추가 */}
                 <View style={styles.section}>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>가게 형태</Text>
+                        <Text style={styles.infoLabel}>{STRINGS.BOONG_TAM.STORE.STORE_FORM}</Text>
                         <Text style={styles.infoValue}>매장</Text>
                     </View>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>출몰 시기</Text>
+                        <Text style={styles.infoLabel}>{STRINGS.BOONG_TAM.STORE.STORE_APPEARANCE}</Text>
                         <Text style={styles.infoValue}>월, 화, 수, 목, 금</Text>
                     </View>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>출몰 시간대</Text>
+                        <Text style={styles.infoLabel}>{STRINGS.BOONG_TAM.STORE.STORE_TIME}</Text>
                         <Text style={styles.infoValue}>10:00 - 18:00</Text>
                     </View>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>결제 방식</Text>
+                        <Text style={styles.infoLabel}>{STRINGS.BOONG_TAM.PAY.PAYMENT_METHOD}</Text>
                         <Text style={styles.infoValue}>현금, 카드</Text>
                     </View>
                 </View>
@@ -128,7 +129,7 @@ const BoongtamDetail = () => {
                         style={styles.orderButton}
                         onPress={() => router.push('/boongtamMenuList')}
                     >
-                        <Text style={styles.orderButtonText}>붕탐오더 주문하기</Text>
+                        <Text style={styles.orderButtonText}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER}</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -139,19 +140,19 @@ const BoongtamDetail = () => {
                         style={[styles.tab, selectedTab === 'menu' && styles.selectedTab]}
                         onPress={() => handleTabPress('menu', menuSectionRef)}
                     >
-                        <Text style={styles.tabText}>메뉴</Text>
+                        <Text style={styles.tabText}>{STRINGS.BOONG_TAM.INFO.MENU}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.tab, selectedTab === 'photo' && styles.selectedTab]}
                         onPress={() => handleTabPress('photo', photoSectionRef)}
                     >
-                        <Text style={styles.tabText}>사진</Text>
+                        <Text style={styles.tabText}>{STRINGS.BOONG_TAM.INFO.PHOTO}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.tab, selectedTab === 'review' && styles.selectedTab]}
                         onPress={() => handleTabPress('review', reviewSectionRef)}
                     >
-                        <Text style={styles.tabText}>리뷰</Text>
+                        <Text style={styles.tabText}>{STRINGS.BOONG_TAM.REVIEW.REVIEW}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -182,14 +183,14 @@ const BoongtamDetail = () => {
                         anchor={
                             <TouchableOpacity style={styles.filterButton} onPress={showPhotoFilterMenu}>
                                 <MaterialIcons name="menu" size={24} color={Colors.orange100} />
-                                <Text style={styles.filterText}>필터</Text>
+                                <Text style={styles.filterText}>{STRINGS.BOONG_TAM.FILTER}</Text>
                             </TouchableOpacity>
                         }
                         onRequestClose={hidePhotoFilterMenu}
                     >
-                        <MenuItem onPress={() => { hidePhotoFilterMenu(); console.log('음식 선택'); }}>음식</MenuItem>
-                        <MenuItem onPress={() => { hidePhotoFilterMenu(); console.log('외부 선택'); }}>외부</MenuItem>
-                        <MenuItem onPress={() => { hidePhotoFilterMenu(); console.log('내부 선택'); }}>내부</MenuItem>
+                        <MenuItem onPress={() => { hidePhotoFilterMenu(); console.log('음식 선택'); }}>{STRINGS.BOONG_TAM.INFO.FOOD}</MenuItem>
+                        <MenuItem onPress={() => { hidePhotoFilterMenu(); console.log('외부 선택'); }}>{STRINGS.BOONG_TAM.INFO.OUTSIDE}</MenuItem>
+                        <MenuItem onPress={() => { hidePhotoFilterMenu(); console.log('내부 선택'); }}>{STRINGS.BOONG_TAM.INFO.INSIDE}</MenuItem>
                     </Menu>
                     <Image source={{ uri: 'https://via.placeholder.com/300x150' }} style={styles.photo} />
                 </View>
@@ -201,13 +202,13 @@ const BoongtamDetail = () => {
                         anchor={
                             <TouchableOpacity style={styles.filterButton} onPress={showReviewFilterMenu}>
                                 <MaterialIcons name="menu" size={24} color={Colors.orange100} />
-                                <Text style={styles.filterText}>필터</Text>
+                                <Text style={styles.filterText}>{STRINGS.BOONG_TAM.FILTER}</Text>
                             </TouchableOpacity>
                         }
                         onRequestClose={hideReviewFilterMenu}
                     >
-                        <MenuItem onPress={() => { hideReviewFilterMenu(); console.log('좋아요순 선택'); }}>좋아요순</MenuItem>
-                        <MenuItem onPress={() => { hideReviewFilterMenu(); console.log('최신순 선택'); }}>최신순</MenuItem>
+                        <MenuItem onPress={() => { hideReviewFilterMenu(); console.log('좋아요순 선택'); }}>{STRINGS.BOONG_TAM.INFO.LIKE}</MenuItem>
+                        <MenuItem onPress={() => { hideReviewFilterMenu(); console.log('최신순 선택'); }}>{STRINGS.BOONG_TAM.INFO.LATEST}</MenuItem>
                     </Menu>
                     <View style={styles.reviewItem}>
                         <Image source={{ uri: 'https://via.placeholder.com/50' }} style={styles.reviewerImage} />
