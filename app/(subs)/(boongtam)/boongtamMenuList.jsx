@@ -10,9 +10,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
-import Colors from '../../../../src/styles/color';
-import Typography from '../../../../src/styles/typhography';
-import { STRINGS } from '../../../../src/config/string';
+import Colors from '../../../src/styles/color';
+import Typography from '../../../src/styles/typhography';
+import { STRINGS } from '../../../src/config/string';
 
 const BoongtamMenuList = () => {
     const router = useRouter();
@@ -97,7 +97,7 @@ const BoongtamMenuList = () => {
         <SafeAreaView style={styles.container}>
             {/* 상단 헤더 */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.push('/boongtamDetail')} style={styles.backButton}>
+                <TouchableOpacity onPress={() => router.push('/(subs)/(boongtam)/boongtamDetail')} style={styles.backButton}>
                     <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER}</Text>
