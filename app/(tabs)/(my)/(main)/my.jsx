@@ -21,20 +21,22 @@ export default function Profile() {
         <View style={styles.container}>
           {/* 상단 프로필 영역 */}
           <View style={styles.profileContainer}>
-            {/* 기존 이미지 대신 MaterialIcons 아이콘으로 대체 */}
+
             <MaterialIcons name="account-circle" size={150} color={colors.gray300} style={styles.profileImage} />
 
             <Text style={styles.profileName}>{STRINGS.MY.info.nickname}</Text>
             <Link href="/my_page_edit" asChild>
               <TouchableOpacity style={styles.editButton}>
-                <Text style={styles.editButtonText}>✏️ {STRINGS.MY.info.info_edit}</Text>
+                <MaterialIcons name="edit" size={20} color={colors.gray200} style={styles.editButtonIcon} />
+                <Text style={styles.editButtonText}>{STRINGS.MY.info.info_edit}</Text>
               </TouchableOpacity>
             </Link>
           </View>
 
           {/* 보유 포인트 표시 */}
           <View style={styles.pointSection}>
-            <Text style={styles.pointText}>🏆 {STRINGS.MY.info.point}: 1,000P</Text>
+            <MaterialIcons name="emoji-events" size={20} color={colors.gray200} style={styles.pointIcon} />
+            <Text style={styles.pointText}>{STRINGS.MY.info.point}: 1,000P</Text>
           </View>
 
           {/* 버튼 영역 */}
@@ -133,6 +135,8 @@ const styles = StyleSheet.create({
     color: colors.gray500,
   },
   editButton: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.orange100,
     paddingVertical: 5,
     paddingHorizontal: 15,
@@ -142,9 +146,12 @@ const styles = StyleSheet.create({
     ...typography.label.large,
     color: colors.white,
     fontSize: 14,
+    marginLeft: 5,
   },
   pointSection: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
     backgroundColor: colors.gray300,
     padding: 10,
