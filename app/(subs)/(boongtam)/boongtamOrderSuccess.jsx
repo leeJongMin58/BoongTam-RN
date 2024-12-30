@@ -11,9 +11,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
-import Colors from '../../../../src/styles/color';
-import Typography from '../../../../src/styles/typhography';
-import { STRINGS } from '../../../../src/config/string';
+import Colors from '../../../src/styles/color';
+import Typography from '../../../src/styles/typhography';
+import { STRINGS } from '../../../src/config/string';
 
 const BoongtamOrderSuccess = () => {
     const router = useRouter();
@@ -28,7 +28,7 @@ const BoongtamOrderSuccess = () => {
             '정말 주문을 취소하시겠습니까?',
             [
                 { text: '아니요', style: 'cancel' },
-                { text: '예', onPress: () => router.push('/boongtamDetail') },
+                { text: '예', onPress: () => router.push('/(subs)/(boongtam)/boongtamDetail') },
             ],
             { cancelable: true }
         );
@@ -43,7 +43,7 @@ const BoongtamOrderSuccess = () => {
                     <>
                         {/* Header */}
                         <View style={styles.header}>
-                            <TouchableOpacity onPress={() => router.push('/boongtamDetail')} style={styles.backButton}>
+                            <TouchableOpacity onPress={() => router.push('/(subs)/(boongtam)/boongtamDetail')} style={styles.backButton}>
                                 <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
                             </TouchableOpacity>
                             <Text style={styles.headerTitle}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_CURRENT}</Text>
@@ -111,7 +111,7 @@ const BoongtamOrderSuccess = () => {
                                 {paymentMethod === 'pay' ? (
                                     <Image
                                         style={styles.kakaoLogo}
-                                        source={require('../../../../assets/icon/kakao_pay.png')}
+                                        source={require('../../../assets/icon/kakao_pay.png')}
                                         resizeMode="contain" // 이미지 비율 유지
                                     />
                                 ) : (
