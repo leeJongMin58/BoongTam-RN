@@ -25,7 +25,7 @@ export default function Profile() {
             <MaterialIcons name="account-circle" size={150} color={colors.gray300} style={styles.profileImage} />
 
             <Text style={styles.profileName}>{STRINGS.MY.info.nickname}</Text>
-            <Link href="/my_page_edit" asChild>
+            <Link href="/(subs)/(my)/my_page_edit" asChild>
               <TouchableOpacity style={styles.editButton}>
                 <MaterialIcons name="edit" size={20} color={colors.gray200} style={styles.editButtonIcon} />
                 <Text style={styles.editButtonText}>{STRINGS.MY.info.info_edit}</Text>
@@ -41,17 +41,17 @@ export default function Profile() {
 
           {/* 버튼 영역 */}
           <View style={styles.buttonContainer}>
-            <Link href="/my_page_review" asChild>
+            <Link href="/(subs)/(my)/my_page_review" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.review_manage}</Text>
               </TouchableOpacity>
             </Link>
-            <Link href="/my_page_suttle" asChild>
+            <Link href="/(subs)/(my)/my_page_suttle" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.suttle_check}</Text>
               </TouchableOpacity>
             </Link>
-            <Link href="/my_page_bill" asChild>
+            <Link href="/(subs)/(my)/my_page_bill" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.bill_paper}</Text>
               </TouchableOpacity>
@@ -60,7 +60,7 @@ export default function Profile() {
 
           {/* 하단 메뉴 영역 */}
           <View style={styles.menuContainer}>
-            <Link href="/my_page_notice" asChild>
+            <Link href="/(subs)/(my)/my_page_notice" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="campaign" style={styles.menuIcon} />
@@ -73,7 +73,7 @@ export default function Profile() {
               </TouchableOpacity>
             </Link>
 
-            <Link href="/my_page_service" asChild>
+            <Link href="/(subs)/(my)/my_page_service" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="help-outline" style={styles.menuIcon} />
@@ -86,7 +86,7 @@ export default function Profile() {
               </TouchableOpacity>
             </Link>
 
-            <Link href="/my_page_police" asChild>
+            <Link href="/(subs)/(my)/my_page_police" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="description" style={styles.menuIcon} />
