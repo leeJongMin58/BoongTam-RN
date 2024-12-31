@@ -287,7 +287,168 @@ export const STRINGS = {
 		TITLE: 'Pay',
 	},
 	SHOP: {
-		TITLE: 'Shop',
+		TITLE: 'SHOP',
+		REVIEW_COUNT: '리뷰: 23', // {count}를 넣어 개수를 센다.
+		MAIN: {
+			TODAY_HOT: '오늘의 핫 붕템',
+			CATEGORY_NAME: {
+				ACCESSORY: '악세서리',
+				DOLL: '인형',
+				HOME_PRODUCTS: '생활용품',
+			},
+			SUB_CATEGORIES: {
+				ACCESSORY: {
+					KEYLING: '키링', 
+					GRIPTOK: '그립톡', 
+					PHONECASE: '폰케이스',
+				},
+				DOLL: {
+					FULL_DOLL: '전신인형', 
+					MINI_DOLL: '미니인형', 
+					BONGSOON: '붕순이',
+				},
+				HOME_PRODUCTS: {
+					OVEN: '오븐', 
+					SHAKER: '쉐이커', 
+					TOWEL: '타월', 
+					PLATE: '그릇',
+				},
+			},
+		},
+		ADDRESS: {
+			SUTTLE_TEXT: '배송지를 정확히 입력해 주세요. 잘못된 주소로 인해 발생한 문제는 교환/반품이 어렵습니다.',
+			SUTTLE_INPUT_TEXT: '예) 서울특별시 강남구 테헤란로 235',
+			SUTTLE_SAVE_TEXT: '저장',
+		},
+		APPLICATION: {
+			APPLY_CHANGE_ALERT: '교환하기 버튼이 클릭되었습니다.',
+			APPLY_RETURN_ALERT: '반품하기 버튼이 클릭되었습니다.',
+			APLLY_HEADER_TITLE: '붕템샵',
+			APPLY_CHANGE_BUTTON: '교환 반품 신청',
+			APPLY_ORDER_VIEW: '주문 상세보기',
+			APPLY_CHANGE_TEXT: '교환하기',
+			APPLY_RETURN_TEXT: '반품하기',
+
+		},
+		CHANGE_COMPLETE: {
+			CHANGE_COMPLTETE: '교환 신청완료',
+			CHANGE_COMPLTETE_TEXT1: '교환 신청이 완료되었습니다',
+			CHANGE_COMPLTETE_TEXT2: '이용해주셔서 감사합니다.',
+			CHANGE_INFO_CAUSE: '교환 사유: ',
+			CHANGE_INFO_METHOD: '회수 방법: ',
+			CHANGE_INFO_ADDRESS: '주소: ',
+			CHANGE_ORDER_VIEW: '주문 현황보기',
+			CHANGE_SHOPPING_CONTINUE: '쇼핑 계속하기',
+		},
+		CHANGE_SCREEN: {
+			CHANGE_NOW_ADDRESS: '서울시 역삼역 붕어빵빌딩',
+			CHANGE_NOW_REASON: {
+				REASON1: '상품 내용이 상세 정보와 달라요',
+			    REASON2: '상품이 불량이에요',
+			 	REASON3: '상품이 파손되었어요',
+				REASON4: '다른 상품이 왔어요',
+			 	REASON5: '기타 사유',
+			},
+			CHANGE_HEADER_TEXT: '교환하기',
+			CHANGE_ORDER_VIEW: '주문 상세보기',
+			CHANGE_COUNT: {
+				COUNT: '수량: ',
+				TYPE: '개',
+			},
+			CHANGE_CHANGE_WHY: '교환 사유',
+			CHANGE_CHANGE_WHY_TEXT: '교환 사유를 입력하세요',
+			SUTTLE_METHOD_TEXT: '회수 방법 선택',
+			SUTTLLE_CHOOSE: {
+				CHOOSE1: '직접 보낼게요',
+				CHOOSE2: '회수해 주세요',
+			},
+			NOW_ADDRESS: '현재 주소지',
+			NOW_ADDRESS_CHANGE: '변경하기',
+			SUTTLE_INFO: {
+				FEE_TITLE: '배송비',
+				FEE_CHANGE: '교환 배송비',
+				FEE_COMPANY: 'CJ 대한통운',
+			},
+			CHANGE_APPLY: '교환 신청하기',
+			CHANGE_CHOOSE: '교환 사유 선택',
+			CLOSE: '닫기',
+		},
+		RETURN_COMPLETE: {
+			RETURN_COMPLTETE: '반품 신청완료',
+			RETURN_COMPLTETE_TEXT1: '반품 신청이 완료되었습니다',
+			RETURN_COMPLTETE_TEXT2: '이용해주셔서 감사합니다.',
+			RETURN_INFO_CAUSE: '반품 사유: ',
+			RETURN_INFO_METHOD: '회수 방법: ',
+			RETURN_INFO_ADDRESS: '주소: ',
+			RETURN_ORDER_VIEW: '주문 현황보기',
+			RETURN_SHOPPING_CONTINUE: '쇼핑 계속하기',
+		},
+		RETURN_SCREEN: {
+			RETURN_NOW_ADDRESS: '서울시 역삼역 붕어빵빌딩',
+			RETURN_NOW_REASON: {
+				REASON1: '상품 내용이 상세 정보와 달라요',
+			    REASON2: '상품이 불량이에요',
+			 	REASON3: '상품이 파손되었어요',
+				REASON4: '다른 상품이 왔어요',
+			 	REASON5: '기타 사유',
+			},
+			RETURN_HEADER_TEXT: '교환하기',
+			RETURN_ORDER_VIEW: '주문 상세보기',
+			RETURN_COUNT: {
+				COUNT: '수량: ',
+				TYPE: '개',
+			},
+			RETURN_CHANGE_WHY: '교환 사유',
+			RETURN_CHANGE_WHY_TEXT: '교환 사유를 입력하세요',
+			SUTTLE_METHOD_TEXT: '회수 방법 선택',
+			SUTTLE_CHOOSE: {
+				CHOOSE1: '직접 보낼게요',
+				CHOOSE2: '회수해 주세요',
+			},
+			NOW_ADDRESS: '현재 주소지',
+			NOW_ADDRESS_CHANGE: '변경하기',
+			SUTTLE_INFO: {
+				FEE_TITLE: '배송비',
+				FEE_RETURN: '교환 배송비',
+				FEE_COMPANY: 'CJ 대한통운',
+			},
+			RETURN_APPLY: '교환 신청하기',
+			RETURN_CHOOSE: '교환 사유 선택',
+			CLOSE: '닫기',
+		},
+		PRODUCT_CART: {
+			TOTAL_CALCUL: {
+				TOTAL: '총 결제 금액: ',
+				COUNT: '원',
+			},
+			CHECKOUT_TEXT: '결제하기',
+		},
+		PRODUCT_LIST: {
+
+		},
+		PRODUCT_DETAIL: {
+			ERROR: {
+				FETCH_FAILED: '상품 정보를 불러올 수 없습니다.',
+			},
+			TABS: {
+				DESCRIPTION: '상품 설명',
+				REVIEWS: '리뷰',
+			},
+			BUTTONS: {
+				ADD_TO_CART: '장바구니 담기',
+				BUY_NOW: '결제하기',
+			},
+			POCKET: '장바구니',
+			ALERTS: {
+				ADD_TO_CART_SUCCESS: '상품이 장바구니에 추가되었습니다.',
+			},
+			DESCRIPTION: {
+				DEFAULT: '은(는) 매우 유용하고 귀여운 상품입니다! 다양한 용도로 사용할 수 있으며 품질이 뛰어납니다.',
+			},
+			REVIEWS: {
+				RATING_TEXT: '평점: ',
+			},
+		},
 	},
 	SIGNUP: {
 		TITLE: '회원가입'
