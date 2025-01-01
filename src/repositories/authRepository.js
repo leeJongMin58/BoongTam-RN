@@ -26,3 +26,12 @@ export async function quit() {
         console.log(error)
     }
 }
+
+export async function isDuplicateNickname(nickname) {
+    try {
+        const response = service.isDuplicateNickname(nickname)
+        return response.data.isDuplicateNickname
+    } catch (error) {
+        console.log(error)
+    }
+}
