@@ -1,5 +1,6 @@
 // 임시로 URL 두겠습니다. 서버가 aws랑 연결하면 그때 .env파일 이용해서 BASE_URL 관리하겠습니다.
-const BASE_URL = 'http://192.168.162.10:3001/'
+// const BASE_URL = 'http://192.168.162.10:8080/'
+const BASE_URL = 'http://localhost:8080/'
 
 // 토큰이 필요없는 통신
 class Client {

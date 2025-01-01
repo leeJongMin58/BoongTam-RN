@@ -1,12 +1,28 @@
 import * as service from '../services/authService'
 
-export async function loginKakao(authcode) {
+export async function login(authcode) {
     try {
         const response = await service.loginKakao({code : authcode})
-        const data = response.data
-        return data
+        return response.data
     } catch (error) {
         console.log(error)
-        throw new Error(`kakao login error: ${error}`)
+    }
+}
+
+export async function signup(code, nickname, email, address1, address2) {
+	try {
+		const response = service.signup({code, nickname, email, address1, address2})
+        return response.data
+	} catch (error) {
+        console.log(error)
+    }
+}
+
+export async function quit() {
+	try {
+		const response = service.quit()
+        return response.data
+	} catch (error) {
+        console.log(error)
     }
 }

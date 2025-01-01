@@ -9,11 +9,12 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import colors from '../../../src/styles/color'
 import { loginKakaoUseCase } from '../../../src/usecases/loginKakakoUseCase'
+import { getTestApiUseCase } from '../../../src/usecases/getTestApiUseCase copy'
 
 const { width, height } = Dimensions.get('window')
 
 const KAKAO_REST_API = process.env.EXPO_PUBLIC_KAKAO_REST_API
-const REDIRECT_URI = 'http://192.168.162.10:8081/'
+const REDIRECT_URI = 'http://10.40.100.83:8081'
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`
 
 export default function KakaoLoginWebViewDialog({ visible, onClose }) {
@@ -21,9 +22,9 @@ export default function KakaoLoginWebViewDialog({ visible, onClose }) {
 		const url = event.nativeEvent['url']
 		const exp = 'code='
 		const condition = url.indexOf(exp)
-		console.log(url)
 		if (condition !== -1) {
 			try {
+				console.log(url.substring(condition + exp.length))
 				loginKakaoUseCase(url.substring(condition + exp.length)).then(
 					() => {
 						onClose()
