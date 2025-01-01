@@ -10,6 +10,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Modal,
+    LogBox
 } from 'react-native';
 import Postcode from '@actbase/react-daum-postcode';
 import { useRouter } from 'expo-router';
@@ -17,6 +18,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../src/styles/color';
 import Typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
+
+LogBox.ignoreLogs([
+    'Warning: Postcode: Support for defaultProps will be removed from function components in a future major release'
+])
 
 const MIN_ADDRESS_LENGTH = 0;
 

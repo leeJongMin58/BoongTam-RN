@@ -9,6 +9,7 @@ import {
     TextInput,
     Alert,
     Modal,
+    LogBox
 } from 'react-native';
 import Postcode from '@actbase/react-daum-postcode';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,6 +18,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../src/styles/color';
 import Typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
+
+LogBox.ignoreLogs([
+    'Warning: Postcode: Support for defaultProps will be removed from function components in a future major release'
+])
 
 const shopOrder = () => {
     const router = useRouter();
