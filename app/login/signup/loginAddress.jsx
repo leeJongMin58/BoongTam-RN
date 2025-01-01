@@ -8,24 +8,33 @@ import {
     KeyboardAvoidingView,
     Platform,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Modal,
 } from 'react-native';
+import Postcode from '@actbase/react-daum-postcode';
 import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../src/styles/color';
 import Typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
-import Container from '../../../src/components/container';
 
 const MIN_ADDRESS_LENGTH = 0;
 
 const AddressInput = () => {
+    const [zipcode, setZipcode] = useState('');
     const [address, setAddress] = useState('');
     const [detailedAddress, setDetailedAddress] = useState('');
+    const [isModalVisible, setModalVisible] = useState(false);
     const router = useRouter();
 
     const isNextButtonEnabled = address.length > MIN_ADDRESS_LENGTH && detailedAddress.length > MIN_ADDRESS_LENGTH;
     const isSkipButtonEnabled = address.length === MIN_ADDRESS_LENGTH && detailedAddress.length === MIN_ADDRESS_LENGTH;
+
+    const handleAddressSelect = (data) => {
+        setZipcode(data.zonecode);
+        setAddress(data.address);
+        setModalVisible(false);
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -41,12 +50,26 @@ const AddressInput = () => {
 
                 {/* 주소 입력 */}
                 <View style={styles.addressSection}>
-                    <Text style={styles.label}>주소</Text>
+                    <Text style={styles.label}>{STRINGS.SIGNUP.INFO.ADDRESS}</Text>
+                    <View style={styles.inputRow}>
+                        <TextInput
+                            style={styles.zipcodeInput}
+                            placeholder="우편번호"
+                            value={zipcode}
+                            editable={false}
+                        />
+                        <TouchableOpacity
+                            style={styles.searchButton}
+                            onPress={() => setModalVisible(true)}
+                        >
+                            <Text style={styles.searchButtonText}>{STRINGS.SIGNUP.INFO.FIND_ADDRESS}</Text>
+                        </TouchableOpacity>
+                    </View>
                     <TextInput
                         style={styles.input}
                         placeholder="주소"
                         value={address}
-                        onChangeText={(text) => setAddress(text.trim())}
+                        editable={false}
                     />
                     <TextInput
                         style={styles.input}
@@ -54,7 +77,7 @@ const AddressInput = () => {
                         value={detailedAddress}
                         onChangeText={(text) => setDetailedAddress(text.trim())}
                     />
-                    <Text style={styles.helperText}>주소에 이모티콘은 사용할 수 없습니다.</Text>
+                    <Text style={styles.helperText}>{STRINGS.SIGNUP.INFO.ADDRESS_DISCRIPTION}</Text>
                 </View>
 
                 {/* 하단 버튼 */}
@@ -72,7 +95,7 @@ const AddressInput = () => {
                         disabled={!isNextButtonEnabled && !isSkipButtonEnabled}
                         onPress={() => {
                             if (isNextButtonEnabled) {
-                                router.push('/login/signup/loginSuccess'); // 다음 화면으로 이동 제작 후 수정(메인화면)
+                                router.push('/login/signup/loginSuccess'); // 다음 화면으로 이동
                             } else if (isSkipButtonEnabled) {
                                 router.push('/login/signup/loginSuccess'); // 건너뛰기 로직 추가
                             }
@@ -83,6 +106,29 @@ const AddressInput = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+
+                {/* 주소 검색 모달 */}
+                <Modal visible={isModalVisible} animationType="slide" transparent>
+                    <View style={styles.modalBackground}>
+                        <View style={styles.modalContainer}>
+                            <Postcode
+                                jsOptions={{ animation: true }}
+                                onSelected={handleAddressSelect}
+                                onError={(error) => {
+                                    console.error('Postcode Error:', error);
+                                    Alert.alert('주소 검색 오류', '주소 검색 중 문제가 발생했습니다.');
+                                }}
+                                style={{ flex: 1 }}
+                            />
+                            <TouchableOpacity
+                                style={styles.closeButton}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={styles.closeButtonText}>닫기</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
     );
@@ -92,8 +138,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        justifyContent: 'space-between'
-      },
+        justifyContent: 'space-between',
+    },
     header: {
         marginTop: 20,
         position: 'absolute',
@@ -116,13 +162,18 @@ const styles = StyleSheet.create({
     },
     addressSection: {
         flex: 1,
-        justifyContent: 'center', // 위치 조정 가능
+        justifyContent: 'center',
         alignItems: 'center',
     },
     label: {
         ...Typography.body.large_bold,
         marginBottom: 8,
         alignSelf: 'flex-start',
+    },
+    inputRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     input: {
         height: 60,
@@ -132,6 +183,29 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 10,
         width: '100%',
+    },
+    zipcodeInput: {
+        flex: 3,
+        height: 60,
+        borderWidth: 1,
+        borderColor: Colors.orange100,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        width: '100%',
+    },
+    searchButton: {
+        flex: 1,
+        backgroundColor: Colors.orange100,
+        paddingVertical: 18,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10,
+        height: 60,
+    },
+    searchButtonText: {
+        color: Colors.white,
+        ...Typography.body.medium,
     },
     helperText: {
         marginTop: 10,
@@ -157,6 +231,28 @@ const styles = StyleSheet.create({
     nextButtonText: {
         ...Typography.body.large_bold,
         color: Colors.gray500,
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        width: '90%',
+        height: '70%',
+        backgroundColor: Colors.white,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+    closeButton: {
+        backgroundColor: Colors.orange100,
+        padding: 15,
+        alignItems: 'center',
+    },
+    closeButtonText: {
+        color: Colors.white,
+        ...Typography.body.medium,
     },
 });
 
