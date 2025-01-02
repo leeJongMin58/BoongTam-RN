@@ -3,16 +3,21 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Alert } from
 import colors from '../../../src/styles/color';
 import { useLocalSearchParams, Link } from 'expo-router'; // useLocalSearchParams와 Link 가져오기
 import { useCart } from '../../../src/services/CartContext'; // CartContext 가져오기
-import typography from '../../../src/styles/typhography'
-import { STRINGS } from '../../../src/config/string'
-import reviews from './Review_list'
-
-
+import typography from '../../../src/styles/typhography';
+import { STRINGS } from '../../../src/config/string';
+import reviews from './Review_list';
 
 export default function ProductDetailScreen() {
   const { id, name, price, image } = useLocalSearchParams(); // 전달받은 params 가져오기
   const [selectedTab, setSelectedTab] = useState('description'); // 현재 선택된 탭
-  const { addToCart } = useCart(); // CartContext에서 addToCart 함수 가져오기
+  const { cart, addToCart, setCart } = useCart(); // CartContext에서 addToCart 함수 가져오기
+  React.useEffect(() => {
+    const resetCart = async () => {
+      await AsyncStorage.removeItem('cart'); // 장바구니 데이터 삭제
+      setCart([]); // 상태 초기화
+    };
+    resetCart();
+  }, []);
 
   if (!id || !image) {
     // id 또는 image가 없을 경우 에러 메시지 표시
@@ -25,8 +30,11 @@ export default function ProductDetailScreen() {
 
   // 장바구니에 상품 추가 후 알림
   const handleAddToCart = () => {
-    addToCart({ id, name, price, image }); // 장바구니에 상품 추가
-    Alert.alert(STRINGS.SHOP.PRODUCT_DETAIL.POCKET, STRINGS.SHOP.PRODUCT_DETAIL.ALERTS.ADD_TO_CART_SUCCESS);
+    addToCart({ id, name, price, image }); // 상품을 장바구니에 추가
+    Alert.alert(
+      STRINGS.SHOP.PRODUCT_DETAIL.POCKET,
+      STRINGS.SHOP.PRODUCT_DETAIL.ALERTS.ADD_TO_CART_SUCCESS
+    );
   };
 
   const renderReview = ({ item }) => (
@@ -53,17 +61,8 @@ export default function ProductDetailScreen() {
             <Text style={styles.cartButtonText}>{STRINGS.SHOP.PRODUCT_DETAIL.BUTTONS.ADD_TO_CART}</Text>
           </TouchableOpacity>
           <Link
-            onPress={() => {
-              handleAddToCart(); // 결제 시 장바구니에 추가
-            }}
             href={{
               pathname: '/(subs)/(shop)/product_cart',
-              params: {
-                id,
-                name,
-                price,
-                image,
-              },
             }}
             style={styles.buyButton}
           >
@@ -87,7 +86,7 @@ export default function ProductDetailScreen() {
               selectedTab === 'description' && styles.tabTextSelected,
             ]}
           >
-            상품 설명
+            {STRINGS.SHOP.PRODUCT_DETAIL.TABS.DESCRIPTION}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -103,7 +102,7 @@ export default function ProductDetailScreen() {
               selectedTab === 'reviews' && styles.tabTextSelected,
             ]}
           >
-            리뷰
+            {STRINGS.SHOP.PRODUCT_DETAIL.TABS.REVIEWS}
           </Text>
         </TouchableOpacity>
       </View>
@@ -126,7 +125,6 @@ export default function ProductDetailScreen() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

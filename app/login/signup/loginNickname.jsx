@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -31,26 +31,34 @@ const LoginNickname = () => {
   };
 
   const handleDuplicateCheck = () => {
-    // 중복체크 로직 추가 필요 (API 호출 등) 완료 후 수정 할 것
     if (!nickname) {
       Alert.alert('오류', '닉네임을 입력해주세요.');
       return;
     }
 
-    // 임시 로직: 입력된 닉네임이 "사용 가능"이라고 가정
     setIsDuplicateChecked(true);
     Alert.alert('중복체크 완료', '사용 가능한 닉네임입니다!');
+  };
+
+  const handleNext = () => {
+    Keyboard.dismiss(); // 키보드를 닫아 떨림 방지
+    if (isDuplicateChecked) {
+      router.push('/login/signup/loginEmail');
+    }
   };
 
   const isNextButtonEnabled = isDuplicateChecked;
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
         {/* 상단 네비게이션 */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <MaterialIcons name='arrow-back' size={24} color={Colors.gray500} />
+            <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
           <Text style={styles.pageIndicator}>1 / 3</Text>
@@ -92,18 +100,13 @@ const LoginNickname = () => {
               },
             ]}
             disabled={!isNextButtonEnabled}
-            onPress={() => {
-              if (isNextButtonEnabled) {
-                router.push('/login/signup/loginEmail');
-              }
-            }}
+            onPress={handleNext}
           >
             <Text style={styles.nextButtonText}>
               {isNextButtonEnabled ? '다음' : '건너뛰기'}
             </Text>
           </TouchableOpacity>
         </View>
-        {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   header: {
     marginTop: 20,
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
   label: {
     ...Typography.body.large_bold,
     marginBottom: 8,
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
   },
   inputRow: {
     flexDirection: 'row',

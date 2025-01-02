@@ -42,7 +42,8 @@ export const STRINGS = {
 			PICKUP: '이 때 받으러 갈게요~',
 			POINT: '포인트',
 			BOONG_POINT: '붕 포인트',
-			APPLICATION: '적용'
+			APPLICATION: '적용',
+			GO_BOONGTEM: '붕템샵으로 이동하기'
 		},
 		REVIEW: {
 			WRITE_REVIEW: '리뷰 쓰기',
@@ -55,18 +56,27 @@ export const STRINGS = {
 			PAYMENT_AMOUNT: '결제 금액',
 			ORDER_AMOUNT: '주문 금액',
 			USE_POINT: '포인트 사용',
-			FINAL_AMOUNT: '최종 결제 금액'
+			FINAL_AMOUNT: '최종 결제 금액',
+			PAY: '결제하기',
+			SUCCESS_PAY: '결제 완료!',
+			SUCCESS_PAY_DISCRIPTION: '열심히 배송 중 이에요!',
+			PAY_DAY: '주문 일시'
 		},
 		ORDER: {
 			ORDER: '주문하기',
 			BOONG_TAM_ORDER: '붕탐오더 주문하기',
 			BOONG_TAM_ORDER_CURRENT: '붕탐 오더 주문현황',
+			BOONG_TEM_ORDER_CURRENT: '붕템샵 주문현황',
 			BOONG_TAM_ORDER_PRODUCT: '주문 상품 정보',
 			BOONG_TAM_ORDER_VIEW: '주문 현황 보기',
 			BOONG_TAM_ORDER_RECEIPT: '주문 접수 확인',
 			CHECK_ORDER: '가게에서 주문을 확인 중 이에요!',
 			AFTER_TIME: '이만큼 남았어요~',
-			CANCEL_ORDER: '주문 취소'
+			CANCEL_ORDER: '주문 취소',
+			ADDRESS_PRODUCT : '배송지 정보',
+			INQUIRY: '배송 조회',
+			CANCEL_MESSAGE1: '주문이 취소되었습니다',
+			CANCEL_MESSAGE2: '이용해주셔서 감사합니다'
 		}
 	},
 	COMMYNUITY: {
@@ -451,6 +461,12 @@ export const STRINGS = {
 		},
 	},
 	SIGNUP: {
-		TITLE: '회원가입'
+		TITLE: '회원가입',
+		INFO: {
+			ADDRESS: '주소',
+			FIND_ADDRESS: '주소 찾기',
+			ADDRESS_DISCRIPTION: '주소에 이모티콘은 사용할 수 없습니다.',
+			CLOSE: '닫기'
+		}
 	}
 };

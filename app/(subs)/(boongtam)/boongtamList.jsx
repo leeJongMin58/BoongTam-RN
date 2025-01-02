@@ -89,7 +89,7 @@ const BoongtamList = () => {
     <SafeAreaView style={styles.container}>
       {/* 상단 네비게이션 */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <TouchableOpacity style={styles.backButton} onPress={() => router.push('/(tabs)/(boongtam)/(main)/boongtam')}>
           <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
         </TouchableOpacity>
         <View style={styles.searchContainer}>
@@ -124,7 +124,7 @@ const BoongtamList = () => {
             <Text>{STRINGS.BOONG_TAM.INFO.LATEST}</Text>
           </MenuItem>
         </Menu>
-        <TouchableOpacity style={styles.statusButton} onPress={() => router.push('/boongtam/status')}>
+        <TouchableOpacity style={styles.statusButton} onPress={() => router.push('/(subs)/(boongtam)/boongtamOrderSuccess')}>
           <View style={styles.statusButtonContent}>
             <MaterialIcons name='phishing' size={24} color={Colors.orange100} />
             <Text style={styles.menuText}>{STRINGS.BOONG_TAM.ORDER.BOONG_TAM_ORDER_CURRENT}</Text>

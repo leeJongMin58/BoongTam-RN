@@ -120,6 +120,14 @@ const BoongtamOrderSuccess = () => {
                             </View>
                         </View>
 
+                        {/* 메인으로 이동하기 버튼 */}
+                        <TouchableOpacity
+                            style={styles.mainButton}
+                            onPress={() => router.push('/(tabs)/(main)/boongtam')}
+                        >
+                            <Text style={styles.mainButtonText}>메인으로 이동하기</Text>
+                        </TouchableOpacity>
+
                         {/* 주문 취소 버튼 */}
                         <TouchableOpacity onPress={handleCancelOrder} style={styles.cancelButton}>
                             <Text style={styles.cancelButtonText}>{STRINGS.BOONG_TAM.ORDER.CANCEL_ORDER}</Text>
@@ -243,8 +251,20 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     cancelButtonText: { color: Colors.white, ...Typography.body.large_bold },
+    mainButton: {
+        marginHorizontal: 15,
+        marginTop: 20,
+        backgroundColor: Colors.orange100,
+        padding: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    mainButtonText: {
+        color: Colors.white,
+        ...Typography.body.large_bold,
+    },
     kakaoLogo: {
-        width:40,
+        width: 40,
         height: 20
     }
 });
