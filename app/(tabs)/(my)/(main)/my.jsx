@@ -21,35 +21,37 @@ export default function Profile() {
         <View style={styles.container}>
           {/* 상단 프로필 영역 */}
           <View style={styles.profileContainer}>
-            {/* 기존 이미지 대신 MaterialIcons 아이콘으로 대체 */}
+
             <MaterialIcons name="account-circle" size={150} color={colors.gray300} style={styles.profileImage} />
 
             <Text style={styles.profileName}>{STRINGS.MY.info.nickname}</Text>
-            <Link href="/my_page_edit" asChild>
+            <Link href="/(subs)/(my)/my_page_edit" asChild>
               <TouchableOpacity style={styles.editButton}>
-                <Text style={styles.editButtonText}>✏️ {STRINGS.MY.info.info_edit}</Text>
+                <MaterialIcons name="edit" size={20} color={colors.gray200} style={styles.editButtonIcon} />
+                <Text style={styles.editButtonText}>{STRINGS.MY.info.info_edit}</Text>
               </TouchableOpacity>
             </Link>
           </View>
 
           {/* 보유 포인트 표시 */}
           <View style={styles.pointSection}>
-            <Text style={styles.pointText}>🏆 {STRINGS.MY.info.point}: 1,000P</Text>
+            <MaterialIcons name="emoji-events" size={20} color={colors.gray200} style={styles.pointIcon} />
+            <Text style={styles.pointText}>{STRINGS.MY.info.point}: 1,000P</Text>
           </View>
 
           {/* 버튼 영역 */}
           <View style={styles.buttonContainer}>
-            <Link href="/my_page_review" asChild>
+            <Link href="/(subs)/(my)/my_page_review" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.review_manage}</Text>
               </TouchableOpacity>
             </Link>
-            <Link href="/my_page_suttle" asChild>
+            <Link href="/(subs)/(my)/my_page_suttle" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.suttle_check}</Text>
               </TouchableOpacity>
             </Link>
-            <Link href="/my_page_bill" asChild>
+            <Link href="/(subs)/(my)/my_page_bill" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.bill_paper}</Text>
               </TouchableOpacity>
@@ -58,7 +60,7 @@ export default function Profile() {
 
           {/* 하단 메뉴 영역 */}
           <View style={styles.menuContainer}>
-            <Link href="/my_page_notice" asChild>
+            <Link href="/(subs)/(my)/my_page_notice" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="campaign" style={styles.menuIcon} />
@@ -71,7 +73,7 @@ export default function Profile() {
               </TouchableOpacity>
             </Link>
 
-            <Link href="/my_page_service" asChild>
+            <Link href="/(subs)/(my)/my_page_service" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="help-outline" style={styles.menuIcon} />
@@ -84,7 +86,7 @@ export default function Profile() {
               </TouchableOpacity>
             </Link>
 
-            <Link href="/my_page_police" asChild>
+            <Link href="/(subs)/(my)/my_page_police" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="description" style={styles.menuIcon} />
@@ -133,6 +135,8 @@ const styles = StyleSheet.create({
     color: colors.gray500,
   },
   editButton: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.orange100,
     paddingVertical: 5,
     paddingHorizontal: 15,
@@ -142,9 +146,12 @@ const styles = StyleSheet.create({
     ...typography.label.large,
     color: colors.white,
     fontSize: 14,
+    marginLeft: 5,
   },
   pointSection: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
     backgroundColor: colors.gray300,
     padding: 10,

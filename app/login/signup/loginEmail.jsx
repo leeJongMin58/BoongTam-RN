@@ -15,7 +15,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../src/styles/color';
 import Typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
-import Container from '../../../src/components/container';
 
 // 상수 정의
 const MIN_EMAIL_LENGTH = 0;
@@ -29,6 +28,13 @@ const LoginEmail = () => {
 
   const handleEmailChange = (text) => {
     setEmail(text.trim()); // 공백 제거
+  };
+
+  const handleNext = () => {
+    Keyboard.dismiss(); // 키보드 닫기
+    if (EMAIL_REGEX.test(email) || email.length === MIN_EMAIL_LENGTH) {
+      router.push('/login/signup/loginAddress');
+    }
   };
 
   const isNextButtonEnabled = EMAIL_REGEX.test(email); // 이메일 양식 검사
@@ -71,11 +77,7 @@ const LoginEmail = () => {
               },
             ]}
             disabled={email.length > MIN_EMAIL_LENGTH && !isNextButtonEnabled}
-            onPress={() => {
-              if (isNextButtonEnabled || email.length === MIN_EMAIL_LENGTH) {
-                router.push('/login/signup/loginAddress');
-              }
-            }}
+            onPress={handleNext} // 버튼 누를 때 handleNext 호출
           >
             <Text style={styles.nextButtonText}>
               {email.length === MIN_EMAIL_LENGTH
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   header: {
     marginTop: 20,
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
   emailSection: {
     flex: 1,
     justifyContent: 'center', // 수직 위치 조정
-    alignItems: 'center',         // 수평 위치 중앙
+    alignItems: 'center', // 수평 위치 중앙
   },
   label: {
     ...Typography.body.large_bold,
