@@ -1,10 +1,14 @@
-// 임시로 URL 두겠습니다. 서버가 aws랑 연결하면 그때 .env파일 이용해서 BASE_URL 관리하겠습니다.
-const BASE_URL = 'http://192.168.162.10:3000/'
+const BASE_URL = 'http://3.39.104.44:80/'
+
 
 // 토큰이 필요없는 통신
 class Client {
 	async get(endpoint, requestBody) {
 		return await fetchData(false, 'GET', endpoint, requestBody)
+	}
+
+	async post(endpoint, requestBody) {
+		return await fetchData(false, 'POST', endpoint, requestBody)
 	}
 
 	async put(endpoint, requestBody) {
@@ -24,6 +28,10 @@ class Client {
 class ClientWT {
 	async get(endpoint, requestBody) {
 		return await fetchData('GET', endpoint, requestBody)
+	}
+
+	async post(endpoint, requestBody) {
+		return await fetchData('POST', endpoint, requestBody)
 	}
 
 	async put(endpoint, requestBody) {
@@ -75,4 +83,4 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 	}
 }
 
-export { Client }
+export { Client, ClientWT }

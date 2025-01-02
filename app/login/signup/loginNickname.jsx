@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -18,17 +18,17 @@ import Typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
 
 // 상수 정의
-const MIN_NICKNAME_LENGTH = 4;
+const MIN_NICKNAME_LENGTH = 4
 
 const LoginNickname = () => {
-  const [nickname, setNickname] = useState('');
-  const [isDuplicateChecked, setIsDuplicateChecked] = useState(false);
-  const router = useRouter();
+	const [nickname, setNickname] = useState('')
+	const [isDuplicateChecked, setIsDuplicateChecked] = useState(false)
+	const router = useRouter()
 
-  const handleNicknameChange = (text) => {
-    setNickname(text.trim()); // 공백 제거
-    setIsDuplicateChecked(false); // 닉네임이 변경되면 중복체크 초기화
-  };
+	const handleNicknameChange = (text) => {
+		setNickname(text.trim()) // 공백 제거
+		setIsDuplicateChecked(false) // 닉네임이 변경되면 중복체크 초기화
+	}
 
   const handleDuplicateCheck = () => {
     if (!nickname) {
@@ -64,31 +64,38 @@ const LoginNickname = () => {
           <Text style={styles.pageIndicator}>1 / 3</Text>
         </View>
 
-        {/* 닉네임 입력 */}
-        <View style={styles.nicknameSection}>
-          <Text style={styles.label}>닉네임</Text>
-          <View style={styles.inputRow}>
-            <TextInput
-              style={styles.input}
-              placeholder="닉네임"
-              value={nickname}
-              onChangeText={handleNicknameChange}
-            />
-            <TouchableOpacity
-              style={[
-                styles.duplicateCheckButton,
-                { backgroundColor: nickname.length >= MIN_NICKNAME_LENGTH ? Colors.orange100 : Colors.gray200 },
-              ]}
-              onPress={handleDuplicateCheck}
-              disabled={nickname.length < MIN_NICKNAME_LENGTH}
-            >
-              <Text style={styles.duplicateCheckText}>중복 체크</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.helperText}>
-            닉네임은 이모티콘 제외 4~10글자로 만들어주세요
-          </Text>
-        </View>
+				{/* 닉네임 입력 */}
+				<View style={styles.nicknameSection}>
+					<Text style={styles.label}>닉네임</Text>
+					<View style={styles.inputRow}>
+						<TextInput
+							style={styles.input}
+							placeholder="닉네임"
+							value={nickname}
+							onChangeText={handleNicknameChange}
+						/>
+						<TouchableOpacity
+							style={[
+								styles.duplicateCheckButton,
+								{
+									backgroundColor:
+										nickname.length >= MIN_NICKNAME_LENGTH
+											? Colors.orange100
+											: Colors.gray200,
+								},
+							]}
+							onPress={handleDuplicateCheck}
+							disabled={nickname.length < MIN_NICKNAME_LENGTH}
+						>
+							<Text style={styles.duplicateCheckText}>
+								중복 체크
+							</Text>
+						</TouchableOpacity>
+					</View>
+					<Text style={styles.helperText}>
+						닉네임은 이모티콘 제외 4~10글자로 만들어주세요
+					</Text>
+				</View>
 
         {/* 하단 버튼 */}
         <View style={styles.footer}>
@@ -198,3 +205,4 @@ const styles = StyleSheet.create({
 });
 
 export default LoginNickname;
+
