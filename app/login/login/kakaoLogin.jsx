@@ -16,24 +16,23 @@ const KAKAO_REST_API = process.env.EXPO_PUBLIC_KAKAO_REST_API
 const REDIRECT_URI = 'http://192.168.162.10:8081/'
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`
 
-export default function KakaoLoginWebViewDialog({ visible, onClose }) {
+export default function KakaoLoginWebViewDialog({ visible, moveToBoong, moveToSignup }) {
 	const handleWebViewMessage = (event) => {
 		const url = event.nativeEvent['url']
 		const exp = 'code='
 		const condition = url.indexOf(exp)
 		if (condition !== -1) {
 			try {
-				console.log(url.substring(condition + exp.length))
-				loginUseCase(url.substring(condition + exp.length)).then(
-					() => {
-						onClose()
-					},
-				)
-			} catch (error) {
-				console.error('Kakao 로그인 중 에러 발생:', error)
+				const code = url.substring(condition + exp.length)
+				const response = loginUseCase(code)
+				console.log("code : ", code)
+				console.log("response : ", response)
+				// if 로그인 성공 -> moveToBoong // 실패 -> moveToSignup
+			} catch{
+				console.log(error)
 			}
 		} else {
-			console.log('URL에서 인증 코드를 추출하지 못했습니다.')
+			console.error('카카오톡에서 인증 코드를 추출하지 못했습니다.')
 		}
 	}
 
@@ -57,9 +56,11 @@ export default function KakaoLoginWebViewDialog({ visible, onClose }) {
 						source={{
 							uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}`,
 						}}
-						injectedJavaScript={INJECTED_JAVASCRIPT}
-						javaScriptEnabled={true}
-						onMessage={handleWebViewMessage}
+						// injectedJavaScript={INJECTED_JAVASCRIPT}
+						// onMessage={handleWebViewMessage}
+						onMessage={() => {
+							console.log('onMessage')
+						}}
 					/>
 				</View>
 			</View>
@@ -70,14 +71,13 @@ export default function KakaoLoginWebViewDialog({ visible, onClose }) {
 const styles = StyleSheet.create({
 	overlay: {
 		flex: 1,
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: colors.modal_background,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	dialog: {
 		width: width * 0.9,
 		height: height * 0.7,
-		backgroundColor: colors.gray500,
 		borderRadius: 12,
 		overflow: 'hidden',
 	},

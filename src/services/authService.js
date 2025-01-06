@@ -13,4 +13,4 @@ export const signup = async (userInfo) =>
 export const quit = async () => await clientWT.delete(makeEndPoint('auth/'))
 
 export const isDuplicateNickname = async () =>
-	await client.post(makeEndPoint('auth.', { nickname }))
+	await client.post(makeEndPoint('auth/', { nickname }))

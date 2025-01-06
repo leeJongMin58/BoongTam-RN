@@ -83,8 +83,11 @@ export default function LoginScreen() {
 		setDialogVisible(true)
 	}
 
-	const closeKakakoLoginDialog = () => {
+	const closeKakakoLoginDialog = (isLogin) => {
 		setDialogVisible(false)
+		if (isLogin) {
+
+		}
 	}
 
 	if (!fontsLoaded) {
@@ -128,7 +131,7 @@ export default function LoginScreen() {
 				))}
 			</View>
 
-			{/* <TouchableOpacity style={styles.kakaoButton} onPress={openKakakoLoginDialog}>
+			<TouchableOpacity style={styles.kakaoButton} onPress={openKakakoLoginDialog}>
 				<Image
 					source={require('../../../assets/icon/kakao_login_medium_narrow.png')}
 					style={styles.kakaoImage}
@@ -138,16 +141,7 @@ export default function LoginScreen() {
 			<KakaoLoginWebViewDialog
 				visible={isDialogVisible}
 				onClose={closeKakakoLoginDialog}
-			/> */}
-
-			<Link href="/login/signup/loginNickname" asChild>
-				<TouchableOpacity style={styles.kakaoButton}>
-					<Image
-						source={require('../../../assets/icon/kakao_login_medium_narrow.png')}
-						style={styles.kakaoImage}
-					/>
-				</TouchableOpacity>
-			</Link>
+			/>
 		</SafeAreaView>
 	)
 }
