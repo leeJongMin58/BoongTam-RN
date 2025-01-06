@@ -30,16 +30,6 @@ const popularContent = [
         rating: 3.9,
     },
     {
-        id: "3",
-        type: "매장",
-        username: "최붕붕",
-        date: "2024.12.05",
-        image: require("../../../assets/images/product6.png"),
-        title: "슈퍼 붕어빵 (부산점)",
-        review: "다시 방문하고 싶어요!",
-        rating: 3.0,
-    },
-    {
         id: "4",
         type: "굿즈",
         username: "최붕붕",
