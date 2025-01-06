@@ -18,17 +18,23 @@ export default function CommunityScreen() {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState({});
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => console.log(item.id)}>
-      <ReviewCard
-        username={item.username}
-        type={item.type}
-        date={item.date}
-        image={item.image}
-        title={item.title}
-        review={item.review}
-        rating={item.rating}
-      />
-    </TouchableOpacity>
+	<Link
+	  href={{
+		pathname: "(subs)/(community)/review_look",
+		params: { id: item.id }, // 리뷰 ID를 경로에 전달
+	  }}
+	  style={{ textDecorationLine: "none" }}
+	>
+	  <ReviewCard
+		username={item.username}
+		type={item.type}
+		date={item.date}
+		image={item.image}
+		title={item.title}
+		review={item.review}
+		rating={item.rating}
+	  />
+	</Link>
   );
 
   const toggleMoreMenu = (section) => {
