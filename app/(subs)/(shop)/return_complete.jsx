@@ -1,15 +1,24 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useLocalSearchParams, Link } from 'expo-router';
+import { useLocalSearchParams, Link, useRouter } from 'expo-router';
 import colors from '../../../src/styles/color';
 import typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string'
+import { useCart } from '../../../src/services/CartContext';
 
 export default function ReturnCompleteScreen() {
   const { items, reason, selectedOption, address } = useLocalSearchParams();
+  const { clearCart } = useCart();
+  const router = useRouter();
+  
+  const handleContinueShopping = () => {
+    clearCart(); // 장바구니 비우기
+    router.replace('(tabs)/(shop)/shop'); // 히스토리 초기화 후 쇼핑 메인 화면으로 이동
+  };
 
   return (
     <View style={styles.container}>
+
       {/* 상단 텍스트 */}
       <Text style={styles.title}>{STRINGS.SHOP.RETURN_COMPLETE.RETURN_COMPLTETE}</Text>
 
@@ -36,12 +45,24 @@ export default function ReturnCompleteScreen() {
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
-        <Link href="(/(subs)/(shop)/productdetail" style={styles.button}>
-          <Text style={styles.buttonText}>{STRINGS.SHOP.RETURN_COMPLETE.RETURN_ORDER_VIEW}</Text>
-        </Link>
-        <Link href="/(tabs)/(shop)/(main)/shop" style={styles.button}>
-          <Text style={styles.buttonText}>{STRINGS.SHOP.RETURN_COMPLETE.RETURN_SHOPPING_CONTINUE}</Text>
-        </Link>
+        <TouchableOpacity
+              onPress={() => router.replace('(subs)/(my)/my_page_review')}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>
+                {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_ORDER_VIEW}
+              </Text>
+            </TouchableOpacity>
+
+            {/* 쇼핑하기 버튼 */}
+            <TouchableOpacity
+              onPress={handleContinueShopping}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>
+                {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_SHOPPING_CONTINUE}
+              </Text>
+            </TouchableOpacity>
       </View>
     </View>
   );
@@ -94,14 +115,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%',
+    width: '100%',
   },
   button: {
     backgroundColor: colors.orange300,
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     borderRadius: 8,
-    marginHorizontal: 8,
+    marginHorizontal: 5,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -109,5 +130,6 @@ const styles = StyleSheet.create({
   buttonText: {
     ...typography.body.large_bold,
     color: colors.white,
+    textAlign: 'center',
   },
 });
