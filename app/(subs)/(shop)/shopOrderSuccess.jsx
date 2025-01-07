@@ -93,7 +93,7 @@ const ShopOrderSuccess = () => {
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{STRINGS.BOONG_TAM.ORDER.ADDRESS_PRODUCT}</Text>
                     <Text style={styles.addressText}>{deliveryAddress}</Text>
-                    <TouchableOpacity style={styles.trackButton}>
+                    <TouchableOpacity style={styles.trackButton}  onPress={() => router.push('/(subs)/(shop)/Address_api')}>
                         <Text style={styles.trackButtonText}>{STRINGS.BOONG_TAM.ORDER.INQUIRY}</Text>
                     </TouchableOpacity>
                 </View>

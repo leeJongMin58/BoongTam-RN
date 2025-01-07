@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     ScrollView,
     View,
@@ -7,79 +7,78 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { useLocalSearchParams, Link } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams, Link, useRouter } from 'expo-router';
 import colors from '../../../src/styles/color';
 import typography from '../../../src/styles/typhography';
-import { STRINGS } from '../../../src/config/string'
+import { STRINGS } from '../../../src/config/string';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const Application = ({ navigation }) => {
+const Application = () => {
     const { items } = useLocalSearchParams();
+    const router = useRouter();
+    const scrollViewRef = useRef(null);
 
     const parsedItems = items ? JSON.parse(items) : [];
 
-    const handleExchange = () => {
-        alert([STRINGS.SHOP.APPLICATION.APPLY_CHANGE_ALERT]);
-    };
-
-    const handleReturn = () => {
-        alert([STRINGS.SHOP.APPLICATION.APPLY_RETURN_ALERT]);
-    };
-
     return (
-        <ScrollView style={styles.container}>
-            {/* Header */}
-            <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>{STRINGS.SHOP.APPLICATION.APLLY_HEADER_TITLE}</Text>
-                <TouchableOpacity style={styles.headerButton}>
-                    <Text style={styles.headerButtonText}>{STRINGS.SHOP.APPLICATION.APPLY_CHANGE_BUTTON}</Text>
-                </TouchableOpacity>
-            </View>
+        <SafeAreaView style={styles.container}>
+            <ScrollView ref={scrollViewRef}>
+                {/* 상단 네비게이션 */}
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.backbutton}
+                    onPress={()=> router.back()}>
+                        <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
+                    </TouchableOpacity>
 
-            {/* Product Card */}
-            {parsedItems.map((item, index) => (
-                <View key={index} style={styles.cardContainer}>
-                    <View style={styles.cardHeader}>
-                        <TouchableOpacity>
-                            <Text style={styles.orderDetails}>{STRINGS.SHOP.APPLICATION.APPLY_ORDER_VIEW}</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <Link href="(subs)/(my)/my_setting" style={styles.settingsButton}>
+                        <MaterialIcons name="settings" size={24} color={colors.gray500} />
+                    </Link>
+                </View>
 
-                    <View style={styles.productContainer}>
-                        <Image source={item.image} style={styles.productImage} />
-                        <View style={styles.productDetails}>
-                            <Text style={styles.productName}>{item.name}</Text>
-                            <Text style={styles.productPrice}>{item.price}</Text>
+                {/* Product Card */}
+                {parsedItems.map((item, index) => (
+                    <View key={index} style={styles.cardContainer}>
+                        <View style={styles.cardHeader}>                        
+                            <Image source={item.image} style={styles.productImage} />
+                            <View style={styles.productDetails}>
+                                <Text style={styles.productName}>{item.name}</Text>
+                                <Text style={styles.productPrice}>{item.price}</Text>
+                            </View>
+                            <TouchableOpacity>
+                                <Text style={styles.orderDetails}>{STRINGS.SHOP.APPLICATION.APPLY_ORDER_VIEW}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </View>
-            ))}
+                ))}
 
-            {/* Buttons */}
-            <View style={styles.buttonContainerCentered}>
-                <Link
-                    href={{
-                        pathname: '(subs)/(shop)/change_screen',
-                        params: {
-                            items: JSON.stringify(parsedItems),
-                        },
-                    }}
-                    style={styles.actionButton}
-                >
-                    <Text style={styles.actionButtonText}>{STRINGS.SHOP.APPLICATION.APPLY_CHANGE_TEXT}</Text>
-                </Link>
-                <Link
-                    href={{
-                        pathname: '(subs)/(shop)/return_screen',
-                        params: {
-                            items: JSON.stringify(parsedItems),
-                        },
-                    }}
-                    style={styles.actionButton}
-                >
-                    <Text style={styles.actionButtonText}>{STRINGS.SHOP.APPLICATION.APPLY_RETURN_TEXT}</Text>
-                </Link>
-            </View>
-        </ScrollView>
+                {/* Buttons */}
+                <View style={styles.buttonContainerCentered}>
+                    <Link
+                        href={{
+                            pathname: '(subs)/(shop)/change_screen',
+                            params: {
+                                items: JSON.stringify(parsedItems),
+                            },
+                        }}
+                        style={styles.actionButton}
+                    >
+                        <Text style={styles.actionButtonText}>{STRINGS.SHOP.APPLICATION.APPLY_CHANGE_TEXT}</Text>
+                    </Link>
+                    <Link
+                        href={{
+                            pathname: '(subs)/(shop)/return_screen',
+                            params: {
+                                items: JSON.stringify(parsedItems),
+                            },
+                        }}
+                        style={styles.actionButton}
+                    >
+                        <Text style={styles.actionButtonText}>{STRINGS.SHOP.APPLICATION.APPLY_RETURN_TEXT}</Text>
+                    </Link>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -88,27 +87,23 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.gray200,
     },
-    headerContainer: {
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor: colors.white,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.gray200,
+    header: {
+        height: 50,
+        backgroundColor: colors.orange100,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backbutton: {
+        position: "absolute",
+        left: 10,
+    },
+    settingsButton: {
+        position: "absolute",
+        right: 10,
     },
     headerTitle: {
         ...typography.heading.medium,
         color: colors.gray500,
-        marginBottom: 8,
-    },
-    headerButton: {
-        backgroundColor: colors.orange300,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 20,
-    },
-    headerButtonText: {
-        ...typography.body.large_bold,
-        color: colors.white,
     },
     cardContainer: {
         margin: 10,
@@ -175,6 +170,5 @@ const styles = StyleSheet.create({
         color: colors.white,
     },
 });
-
 
 export default Application;

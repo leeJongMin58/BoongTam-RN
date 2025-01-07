@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
     View,
     Text,
@@ -7,15 +7,17 @@ import {
     FlatList,
     Image,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from '@expo/vector-icons'; 
 import colors from "../../../src/styles/color";
 import typography from "../../../src/styles/typhography";
 import { STRINGS } from "../../../src/config/string";
 
 export default function BillScreen() {
     const [activeTab, setActiveTab] = useState(STRINGS.MY.bill.TABS.STORE);
-
     const allData = STRINGS.MY.bill.allData;
+    const router = useRouter();
 
     const filteredData = allData.filter(
         (item) => item.category === activeTab
@@ -27,7 +29,7 @@ export default function BillScreen() {
                 <Text style={styles.date}>{item.date}</Text>
                 <View style={styles.headerRight}>
                     <Text style={styles.status}>{item.status}</Text>
-                    <Link href={`/order/${item.id}`} asChild>
+                    <Link href={`(subs)/(shop)/shopOrderSuccess`} asChild>
                         <TouchableOpacity>
                             <Text style={styles.detailLink}>{STRINGS.MY.bill.DETAIL_LINK}</Text>
                         </TouchableOpacity>
@@ -46,7 +48,7 @@ export default function BillScreen() {
                 </View>
             </View>
             <View style={styles.cardFooter}>
-                <TouchableOpacity style={styles.actionButton}>
+                <TouchableOpacity style={styles.actionButton} onPress={() => router.push('/(subs)/(shop)/Address_api')}>
                     <Text style={styles.actionButtonText}>
                         {STRINGS.MY.bill.ACTION_BUTTONS.ADD_AGAIN}
                     </Text>
@@ -61,7 +63,22 @@ export default function BillScreen() {
     );
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.safeContainer}>
+            {/* 상단 네비게이션 */}
+            <View style={styles.header}>
+                {/* Link 컴포넌트로 뒤로 가기 구현 */}
+                <View>
+                    <Link href="(tabs)/(my)/my" replace style={styles.backbutton}>
+                        <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
+                    </Link>
+                </View>   
+                <View>
+                    <Link href="(subs)/(my)/my_setting" replace style={styles.settingsButton}>
+                        <MaterialIcons name="settings" size={24} color={colors.gray500} />
+                    </Link>
+                </View>            
+            </View>
+
             <View style={styles.tabs}>
                 <TouchableOpacity
                     style={[styles.tab, activeTab === STRINGS.MY.bill.TABS.STORE && styles.activeTab]}
@@ -91,14 +108,33 @@ export default function BillScreen() {
                 keyExtractor={(item) => item.id}
                 contentContainerStyle={styles.listContainer}
             />
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    safeContainer: {
         flex: 1,
-        backgroundColor: colors.gray200,
+        backgroundColor: colors.gray100,
+    },
+    header: {
+        height: 50,
+        backgroundColor: colors.orange100,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+    },
+    backButton: {
+        padding: 8,
+    },
+    settingsButton: {
+        padding: 8,
+    },
+    headerTitle: {
+        ...typography.heading.medium,
+        color: colors.gray500,
+        textAlign: 'center',
     },
     tabs: {
         flexDirection: "row",
