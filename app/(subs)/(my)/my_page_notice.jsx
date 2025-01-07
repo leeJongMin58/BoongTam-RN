@@ -1,190 +1,155 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
     View,
     Text,
+    FlatList,
     StyleSheet,
-    Switch,
     TouchableOpacity,
-    ScrollView,
-} from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { STRINGS } from "../../../src/config/string";
-import colors from "../../../src/styles/color";
-import typography from "../../../src/styles/typhography";
+    RefreshControl,
+} from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons'; // 수정된 import
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router'; // 수정된 import
+import colors from '../../../src/styles/color';
+import { STRINGS } from '../../../src/config/string';
+import typography from '../../../src/styles/typhography';
+import notices from './my_notice_list';
+// 샘플 공지사항 데이터
 
-export default function SettingsScreen() {
-    const [settings, setSettings] = useState({
-        commentNotification: true,
-        likeNotification: true,
-        marketingNotification: true,
-        cookingNotification: true,
-        storeOpenNotification: false,
-        useSafeNumber: true,
-        autoUpdate: true,
-        language: "한국어",
-    });
+export default function NoticeScreen() {
+    const [expandedItemId, setExpandedItemId] = useState(null); // 펼쳐진 항목 상태 관리
+    const [refreshing, setRefreshing] = React.useState(false);
 
-    const toggleSwitch = (key) => {
-        setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+    const onRefresh = () => {
+        setRefreshing(true);
+        setTimeout(() => setRefreshing(false), 1000);
     };
 
-    const updateLanguage = (language) => {
-        setSettings((prev) => ({ ...prev, language }));
+    const toggleExpand = (id) => {
+        setExpandedItemId((prev) => (prev === id ? null : id)); // 클릭 시 토글
+    };
+
+    const renderItem = ({ item }) => {
+        const isExpanded = expandedItemId === item.id;
+
+        return (
+            <TouchableOpacity style={styles.itemContainer} onPress={() => toggleExpand(item.id)}>
+                <View style={styles.iconContainer}>
+                    <MaterialIcons name="campaign" size={24} color={colors.gray500} />
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.date}>{item.date}</Text>
+
+                    {/* 펼쳐진 상태에서 내용 표시 */}
+                    {isExpanded && (
+                        <Text style={styles.content}>
+                            {item.content} {/* 항목의 내용을 표시 */}
+                        </Text>
+                    )}
+                </View>
+                <MaterialIcons
+                    name={isExpanded ? 'expand-less' : 'chevron-right'}
+                    size={24}
+                    color={colors.gray500}
+                />
+            </TouchableOpacity>
+        );
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <View style={styles.container}>
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>{STRINGS.MY.SETTINGS.SECTIONS.NOTIFICATIONS}</Text>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.COMMENT_NOTIFICATION}</Text>
-                        <Switch
-                            value={settings.commentNotification}
-                            onValueChange={() => toggleSwitch("commentNotification")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.commentNotification ? colors.white : colors.gray500}
-                        />
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.LIKE_NOTIFICATION}</Text>
-                        <Switch
-                            value={settings.likeNotification}
-                            onValueChange={() => toggleSwitch("likeNotification")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.likeNotification ? colors.white : colors.gray500}
-                        />
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.MARKETING_NOTIFICATION}</Text>
-                        <Switch
-                            value={settings.marketingNotification}
-                            onValueChange={() => toggleSwitch("marketingNotification")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.marketingNotification ? colors.white : colors.gray500}
-                        />
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.COOKING_NOTIFICATION}</Text>
-                        <Switch
-                            value={settings.cookingNotification}
-                            onValueChange={() => toggleSwitch("cookingNotification")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.cookingNotification ? colors.white : colors.gray500}
-                        />
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.STORE_OPEN_NOTIFICATION}</Text>
-                        <Switch
-                            value={settings.storeOpenNotification}
-                            onValueChange={() => toggleSwitch("storeOpenNotification")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.storeOpenNotification ? colors.white : colors.gray500}
-                        />
-                    </View>
-                </View>
+        <SafeAreaView style={styles.safeContainer}>
+            {/* 상단 네비게이션 바 */}
+            <View style={styles.header}>
+                <Link href="(tabs)/(my)/my" style={styles.backbutton}>
+                    <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
+                </Link>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>{STRINGS.MY.SETTINGS.SECTIONS.FEATURES}</Text>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.USE_SAFE_NUMBER}</Text>
-                        <Switch
-                            value={settings.useSafeNumber}
-                            onValueChange={() => toggleSwitch("useSafeNumber")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.useSafeNumber ? colors.white : colors.gray500}
-                        />
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.AUTO_UPDATE}</Text>
-                        <Switch
-                            value={settings.autoUpdate}
-                            onValueChange={() => toggleSwitch("autoUpdate")}
-                            trackColor={{ true: colors.orange100, false: colors.gray300 }}
-                            thumbColor={settings.autoUpdate ? colors.white : colors.gray500}
-                        />
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>{STRINGS.MY.SETTINGS.LABELS.LANGUAGE}</Text>
-                        <View style={styles.pickerContainer}>
-                            <Picker
-                                selectedValue={settings.language}
-                                style={styles.picker}
-                                onValueChange={(itemValue) => updateLanguage(itemValue)}
-                            >
-                                <Picker.Item label="한국어" value="한국어" />
-                                <Picker.Item label="English" value="English" />
-                                <Picker.Item label="日本語" value="日本語" />
-                            </Picker>
-                        </View>
-                    </View>
-                </View>
-
-                <TouchableOpacity style={styles.saveButton}>
-                    <Text style={styles.saveButtonText}>{STRINGS.MY.SETTINGS.BUTTONS.SAVE}</Text>
-                </TouchableOpacity>
+                <Link href="(subs)/(my)/my_setting" style={styles.settingsButton}>
+                    <MaterialIcons name="settings" size={24} color={colors.gray500} />
+                </Link>
             </View>
-        </ScrollView>
+
+            <View contentContainerStyle={styles.container}>
+                {/* 공지사항 리스트 */}
+                <FlatList
+                    data={notices}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    contentContainerStyle={styles.listContainer}
+                />
+            </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-        flexGrow: 1,
-        backgroundColor: colors.gray200,
-        padding: 20,
+    safeContainer: {
+        flex: 1,
+        backgroundColor: colors.gray100,
     },
     container: {
+        flexGrow: 1,
+        padding: 20,
+        backgroundColor: colors.gray100,
+    },
+    header: {
+        height: 50,
+        backgroundColor: colors.orange100,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+    },
+    backButton: {
+        padding: 1,
+    },
+    settingsButton: {
+        padding: 8,
+    },
+    headerTitle: {
+        ...typography.heading.medium,
+        color: colors.gray500,
+        textAlign: 'center',
         flex: 1,
     },
-    section: {
+    listContainer: {
+        paddingVertical: 8,
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: colors.white,
-        borderRadius: 10,
-        padding: 15,
-        marginBottom: 20,
-        shadowColor: colors.gray500,
+        padding: 16,
+        marginBottom: 8,
+        borderRadius: 8,
+        shadowColor: '#000',
         shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 2,
+        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 2 },
     },
-    sectionTitle: {
-        ...typography.heading.small,
-        marginBottom: 10,
-        color: colors.gray500,
+    iconContainer: {
+        marginRight: 16,
     },
-    row: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 15,
+    textContainer: {
+        flex: 1,
     },
-    label: {
-        ...typography.body.large,
-        color: colors.gray500,
-    },
-    pickerContainer: {
-        justifyContent: "center",
-        borderWidth: 1,
-        borderColor: colors.gray500,
-        borderRadius: 10,
-        backgroundColor: colors.white,
-        overflow: "hidden",
-        paddingHorizontal: 5,
-    },
-    picker: {
-        minWidth: 145,
+    title: {
         fontSize: 16,
+        fontWeight: 'bold',
         color: colors.gray500,
     },
-    saveButton: {
-        backgroundColor: colors.orange100,
-        paddingVertical: 15,
-        alignItems: "center",
-        borderRadius: 30,
-        marginBottom: 30,
+    date: {
+        fontSize: 14,
+        color: colors.gray500,
+        marginTop: 4,
     },
-    saveButtonText: {
-        ...typography.body.large_bold,
-        color: colors.white,
+    content: {
+        fontSize: 14,
+        color: colors.gray400,
+        marginTop: 8,
     },
 });
