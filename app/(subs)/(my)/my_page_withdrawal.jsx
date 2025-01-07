@@ -7,15 +7,17 @@ import {
     Alert,
     ScrollView,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import colors from "../../../src/styles/color";
 import typography from "../../../src/styles/typhography";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { STRINGS } from "../../../src/config/string";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function WithdrawalScreen() {
     const [checked, setChecked] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const router = useRouter();
 
     const handleWithdrawal = () => {
         if (!checked) {
@@ -40,102 +42,160 @@ export default function WithdrawalScreen() {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            {/* 유의사항 섹션 */}
-            <View style={styles.noticeSection}>
-                <View style={styles.noticeHeader}>
-                    <Text style={styles.noticeTitle}>
-                        {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.TITLE}
-                    </Text>
-                    <View style={styles.noticeBadge}>
-                        <Text style={styles.noticeBadgeText}>
-                            {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.BADGE}
+        <SafeAreaView style={styles.safeContainer}>
+            {/* 상단 네비게이션 */}
+            <View style={styles.header}>
+                {/* 뒤로 가기 버튼 */}
+                <Link href="(tabs)/(my)/my" style={styles.backbutton}>
+                    <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
+                </Link>
+
+                {/* 설정 버튼 */}
+                <Link href="(subs)/(my)/my_setting" style={styles.settingsButton}>
+                    <MaterialIcons name="settings" size={24} color={colors.gray500} />
+                </Link>
+            </View>
+
+            <ScrollView contentContainerStyle={styles.container}>
+                {/* 유의사항 섹션 */}
+                <View style={styles.noticeSection}>
+                    <View style={styles.noticeHeader}>
+                        <Text style={styles.noticeTitle}>
+                            {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.TITLE}
                         </Text>
+                        
+                        <View style={styles.noticeBadge}>
+                            <Text style={styles.noticeBadgeText}>
+                                {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.BADGE}
+                            </Text>
+                        </View>
                     </View>
+                    <View>
+                        <Text style={styles.noticeDescription}>
+                                    {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.DESCRIPTION}
+                                </Text>
+                    </View>
+                    <TouchableOpacity onPress={toggleChecked}>
+                        <View style={styles.checkContainer}>
+                            <Text style={styles.checkIcon}>
+                                {checked ? (
+                                    <MaterialIcons
+                                        name="check-box"
+                                        size={24}
+                                        color={colors.orange300}
+                                    />
+                                ) : (
+                                    <MaterialIcons
+                                        name="check-box-outline-blank"
+                                        size={24}
+                                        color={colors.gray500}
+                                    />
+                                )}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <Text style={styles.noticeDescription}>
-                    {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.DESCRIPTION}
-                </Text>
-                <TouchableOpacity onPress={toggleChecked}>
-                    <View style={styles.checkContainer}>
-                        <Text style={styles.checkIcon}>
-                            {checked ? (
-                                <MaterialIcons
-                                    name="check-box"
-                                    size={24}
-                                    color={colors.orange300}
-                                />
-                            ) : (
-                                <MaterialIcons
-                                    name="check-box-outline-blank"
-                                    size={24}
-                                    color={colors.gray500}
-                                />
-                            )}
-                        </Text>
-                    </View>
+
+                {/* 화살표 섹션 */}
+                <TouchableOpacity onPress={toggleExpand} style={styles.arrowContainer}>
+                    <MaterialIcons
+                        name={isExpanded ? "expand-less" : "expand-more"}
+                        size={30}
+                        color={colors.gray500}
+                    />
                 </TouchableOpacity>
-            </View>
+                {isExpanded && (
+                    <View style={styles.expandedSection}>
+                        <Text style={styles.expandedText}>
+                            {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.EXPANDED_TEXT}
+                        </Text>
+                        <Text style={styles.checkIcon}>
+                                {checked ? (
+                                    <MaterialIcons
+                                        name="check-box"
+                                        size={24}
+                                        color={colors.orange300}
+                                    />
+                                ) : (
+                                    <MaterialIcons
+                                        name="check-box-outline-blank"
+                                        size={24}
+                                        color={colors.gray500}
+                                    />
+                                )}
+                            </Text>
+                    </View>
+                )}
 
-            {/* 화살표 섹션 */}
-            <TouchableOpacity onPress={toggleExpand} style={styles.arrowContainer}>
-                <MaterialIcons
-                    name={isExpanded ? "expand-less" : "expand-more"}
-                    size={30}
-                    color={colors.gray500}
-                />
-            </TouchableOpacity>
-            {isExpanded && (
-                <View style={styles.expandedSection}>
-                    <Text style={styles.expandedText}>
-                        {STRINGS.MY.WITHDRAWAL_SCREEN.NOTICE.EXPANDED_TEXT}
+                {/* 하단 확인 문구 */}
+                <View style={styles.confirmSection}>
+                    <Text style={styles.confirmText}>
+                        {STRINGS.MY.WITHDRAWAL_SCREEN.CONFIRMATION}
                     </Text>
                 </View>
-            )}
 
-            {/* 하단 확인 문구 */}
-            <View style={styles.confirmSection}>
-                <Text style={styles.confirmText}>
-                    {STRINGS.MY.WITHDRAWAL_SCREEN.CONFIRMATION}
-                </Text>
-            </View>
-
-            {/* 탈퇴 버튼 */}
-            <TouchableOpacity
-                style={styles.withdrawalButton}
-                onPress={handleWithdrawal}
-            >
-                <Text style={styles.withdrawalButtonText}>
-                    {STRINGS.MY.WITHDRAWAL_SCREEN.BUTTON}
-                </Text>
-            </TouchableOpacity>
-        </ScrollView>
+                {/* 탈퇴 버튼 */}
+                <TouchableOpacity
+                    style={styles.withdrawalButton}
+                    onPress={handleWithdrawal}
+                >
+                    <Text style={styles.withdrawalButtonText}>
+                        {STRINGS.MY.WITHDRAWAL_SCREEN.BUTTON}
+                    </Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    safeContainer: {
+        flex: 1,
+        backgroundColor: colors.gray100,
+    },
+    header: {
+        height: 50,
+        backgroundColor: colors.orange100,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backbutton: {
+        position: "absolute",
+        left: 10,
+    },
+    settingsButton: {
+        position: "absolute",
+        right: 10,
+    },
+    headerTitle: {
+        ...typography.heading.medium,
+        color: colors.gray500,
+    },
     container: {
         flexGrow: 1,
         backgroundColor: colors.gray100,
-        padding: 20,
+        padding: 10,
         alignItems: "center",
     },
     noticeSection: {
         backgroundColor: colors.white,
         borderRadius: 10,
         padding: 15,
-        marginBottom: 20,
+        marginBottom: 5,
         width: "100%",
         shadowColor: colors.gray500,
         shadowOpacity: 0.1,
         shadowRadius: 5,
         elevation: 2,
     },
+    checkIcon: {
+        textAlign: 'center',
+    },
     noticeHeader: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 20,
+        marginBottom: 10,
     },
     noticeTitle: {
         ...typography.body.large_bold,
@@ -161,7 +221,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     arrowContainer: {
-        marginBottom: 20,
+        marginBottom: 10,
     },
     expandedSection: {
         backgroundColor: colors.white,
