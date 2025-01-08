@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 export default function App({ navigation }) {
@@ -28,6 +28,8 @@ export default function App({ navigation }) {
   const [newTag, setNewTag] = useState('');
   const [timeRange, setTimeRange] = useState({ start: new Date(), end: new Date() });
   const [showPicker, setShowPicker] = useState({ start: false, end: false });
+
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -97,6 +99,7 @@ export default function App({ navigation }) {
       [type]: filteredText,
     }));
   };
+  
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -109,11 +112,14 @@ export default function App({ navigation }) {
               <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => {
-                  if (navigation) navigation.goBack();
-                  else alert('뒤로가기');
+                  if (navigation?.canGoBack()) {
+                    navigation.goBack(); 
+                  } else {
+                    Alert.alert('뒤로가기 불가', '현재 화면에서는 뒤로 갈 수 없습니다.');
+                  }
                 }}
               >
-                <Text style={styles.backButtonText}>←</Text>
+                <MaterialIcons name="arrow-back" size={24} color="black" />
               </TouchableOpacity>
               <Text style={styles.title}>Community</Text>
             </View>
@@ -209,28 +215,28 @@ export default function App({ navigation }) {
               </View>
             </View>
             <View style={styles.inputGroup}>
-  <Text style={styles.label}>출몰 시간대 (선택)</Text>
-  <View style={styles.row}>
-    <TextInput
-      style={styles.inputSmall}
-      value={timeRange.start}
-      onChangeText={(text) => handleTimeInput(text, 'start')}
-      placeholder="시작 시간 (12:00)"
-      keyboardType="numeric"
-      maxLength={5}
-    />
-    <Text style={styles.label}>부터</Text>
-    <TextInput
-      style={styles.inputSmall}
-      value={timeRange.end}
-      onChangeText={(text) => handleTimeInput(text, 'end')}
-      placeholder="종료 시간 (19:00)"
-      keyboardType="numeric"
-      maxLength={5}
-    />
-    <Text style={styles.label}>까지</Text>
-  </View>
-</View>
+              <Text style={styles.label}>출몰 시간대 (선택)</Text>
+              <View style={styles.row}>
+                <TextInput
+                  style={styles.inputSmall}
+                  value={timeRange.start}
+                  onChangeText={(text) => handleTimeInput(text, 'start')}
+                  placeholder="시작 시간 (12:00)"
+                  keyboardType="numeric"
+                  maxLength={5}
+                />
+                <Text style={styles.label}>부터</Text>
+                <TextInput
+                  style={styles.inputSmall}
+                  value={timeRange.end}
+                  onChangeText={(text) => handleTimeInput(text, 'end')}
+                  placeholder="종료 시간 (19:00)"
+                  keyboardType="numeric"
+                  maxLength={5}
+                />
+                <Text style={styles.label}>까지</Text>
+              </View>
+            </View>
             <TouchableOpacity style={styles.submitButton}>
               <Text style={styles.submitButtonText}>등록하기</Text>
             </TouchableOpacity>
@@ -254,6 +260,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backButtonText: {
     fontSize: 16,
@@ -304,6 +312,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     gap: 10,
+
   },
   buttonGroupSingleLine: {
     flexDirection: 'row',
@@ -318,8 +327,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 15,
-    minWidth: 110,
+    minWidth: 90,
     alignItems: 'center',
+
   },
   buttonSelected: {
     backgroundColor: '#FFD700',

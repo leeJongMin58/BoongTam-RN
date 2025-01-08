@@ -33,24 +33,28 @@ export default function ReviewPage() {
       alert('이미지는 최대 3장까지 추가할 수 있습니다.');
       return;
     }
-
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted) {
-      alert('갤러리 접근 권한이 필요합니다.');
+  
+    // 권한 요청
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('갤러리 접근 권한이 필요합니다. 설정에서 권한을 허용해 주세요.');
       return;
     }
-
+  
+    // 갤러리 열기
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
+  
     if (!result.canceled) {
       setImages((prevImages) => [...prevImages, result.assets[0].uri]);
     }
   };
+  
+  
 
   const removeImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));

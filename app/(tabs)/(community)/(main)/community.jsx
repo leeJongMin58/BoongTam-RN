@@ -12,29 +12,31 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import ReviewCard from "../../../../src/components/reviewcard";
 import popularContent from "../../../(subs)/(community)/review_list";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CommunityScreen() {
+  const navigation = useNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState({});
 
   const renderItem = ({ item }) => (
-	<Link
-	  href={{
-		pathname: "(subs)/(community)/review_look",
-		params: { id: item.id }, // 리뷰 ID를 경로에 전달
-	  }}
-	  style={{ textDecorationLine: "none" }}
-	>
-	  <ReviewCard
-		username={item.username}
-		type={item.type}
-		date={item.date}
-		image={item.image}
-		title={item.title}
-		review={item.review}
-		rating={item.rating}
-	  />
-	</Link>
+    <Link
+      href={{
+        pathname: "(subs)/(community)/review_look",
+        params: { id: item.id }, // 리뷰 ID를 경로에 전달
+      }}
+      style={{ textDecorationLine: "none" }}
+    >
+      <ReviewCard
+        username={item.username}
+        type={item.type}
+        date={item.date}
+        image={item.image}
+        title={item.title}
+        review={item.review}
+        rating={item.rating}
+      />
+    </Link>
   );
 
   const toggleMoreMenu = (section) => {
@@ -53,125 +55,143 @@ export default function CommunityScreen() {
   const filterGoodscontent = popularContent.filter((item) => item.type === "굿즈");
 
   return (
-	<ScrollView>
-		<View style={styles.container}>
-		
-		{/* 인기 컨텐츠 섹션 */}
-		<View style={styles.section}>
-			<Text style={styles.sectionTitle}>인기 컨텐츠</Text>
-			<FlatList
-			data={filtercontent}
-			renderItem={renderItem}
-			keyExtractor={(item) => item.id}
-			horizontal={true}
-			showsHorizontalScrollIndicator={false}
-			contentContainerStyle={styles.flatListContainer}
-			ItemSeparatorComponent={() => <View style={styles.cardSeparator} />}
-			/>
-		</View>
+    <View style={styles.container}>
+      <ScrollView>
+        {/* 인기 컨텐츠 섹션 */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>인기 컨텐츠</Text>
+          <FlatList
+            data={filtercontent}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.flatListContainer}
+            ItemSeparatorComponent={() => <View style={styles.cardSeparator} />}
+          />
+        </View>
 
-		{/* 매장 리뷰 섹션 */}
-		<View style={styles.section}>
-			<View style={styles.sectionHeader}>
-			<View style={styles.sectionHeader_min}>
-				<Text style={styles.sectionTitle}>매장 리뷰</Text>
-				<TouchableOpacity
-				onPress={() => toggleMoreMenu("storeReviews")}
-				style={styles.moreButton}
-				>
-				<View style={styles.container_arrow}>
-					<MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
-				</View>
-				</TouchableOpacity>
-			</View>
-			<FlatList
-				data={filterShopcontent}
-				renderItem={renderItem}
-				keyExtractor={(item) => item.id}
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={styles.flatListContainer}
-				ItemSeparatorComponent={() => <View style={styles.cardSeparator} />}
-			/>
-			</View>
-			{isMoreMenuOpen.storeReviews && (
-			<View style={[styles.modalContainer, { top: -10 }]}>
-				<TouchableOpacity onPress={closeMoreMenu}>
-				<Text style={styles.modalText}>최신순</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={closeMoreMenu}>
-				<Text style={styles.modalText}>인기순</Text>
-				</TouchableOpacity>
-			</View>
-			)}
-		</View>
+        {/* 매장 리뷰 섹션 */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <View style={styles.sectionHeader_min}>
+              <Text style={styles.sectionTitle}>매장 리뷰</Text>
+              <TouchableOpacity
+                onPress={() => toggleMoreMenu("storeReviews")}
+                style={styles.moreButton}
+              >
+                <View style={styles.container_arrow}>
+                  <MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={filterShopcontent}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.flatListContainer}
+              ItemSeparatorComponent={() => <View style={styles.cardSeparator} />}
+            />
+          </View>
+          {isMoreMenuOpen.storeReviews && (
+            <View style={[styles.modalContainer, { top: -10 }]}>
+              <TouchableOpacity onPress={closeMoreMenu}>
+                <Text style={styles.modalText}>최신순</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={closeMoreMenu}>
+                <Text style={styles.modalText}>인기순</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
 
-		{/* 굿즈 리뷰 섹션 */}
-		<View style={styles.section}>
-			<View style={styles.sectionHeader}>
-			<View style={styles.sectionHeader_min}>
-				<Text style={styles.sectionTitle}>굿즈 리뷰</Text>
-				<TouchableOpacity
-				onPress={() => toggleMoreMenu("goodsReviews")}
-				style={styles.moreButton}
-				>
-				<View style={styles.container_arrow}>
-					<MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
-				</View>
-				</TouchableOpacity>
-			</View>
-			<FlatList
-				data={filterGoodscontent}
-				renderItem={renderItem}
-				keyExtractor={(item) => item.id}
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={styles.flatListContainer}
-				ItemSeparatorComponent={() => <View style={styles.cardSeparator} />}
-			/>
-			</View>
-			{isMoreMenuOpen.goodsReviews && (
-			<View style={[styles.modalContainer, { top: -10 }]}>
-				<TouchableOpacity onPress={closeMoreMenu}>
-				<Text style={styles.modalText}>최신순</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={closeMoreMenu}>
-				<Text style={styles.modalText}>인기순</Text>
-				</TouchableOpacity>
-			</View>
-			)}
-		</View>
+        {/* 굿즈 리뷰 섹션 */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <View style={styles.sectionHeader_min}>
+              <Text style={styles.sectionTitle}>굿즈 리뷰</Text>
+              <TouchableOpacity
+                onPress={() => toggleMoreMenu("goodsReviews")}
+                style={styles.moreButton}
+              >
+                <View style={styles.container_arrow}>
+                  <MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={filterGoodscontent}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.flatListContainer}
+              ItemSeparatorComponent={() => <View style={styles.cardSeparator} />}
+            />
+          </View>
+          {isMoreMenuOpen.goodsReviews && (
+            <View style={[styles.modalContainer, { top: -10 }]}>
+              <TouchableOpacity onPress={closeMoreMenu}>
+                <Text style={styles.modalText}>최신순</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={closeMoreMenu}>
+                <Text style={styles.modalText}>인기순</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </ScrollView>
 
-		{/* + 버튼 */}
-		<TouchableOpacity
-			style={styles.floatingButton}
-			onPress={() => setIsMenuOpen(!isMenuOpen)}
-		>
-			<MaterialIcons name="add" size={28} color="white" />
-		</TouchableOpacity>
-	
-		{/* 메뉴 모달 */}
-		{isMenuOpen && (
-			<Modal transparent={true} animationType="fade">
-			<TouchableOpacity
-				style={styles.overlay}
-				onPress={() => setIsMenuOpen(false)}
-			/>
-			<View style={styles.menu}>
-				<Link href="(subs)/(community)/submit_store" style={styles.menuItem}>
-					<Text style={styles.menuText}>매장 제보하기</Text>
-				</Link>
-				<Link href="(subs)/(community)/shop_review_write" style={styles.menuItem}>
-					<Text style={styles.menuText}>매장 리뷰 쓰기</Text>
-				</Link>
-				<Link href="(subs)/(community)/goods_review_write" style={styles.menuItem}>
-					<Text style={styles.menuText}>굿즈 리뷰 쓰기</Text>
-				</Link>
-			</View>
-			</Modal>
-		)}
-		</View>
-	</ScrollView>
+      {/* + 버튼 (ScrollView 바깥으로 이동) */}
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => setIsMenuOpen(!isMenuOpen)}
+      >
+        <MaterialIcons name="add" size={28} color="white" />
+      </TouchableOpacity>
+
+      {/* 메뉴 모달 */}
+{isMenuOpen && (
+  <Modal transparent={true} animationType="fade">
+    <TouchableOpacity
+      style={styles.overlay}
+      onPress={() => setIsMenuOpen(false)}
+    />
+    <View style={styles.menu}>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => {
+          setIsMenuOpen(false); // 메뉴 모달 닫기
+          navigation.navigate("(subs)/(community)/submit_store"); // 화면 전환
+        }}
+      >
+        <Text style={styles.menuText}>매장 제보하기</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => {
+          setIsMenuOpen(false); // 메뉴 모달 닫기
+          navigation.navigate("(subs)/(community)/shop_review_write"); // 화면 전환
+        }}
+      >
+        <Text style={styles.menuText}>매장 리뷰 쓰기</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => {
+          setIsMenuOpen(false); // 메뉴 모달 닫기
+          navigation.navigate("(subs)/(community)/goods_review_write"); // 화면 전환
+        }}
+      >
+        <Text style={styles.menuText}>굿즈 리뷰 쓰기</Text>
+      </TouchableOpacity>
+    </View>
+  </Modal>
+)}
+
+    </View>
   );
 }
 
@@ -179,24 +199,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  header: {
-    height: 60,
-    justifyContent: "center",
-    backgroundColor: "#f8f8f8",
-    position: "relative",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  backIcon: {
-    position: "absolute",
-    left: 16,
-    top: 18,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
+    padding: 5,
+    paddingTop: 45,
   },
   section: {
     marginVertical: 1,
@@ -220,7 +224,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    backgroundColor: "#FF9900",
     borderRadius: 4,
     alignItems: "center",
   },
