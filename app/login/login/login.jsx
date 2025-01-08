@@ -10,12 +10,13 @@ import {
 	PanResponder,
 	SafeAreaView,
 } from 'react-native'
-import { Link } from 'expo-router'
+import { router } from 'expo-router'
 import { useTypography } from '../../../src/utils/TypographyContext'
 import colors from '../../../src/styles/color'
 import { STRINGS } from '../../../src/config/string'
 import typography from '../../../src/styles/typhography'
 import KakaoLoginWebViewDialog from './kakaoLogin'
+import Toast from 'react-native-toast-message'
 
 const slides = [
 	{
@@ -83,11 +84,16 @@ export default function LoginScreen() {
 		setDialogVisible(true)
 	}
 
-	const closeKakakoLoginDialog = (isLogin) => {
+	const closeKakakoLoginDialog = () => {
 		setDialogVisible(false)
-		if (isLogin) {
+	}
 
-		}
+	const moveToBoong = () => {
+		router.navigate('/boongtam')
+	}
+
+	const moveToSignup = () => {
+		router.navigate('/login/signup/loginNickname')
 	}
 
 	if (!fontsLoaded) {
@@ -131,7 +137,10 @@ export default function LoginScreen() {
 				))}
 			</View>
 
-			<TouchableOpacity style={styles.kakaoButton} onPress={openKakakoLoginDialog}>
+			<TouchableOpacity
+				style={styles.kakaoButton}
+				onPress={openKakakoLoginDialog}
+			>
 				<Image
 					source={require('../../../assets/icon/kakao_login_medium_narrow.png')}
 					style={styles.kakaoImage}
@@ -141,6 +150,8 @@ export default function LoginScreen() {
 			<KakaoLoginWebViewDialog
 				visible={isDialogVisible}
 				onClose={closeKakakoLoginDialog}
+				moveToBoong={moveToBoong}
+				moveToSignup={moveToSignup}
 			/>
 		</SafeAreaView>
 	)

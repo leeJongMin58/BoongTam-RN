@@ -1,5 +1,5 @@
-const BASE_URL = 'http://3.39.104.44:80/'
-
+// const BASE_URL = 'http://3.39.104.44:80/'
+const BASE_URL = 'http://192.168.162.38:8081/'
 
 // 토큰이 필요없는 통신
 class Client {
