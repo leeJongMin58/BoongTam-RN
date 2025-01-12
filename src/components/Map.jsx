@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import MapView from 'react-native-maps'
 
-export default function Map() {
-	const initialRegion = {
-		latitude: 37.5665,
-		longitude: 126.978,
-		latitudeDelta: 0.02,
-		longitudeDelta: 0.02,
-	}
-
+export default function Map({ region }) {
+	console.log(region)
 	return (
 		<View style={styles.container}>
-			<MapView style={styles.map} initialRegion={initialRegion} />
+			<MapView
+				style={styles.map}
+				region={region} // 중심 좌표 설정
+				onRegionChangeComplete={(newRegion) => console.log(newRegion)} // 중심 좌표 변경 핸들링
+			/>
 		</View>
 	)
 }

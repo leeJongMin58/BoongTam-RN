@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	StyleSheet,
 	View,
@@ -16,12 +16,19 @@ import { useRouter } from 'expo-router'
 import Map from '../../../../src/components/Map'
 
 export default function Boongtam() {
-	const webViewRef = useRef(null)
 	const [menuVisible, setMenuVisible] = useState(false)
 	const [searchQuery, setSearchQuery] = useState('')
 	const [isLiked, setIsLiked] = useState(false)
+	const [region, setRegion] = useState({
+		latitude: 37.5665,
+		longitude: 126.978,
+		latitudeDelta: 0.00045,
+		longitudeDelta: 0.00045,
+	})
 	const [likeCount, setLikeCount] = useState(225)
 	const router = useRouter()
+
+	useEffect
 
 	// Sample data (임시 매장 데이터)
 	const sampleStore = {
@@ -34,22 +41,30 @@ export default function Boongtam() {
 
 	// 현재 위치 가져오기
 	const getUserLocation = async () => {
+		console.log('getUserLocation')
 		try {
 			const { status } =
 				await Location.requestForegroundPermissionsAsync()
 			if (status !== 'granted') {
 				alert('위치 권한이 필요합니다.')
-				return null
 			}
 			const location = await Location.getCurrentPositionAsync({
 				accuracy: Location.Accuracy.High,
 			})
-			return location.coords // { latitude, longitude }
+			location.coords // { latitude, longitude }
+			setRegion({
+				latitude: location.coords.latitude,
+				longitude: location.coords.longitude,
+				latitudeDelta: 0.0045,
+				longitudeDelta: 0.0045,
+			})
 		} catch (error) {
 			alert('위치를 가져오는 중 오류가 발생했습니다.')
-			return null
 		}
 	}
+	useEffect(() => {
+		getUserLocation()
+	}, [])
 
 	// 메뉴 열기/닫기
 	const showMenu = () => setMenuVisible(true)
@@ -63,8 +78,8 @@ export default function Boongtam() {
 
 	return (
 		<View style={styles.container}>
-			{/* WebView 지도 */}
-			<Map style={StyleSheet.absoluteFillObject} />
+			{/* MapView 지도 */}
+			<Map region={region} />
 
 			{/* 주소 검색 창 */}
 			<View style={styles.searchContainer}>
@@ -126,6 +141,7 @@ export default function Boongtam() {
 			{/* 재탐색 버튼 */}
 			<TouchableOpacity
 				style={styles.refreshButton}
+				onPress={getUserLocation}
 			>
 				<Text style={styles.refreshButtonText}>
 					현재 지도에서 붕어빵 재탐색
@@ -209,9 +225,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.white,
-	},
-	webview: {
-		flex: 1,
 	},
 	searchContainer: {
 		position: 'absolute',
