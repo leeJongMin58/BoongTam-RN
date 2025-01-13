@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     View,
     Text,
@@ -10,22 +10,26 @@ import {
     Modal,
     FlatList,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Picker } from '@react-native-picker/picker';
-import { useLocalSearchParams, Link } from 'expo-router';
+import { useLocalSearchParams, Link, useRouter } from 'expo-router';
 import colors from '../../../src/styles/color';
 import typography from '../../../src/styles/typhography';
-import { STRINGS } from '../../../src/config/string'
+import { STRINGS } from '../../../src/config/string';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function BongTemShopReturn() {
     const { items } = useLocalSearchParams();
+    const router = useRouter();
+    const scrollViewRef = useRef(null);
 
     const parsedItems = items ? JSON.parse(items) : [];
 
-    const [reason, setReason] = useState(''); // 교환 사유
-    const [selectedOption, setSelectedOption] = useState(''); // 교환 방법 선택
+    const [reason, setReason] = useState(''); // 반품 사유
+    const [selectedOption, setSelectedOption] = useState(''); // 반품 방법 선택
     const [address, setAddress] = useState(STRINGS.SHOP.RETURN_SCREEN.RETURN_NOW_ADDRESS); // 현재 주소
     const [shippingFee, setShippingFee] = useState(5000); // 배송비
-    const [modalVisible, setModalVisible] = useState(false); // 교환 사유 선택 모달
+    const [modalVisible, setModalVisible] = useState(false); // 반품 사유 선택 모달
     const reasons = [
         STRINGS.SHOP.RETURN_SCREEN.RETURN_NOW_REASON.REASON1,
         STRINGS.SHOP.RETURN_SCREEN.RETURN_NOW_REASON.REASON2,
@@ -40,143 +44,162 @@ export default function BongTemShopReturn() {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            {/* 상단 헤더 */}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_HEADER_TEXT}</Text>
-            </View>
+        <SafeAreaView style={styles.container}>
+            <ScrollView ref={scrollViewRef}>
+                {/* 상단 네비게이션 */}
+                <View style={styles.header}>
+                    <Link href="(subs)/(shop)/Application" style={styles.backbutton}>
+                        <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
+                    </Link>
 
-            {/* 선택된 상품 목록 */}
-            {parsedItems.map((item, index) => (
-                <View key={index} style={styles.card}>
-                    <Image source={item.image} style={styles.productImage} />
-                    <View style={styles.cardDetails}>
-                        <TouchableOpacity>
-                            <Text style={styles.orderDetailsText}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_ORDER_VIEW}</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.productName}>{item.name}</Text>
-                        <Text style={styles.productPrice}>{item.price.toLocaleString()}</Text>
-                        <Text>{STRINGS.SHOP.RETURN_SCREEN.RETURN_COUNT.COUNT}: {item.quantity}{STRINGS.SHOP.RETURN_SCREEN.RETURN_COUNT.TYPE}</Text>
-                    </View>
-                </View>
-            ))}
-
-            {/* 교환 사유 */}
-            <View style={styles.formSection}>
-                <Text style={styles.formLabel}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_CHANGE_WHY}</Text>
-                <TouchableOpacity
-                    style={styles.input}
-                    onPress={() => setModalVisible(true)}
-                >
-                    <Text style={{ color: reason ? '#000' : '#aaa' }}>
-                        {reason || STRINGS.SHOP.RETURN_SCREEN.RETURN_CHANGE_WHY_TEXT}
-                    </Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* 교환 방법 선택 */}
-            <View style={styles.formSection}>
-                <Text style={styles.formLabel}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_METHOD_TEXT}</Text>
-                <View style={styles.pickerContainer}>
-                    <Picker
-                        selectedValue={selectedOption}
-                        onValueChange={(itemValue) => setSelectedOption(itemValue)}
-                    >
-                        <Picker.Item label={STRINGS.SHOP.RETURN_SCREEN.SUTTLE_CHOOSE.CHOOSE1} value="direct" />
-                        <Picker.Item label={STRINGS.SHOP.RETURN_SCREEN.SUTTLE_CHOOSE.CHOOSE2} value="pickup" />
-                    </Picker>
-                </View>
-            </View>
-
-            {/* 현재 주소 */}
-            <View style={styles.formSection}>
-                <Text style={styles.formLabel}>{STRINGS.SHOP.RETURN_SCREEN.NOW_ADDRESS}</Text>
-                <View style={styles.addressContainer}>
-                    <TextInput
-                        style={styles.input}
-                        value={address}
-                        editable={false}
-                    />
-                    <Link
-                        href="/(subs)/(shop)/Address"
-                        style={styles.changeButton}
-                    >
-                        <Text style={styles.changeButtonText}>{STRINGS.SHOP.RETURN_SCREEN.NOW_ADDRESS_CHANGE}</Text>
+                    <Link href="(subs)/(my)/my_setting" style={styles.settingsButton}>
+                        <MaterialIcons name="settings" size={24} color={colors.gray500} />
                     </Link>
                 </View>
-            </View>
 
-            {/* 교환 요약 */}
-            <View style={styles.summary}>
-                <Text style={styles.summaryText}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_INFO.FEE_TITLE}</Text>
-                <Text style={styles.summaryText}>{shippingFee.toLocaleString()}원</Text>
-                <Text style={styles.summaryText}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_INFO.FEE_RETURN}</Text>
-                <Text style={styles.summaryText}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_INFO.FEE_COMPANY}</Text>
-            </View>
+                {/* 선택된 상품 목록 */}
+                {parsedItems.map((item, index) => (
+                    <View key={index} style={styles.card}>
+                        <Image source={item.image} style={styles.productImage} />
+                        <View style={styles.cardDetails}>
+                            <TouchableOpacity>
+                                <Text style={styles.orderDetailsText}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_ORDER_VIEW}</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.productName}>{item.name}</Text>
+                            <Text style={styles.productPrice}>{item.price.toLocaleString()}</Text>
+                            <Text>{STRINGS.SHOP.RETURN_SCREEN.RETURN_COUNT.COUNT}: {item.quantity}{STRINGS.SHOP.RETURN_SCREEN.RETURN_COUNT.TYPE}</Text>
+                        </View>
+                    </View>
+                ))}
 
-            {/* 버튼 */}
-            <View style={styles.buttonContainer}>
-                <Link
-                    href={{
-                        pathname: '(subs)/(shop)/change_complete',
-                        params: {
-                            items: JSON.stringify(parsedItems),
-                            reason,
-                            selectedOption,
-                            address,
-                        },
-                    }}
-                    style={styles.actionButton}
-                >
-                    <Text style={styles.actionButtonText}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_APPLY}</Text>
-                </Link>
-            </View>
+                {/* 반품 사유 */}
+                <View style={styles.formSection}>
+                    <Text style={styles.formLabel}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_CHANGE_WHY}</Text>
+                    <TouchableOpacity
+                        style={styles.input}
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <Text style={{ color: reason ? '#000' : '#aaa' }}>
+                            {reason || STRINGS.SHOP.RETURN_SCREEN.RETURN_CHANGE_WHY_TEXT}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
-            {/* 교환 사유 모달 */}
-            <Modal
-                visible={modalVisible}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContainer}>
-                        <Text style={styles.modalTitle}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_CHOOSE}</Text>
-                        <FlatList
-                            data={reasons}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={styles.modalItem}
-                                    onPress={() => handleReasonSelect(item)}
-                                >
-                                    <Text style={styles.modalItemText}>{item}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                        <TouchableOpacity
-                            style={styles.modalCloseButton}
-                            onPress={() => setModalVisible(false)}
+                {/* 반품 방법 선택 */}
+                <View style={styles.formSection}>
+                    <Text style={styles.formLabel}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_METHOD_TEXT}</Text>
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={selectedOption}
+                            onValueChange={(itemValue) => setSelectedOption(itemValue)}
                         >
-                            <Text style={styles.modalCloseButtonText}>{STRINGS.SHOP.RETURN_SCREEN.CLOSE}</Text>
-                        </TouchableOpacity>
+                            <Picker.Item label={STRINGS.SHOP.RETURN_SCREEN.SUTTLE_CHOOSE.CHOOSE1} value="direct" />
+                            <Picker.Item label={STRINGS.SHOP.RETURN_SCREEN.SUTTLE_CHOOSE.CHOOSE2} value="pickup" />
+                        </Picker>
                     </View>
                 </View>
-            </Modal>
-        </ScrollView>
+
+                {/* 현재 주소 */}
+                <View style={styles.formSection}>
+                    <Text style={styles.formLabel}>{STRINGS.SHOP.RETURN_SCREEN.NOW_ADDRESS}</Text>
+                    <View style={styles.addressContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={address}
+                            editable={false}
+                        />
+                        <Link
+                            href="(subs)/(shop)/Address_api"
+                            style={styles.changeButton}
+                        >
+                            <Text style={styles.changeButtonText}>{STRINGS.SHOP.RETURN_SCREEN.NOW_ADDRESS_CHANGE}</Text>
+                        </Link>
+                    </View>
+                </View>
+                
+                {/* 반품 요약 */}
+                <View style={styles.summary}>
+                    <Text style={styles.summaryText}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_INFO.FEE_TITLE}</Text>
+                    <Text style={styles.summaryText}>{shippingFee.toLocaleString()}원</Text>
+                    <Text style={styles.summaryText}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_INFO.FEE_RETURN}</Text>
+                    <Text style={styles.summaryText}>{STRINGS.SHOP.RETURN_SCREEN.SUTTLE_INFO.FEE_COMPANY}</Text>
+                </View>
+
+                {/* 버튼 */}
+                <View style={styles.buttonContainer}>
+                    <Link
+                        href={{
+                            pathname: '(subs)/(shop)/return_complete',
+                            params: {
+                                items: JSON.stringify(parsedItems),
+                                reason,
+                                selectedOption,
+                                address,
+                            },
+                        }}
+                        style={styles.actionButton}
+                    >
+                        <Text style={styles.actionButtonText}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_APPLY}</Text>
+                    </Link>
+                </View>
+
+                {/* 반품 사유 모달 */}
+                <Modal
+                    visible={modalVisible}
+                    transparent={true}
+                    animationType="slide"
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContainer}>
+                            <Text style={styles.modalTitle}>{STRINGS.SHOP.RETURN_SCREEN.RETURN_CHOOSE}</Text>
+                            <FlatList
+                                data={reasons}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => (
+                                    <TouchableOpacity
+                                        style={styles.modalItem}
+                                        onPress={() => handleReasonSelect(item)}
+                                    >
+                                        <Text style={styles.modalItemText}>{item}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                            <TouchableOpacity
+                                style={styles.modalCloseButton}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={styles.modalCloseButtonText}>{STRINGS.SHOP.RETURN_SCREEN.CLOSE}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.gray100,
-        marginTop: 50,
     },
     header: {
         height: 50,
         backgroundColor: colors.orange100,
-        justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backbutton: {
+        position: "absolute",
+        left: 10,
+    },
+    settingsButton: {
+        position: "absolute",
+        right: 10,
+    },
+    backButtonText: {
+        ...typography.body.large,
+        color: colors.gray500,
     },
     headerText: {
         ...typography.heading.medium,

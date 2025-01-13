@@ -11,6 +11,7 @@ import {
 import colors from '../../../../src/styles/color';
 import { Link } from 'expo-router'
 import PRODUCTS from '../../../(subs)/(shop)/product_list';
+import ProductBox from '../../../../src/components/product_box';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 import typography from '../../../../src/styles/typhography';
 import { STRINGS } from '../../../../src/config/string'
@@ -45,20 +46,12 @@ export default function ShopScreen() {
 					id: item.id || '',
 					name: item.name || '',
 					price: item.price || '',
-					image: item.image || null, // 기본값 설정
+					image: item.image || null,
 				},
 			}}
 			style={styles.card}
 		>
-			<Image source={item.image} style={styles.productImage} />
-			<View style={styles.productInfo}>
-				<View style={styles.leftInfo}>
-					<Text style={styles.productCategory}>{item.category}</Text>
-					<Text style={styles.productName}>{item.name}</Text>
-					<Text style={styles.productPrice}>{item.price}</Text>
-				</View>
-				<Text style={styles.reviewCount}>{STRINGS.SHOP.REVIEW_COUNT}</Text>
-			</View>
+			<ProductBox product={item} />  {/* ProductBox 컴포넌트 사용 */}
 		</Link>
 	);
 
@@ -180,7 +173,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.gray200,
 	},
 	recommendSection: {
-		height: '30%',
+		height: '35%',
 		marginVertical: 5,
 		paddingHorizontal: 5,
 	},
@@ -191,7 +184,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		borderRadius: 20,
 		marginBottom: 10,
-		marginTop: 10,
+		marginTop: 30,
 	},
 	recommendTitle: {
 		...typography.heading.small_bold,
@@ -257,8 +250,8 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: colors.gray300,
 		position: 'absolute',
-		top: 220,
-		left: 25,
+		top: '40%',
+		left: '10%',
 		zIndex: 100,
 		elevation: 5,
 	},
@@ -304,17 +297,11 @@ const styles = StyleSheet.create({
 	card: {
 		marginTop: 10,
 		flex: 1,
-		margin: 5,
-		backgroundColor: colors.white,
+		margin: 1,
+		backgroundColor: colors.gray200,
 		borderRadius: 10,
-		padding: 10,
 		flexDirection: 'column',
 		alignItems: 'flex-start',
-		shadowColor: colors.gray300,
-		shadowOffset: { width: 0, height: 1 },
-		shadowOpacity: 0.2,
-		shadowRadius: 1.5,
-		elevation: 3,
 	},
 	productImage: {
 		width: '100%',
@@ -337,7 +324,7 @@ const styles = StyleSheet.create({
 		marginBottom: 3,
 	},
 	productName: {
-		...typography.body.large,
+		...typography.body.medium,
 		fontWeight: 'bold',
 		color: colors.gray500,
 		marginBottom: 5,

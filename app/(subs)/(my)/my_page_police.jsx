@@ -1,46 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
     ScrollView,
+    TouchableOpacity,
 } from "react-native";
 import { Link } from "expo-router";
 import colors from "../../../src/styles/color";
 import typography from "../../../src/styles/typhography";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { STRINGS } from "../../../src/config/string";
+import { SafeAreaView } from "react-native-safe-area-context";
+import policies from "./my_policy_list";
 
 export default function TermsPolicyScreen() {
-    const policies = STRINGS.MY.TERMS_POLICY.POLICIES;
+    const [expandedPolicy, setExpandedPolicy] = useState(null); // 펼친 항목의 ID를 관리
+
+    const toggleExpand = (index) => {
+        setExpandedPolicy((prev) => (prev === index ? null : index)); // 클릭한 항목의 인덱스를 토글
+    };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            {policies.map((policy, index) => (
-                <Link key={index} href={`/policy/${index}`} asChild>
-                    <TouchableOpacity style={styles.policyItem}>
-                        <View style={styles.iconContainer}>
-                            <Text style={styles.iconText}>📄</Text>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.policyTitle}>{policy.TITLE}</Text>
-                            <Text style={styles.policyDate}>{policy.DATE}</Text>
-                        </View>
-                        <View style={styles.arrowContainer}>
-                            <Text style={styles.arrowText}>➔</Text>
-                        </View>
-                    </TouchableOpacity>
+        <SafeAreaView style={styles.safeContainer}>
+            {/* 상단 네비게이션 */}
+            <View style={styles.header}>
+                {/* 뒤로 가기 버튼 */}
+                <Link href="(tabs)/(my)/my" style={styles.backbutton}>
+                    <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
                 </Link>
-            ))}
-            {/* 새로고침 버튼 */}
-            <TouchableOpacity style={styles.refreshButton}>
-                <Text style={styles.refreshButtonText}>{STRINGS.MY.TERMS_POLICY.BUTTONS.REFRESH}</Text>
-            </TouchableOpacity>
-        </ScrollView>
+
+                {/* 설정 버튼 */}
+                <Link href="(subs)/(my)/my_setting" style={styles.settingsButton}>
+                    <MaterialIcons name="settings" size={24} color={colors.gray500} />
+                </Link>
+            </View>
+
+            <ScrollView contentContainerStyle={styles.container}>
+                {policies.map((policy, index) => {
+                    const isExpanded = expandedPolicy === index;
+
+                    return (
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.policyItem}
+                            onPress={() => toggleExpand(index)}
+                        >
+                            <View style={styles.iconContainer}>
+                                <Text style={styles.iconText}>📄</Text>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.policyTitle}>{policy.TITLE}</Text>
+                                <Text style={styles.policyDate}>{policy.DATE}</Text>
+
+                                {/* 펼쳐진 상태에서 내용 표시 */}
+                                {isExpanded && (
+                                    <Text style={styles.policyContent}>{policy.CONTENT}</Text>
+                                )}
+                            </View>
+                            <View style={styles.arrowContainer}>
+                                <MaterialIcons
+                                    name={isExpanded ? "expand-less" : "expand-more"}
+                                    size={24}
+                                    color={colors.gray500}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    );
+                })}
+                {/* 새로고침 버튼 */}
+                <TouchableOpacity style={styles.refreshButton}>
+                    <Text style={styles.refreshButtonText}>
+                        {STRINGS.MY.TERMS_POLICY.BUTTONS.REFRESH}
+                    </Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    safeContainer: {
+        flex: 1,
+        backgroundColor: colors.gray100,
+    },
+    header: {
+        height: 50,
+        backgroundColor: colors.orange100,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backbutton: {
+        position: "absolute",
+        left: 10,
+    },
+    settingsButton: {
+        position: "absolute",
+        right: 10,
+    },
+    headerTitle: {
+        ...typography.heading.medium,
+        color: colors.gray500,
+    },
     container: {
         flexGrow: 1,
         padding: 20,
@@ -84,14 +145,15 @@ const styles = StyleSheet.create({
         color: colors.gray400,
         marginTop: 5,
     },
+    policyContent: {
+        ...typography.body.medium,
+        color: colors.gray400,
+        marginTop: 10,
+    },
     arrowContainer: {
         width: 40,
         justifyContent: "center",
         alignItems: "center",
-    },
-    arrowText: {
-        fontSize: 20,
-        color: colors.gray500,
     },
     refreshButton: {
         alignSelf: "center",

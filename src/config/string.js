@@ -129,7 +129,7 @@ export const STRINGS = {
 			},
 			DETAIL_LINK: '주문 상세보기 >',
 			ACTION_BUTTONS: {
-				ADD_AGAIN: '다시 담기',
+				ADD_AGAIN: '배송 조회',
 				VIEW_REVIEW: '리뷰 보기',
 			},
 			allData: [

@@ -7,23 +7,29 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import colors from "../../../../src/styles/color";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { STRINGS } from "../../../../src/config/string";
 import typography from "../../../../src/styles/typhography";
 
 export default function Profile() {
+  const router = useRouter();
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {/* 상단 네비게이션 */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.settingsButton} onPress={() => router.push('/(subs)/(my)/my_setting')}>
+              <MaterialIcons name="settings" size={24} color={colors.gray500} />
+            </TouchableOpacity>
+          </View>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
+
           {/* 상단 프로필 영역 */}
           <View style={styles.profileContainer}>
-
             <MaterialIcons name="account-circle" size={150} color={colors.gray300} style={styles.profileImage} />
-
             <Text style={styles.profileName}>{STRINGS.MY.info.nickname}</Text>
             <Link href="/(subs)/(my)/my_page_edit" asChild>
               <TouchableOpacity style={styles.editButton}>
@@ -46,11 +52,6 @@ export default function Profile() {
                 <Text style={styles.buttonText}>{STRINGS.MY.info.review_manage}</Text>
               </TouchableOpacity>
             </Link>
-            <Link href="/(subs)/(my)/my_page_suttle" asChild>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>{STRINGS.MY.info.suttle_check}</Text>
-              </TouchableOpacity>
-            </Link>
             <Link href="/(subs)/(my)/my_page_bill" asChild>
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{STRINGS.MY.info.bill_paper}</Text>
@@ -60,7 +61,7 @@ export default function Profile() {
 
           {/* 하단 메뉴 영역 */}
           <View style={styles.menuContainer}>
-            <Link href="/(subs)/(my)/my_page_notice" asChild>
+            <Link href="(subs)/(my)/my_page_notice" asChild>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={styles.menuIconWrapper}>
                   <MaterialIcons name="campaign" style={styles.menuIcon} />
@@ -108,10 +109,11 @@ export default function Profile() {
   );
 }
 
+const newLocal = 'center';
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: colors.gray200,
+    backgroundColor: colors.gray100,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -120,6 +122,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  header: {
+    height: 50,
+    backgroundColor: colors.gray100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backbutton: {
+    position: 'absolute',
+    left: 10,
+  },
+  settingsButton: {
+    position: 'absolute',
+    right: 10,
+  },
+  headerTitle: {
+    textAlign: 'center',
+    ...typography.heading.medium,
+    color: colors.gray500,
   },
   profileContainer: {
     alignItems: "center",
