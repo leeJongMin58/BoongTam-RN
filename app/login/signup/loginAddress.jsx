@@ -17,7 +17,6 @@ import Colors from '../../../src/styles/color'
 import Typography from '../../../src/styles/typhography'
 import { STRINGS } from '../../../src/config/string'
 import { LoginAppbar } from '../../../src/components/LoginAppbar'
-import { LoginBottomBtn } from '../../../src/components/LoginBottomBtn'
 import { signupUseCase } from '../../../src/usecases/authUsecase'
 
 LogBox.ignoreLogs([
@@ -125,12 +124,12 @@ const AddressInput = () => {
 					</View>
 				</Modal>
 
-				<LoginBottomBtn
+				{/* <LoginBottomBtn
 					pathname="/login/signup/loginSuccess"
 					signInfo={{  }}
 					isNextButtonEnabled={true}
 					handleNext={() => handleNext()}
-				/>
+				/> */}
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)

@@ -1,7 +1,8 @@
 export const STRINGS = {
 	APP_NAME: 'BonngTam',
-	LOGIN: {
-		TITLE: 'Login',
+	ON_BOARDING: {
+		
+		PASS : '건너뛰기',
 		SLIDE1: {
 			TITLE: '겨울 간식의 왕,\n붕어빵을 찾아드립니다!',
 			DESCRIPTION: '당신이 좋아하는 붕어빵 가게를 한눈에 확인하고\n나만 아는 가게도 등록해보세요.',
@@ -19,6 +20,21 @@ export const STRINGS = {
 			DESCRIPTION: '로그인하고 주변의 붕어빵 매장을\n한눈에 찾아보세요!',
 		},
 	},	
+	LOGIN: {
+		LOGIN : '로그인',
+		SIGNUP : '회원가입',
+		ID : '아이디',
+		PW : '비밀번호',
+		INPUT: {
+			SUB_TITLE : '회원 로그인',
+			FIND_ID : '아이디 찾기',
+			FIND_PW : '비밀번호 찾기',
+			WARNING_ID : '아이디는 4~10글자로 입력해 주세요',
+			WARNING_PW : '비밀번호는 4~10글자로 입력해 주세요',
+			WARNING_NO_ID : '등록되지 않은 아이디 입니다.',
+			WARNING_NO_MATCH : '아이디와 비밀번호가 일치하지 않습니다.',
+		}
+	},
 	BOONG_TAM: {
 		TITLE: '붕탐 오더',
 		FILTER: '필터',

@@ -14,7 +14,6 @@ import Colors from '../../../src/styles/color'
 import Typography from '../../../src/styles/typhography'
 import { STRINGS } from '../../../src/config/string'
 import { LoginAppbar } from '../../../src/components/LoginAppbar'
-import { LoginBottomBtn } from '../../../src/components/LoginBottomBtn'
 
 // 상수 정의
 const MIN_EMAIL_LENGTH = 0
@@ -47,7 +46,7 @@ const LoginEmail = () => {
 				style={styles.container}
 			>
 				{/* 상단 네비게이션 */}
-        <LoginAppbar title={STRINGS.LOGIN.TITLE} step="2 / 3" />
+				<LoginAppbar title={STRINGS.LOGIN.TITLE} step="2 / 3" />
 
 				{/* 이메일 입력 */}
 				<View style={styles.emailSection}>
@@ -65,12 +64,12 @@ const LoginEmail = () => {
 				</View>
 
 				{/* 하단 버튼 */}
-        <LoginBottomBtn 
-          pathname='/login/signup/loginAddress'
-          signInfo={{nickname, email}}
-          isNextButtonEnabled={true}
-          handleNext={() => handleNext()}
-        />
+				{/* <LoginBottomBtn
+					pathname="/login/signup/loginAddress"
+					signInfo={{ nickname, email }}
+					isNextButtonEnabled={true}
+					handleNext={() => handleNext()}
+				/> */}
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)

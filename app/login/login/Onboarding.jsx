@@ -15,29 +15,29 @@ import { useTypography } from '../../../src/utils/TypographyContext'
 import colors from '../../../src/styles/color'
 import { STRINGS } from '../../../src/config/string'
 import typography from '../../../src/styles/typhography'
-import KakaoLoginWebViewDialog from './kakaoLogin'
-import Toast from 'react-native-toast-message'
+import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
+
 
 const slides = [
 	{
-		text: STRINGS.LOGIN.SLIDE1.TITLE,
-		description: STRINGS.LOGIN.SLIDE1.DESCRIPTION,
+		text: STRINGS.ON_BOARDING.SLIDE1.TITLE,
+		description: STRINGS.ON_BOARDING.SLIDE1.DESCRIPTION,
 	},
 	{
-		text: STRINGS.LOGIN.SLIDE2.TITLE,
-		description: STRINGS.LOGIN.SLIDE2.DESCRIPTION,
+		text: STRINGS.ON_BOARDING.SLIDE2.TITLE,
+		description: STRINGS.ON_BOARDING.SLIDE2.DESCRIPTION,
 	},
 	{
-		text: STRINGS.LOGIN.SLIDE3.TITLE,
-		description: STRINGS.LOGIN.SLIDE3.DESCRIPTION,
+		text: STRINGS.ON_BOARDING.SLIDE3.TITLE,
+		description: STRINGS.ON_BOARDING.SLIDE3.DESCRIPTION,
 	},
 	{
-		text: STRINGS.LOGIN.SLIDE4.TITLE,
-		description: STRINGS.LOGIN.SLIDE4.DESCRIPTION,
+		text: STRINGS.ON_BOARDING.SLIDE4.TITLE,
+		description: STRINGS.ON_BOARDING.SLIDE4.DESCRIPTION,
 	},
 ]
 
-export default function LoginScreen() {
+export default function OnboardingScreen() {
 	const { fontsLoaded } = useTypography()
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const translateX = useState(new Animated.Value(0))[0]
@@ -78,22 +78,8 @@ export default function LoginScreen() {
 		},
 	})
 
-	const [isDialogVisible, setDialogVisible] = useState(false)
-
-	const openKakakoLoginDialog = () => {
-		setDialogVisible(true)
-	}
-
-	const closeKakakoLoginDialog = () => {
-		setDialogVisible(false)
-	}
-
-	const moveToBoong = () => {
-		router.navigate('/boongtam')
-	}
-
-	const moveToSignup = () => {
-		router.navigate('/login/signup/loginNickname')
+	const moveToLogin = () => {
+		router.navigate('/login/login/LoginScreen')
 	}
 
 	if (!fontsLoaded) {
@@ -137,22 +123,8 @@ export default function LoginScreen() {
 				))}
 			</View>
 
-			<TouchableOpacity
-				style={styles.kakaoButton}
-				onPress={openKakakoLoginDialog}
-			>
-				<Image
-					source={require('../../../assets/icon/kakao_login_medium_narrow.png')}
-					style={styles.kakaoImage}
-				/>
-			</TouchableOpacity>
+			<LoginLongBtn text={STRINGS.ON_BOARDING.PASS} onPress={moveToLogin}/>
 
-			<KakaoLoginWebViewDialog
-				visible={isDialogVisible}
-				onClose={closeKakakoLoginDialog}
-				moveToBoong={moveToBoong}
-				moveToSignup={moveToSignup}
-			/>
 		</SafeAreaView>
 	)
 }

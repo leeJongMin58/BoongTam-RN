@@ -16,7 +16,6 @@ import Typography from '../../../src/styles/typhography'
 import { STRINGS } from '../../../src/config/string'
 import { isDuplicateNickname } from '../../../src/usecases/authUsecase'
 import { LoginAppbar } from '../../../src/components/LoginAppbar'
-import { LoginBottomBtn } from '../../../src/components/LoginBottomBtn'
 
 // 상수 정의
 const MIN_NICKNAME_LENGTH = 2
@@ -100,12 +99,12 @@ const LoginNickname = () => {
 					</Text>
 				</View>
 
-				<LoginBottomBtn 
+				{/* <LoginBottomBtn 
 					pathname='/login/signup/loginEmail'
 					signInfo={{nickname}}
 					isNextButtonEnabled={isNextButtonEnabled}
 					handleNext={() => handleNext()}
-				/>
+				/> */}
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)
