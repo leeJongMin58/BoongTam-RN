@@ -33,6 +33,14 @@ export const STRINGS = {
 			WARNING_PW : '비밀번호는 4~10글자로 입력해 주세요',
 			WARNING_NO_ID : '등록되지 않은 아이디 입니다.',
 			WARNING_NO_MATCH : '아이디와 비밀번호가 일치하지 않습니다.',
+		},
+		AGREEMENT : {
+			TITLE : '회원가입 필수 동의 항목',
+			SERVICE : '1. 개인정보 처리방침에 동의합니다.',
+			PRIVACY : '2. 서비스 이용약관에 동의 합니다.',
+			LOCATION : '3. 위치 정보 수집 및 사용에 동의 합니다.',
+			ALL_AGREEMENT : '모두 동의',
+			CANCEL : '취소'
 		}
 	},
 	BOONG_TAM: {
