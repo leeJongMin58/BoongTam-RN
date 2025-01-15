@@ -27,7 +27,7 @@ class Client {
 // 토큰이 필요한 통신 Client With Token
 class ClientWT {
 	async get(endpoint, requestBody) {
-		return await fetchData('GET', endpoint, requestBody)
+		return await fetchData( true ,'GET', endpoint, requestBody)
 	}
 
 	async post(endpoint, requestBody) {
@@ -39,7 +39,7 @@ class ClientWT {
 	}
 
 	async patch(endpoint, requestBody) {
-		return await fetchData('PATCH', endpoint, requestBody)
+		return await fetchData( true, 'PATCH', endpoint, requestBody)
 	}
 
 	async delete(endpoint, requestBody) {
@@ -50,36 +50,30 @@ class ClientWT {
 async function fetchData(requireToken, method, endpoint, requestBody) {
 	try {
 		const options = {
-			method: method,
+			method,
 			headers: {
 				'Content-Type': 'application/json',
+				authorization: 'NAMHEE1111',
 			},
 		}
-
-		// 토큰 생성 코드 완성되면 테스트 필요
-		// if (requireToken) {
-		// 	const token =
-		// 		localStorage.getItem('token') || sessionStorage.getItem('token')
-		// 	if (token) {
-		// 		options.headers['Authorization'] = `Bearer ${token}`
-		// 	} else {
-		// 		throw new Error('No token found')
-		// 	}
-		// }
 
 		if (requestBody) {
 			options.body = JSON.stringify(requestBody)
 		}
 		const resp = await fetch(BASE_URL + endpoint, options)
-
+		console.log('client', BASE_URL + endpoint, options)
+		console.log('clientResp', resp)
 		if (!resp.ok) {
 			throw new Error(`HTTP error! status: ${resp.status}`)
 		}
 
-		const data = await resp.json()
-		return data
+		// const data = await resp.json()
+		// console.log('client data:', data)
+		// return data
+		return await resp.json();
 	} catch (error) {
-		console.error('Error:', error)
+		console.error('ClientError:', error)
+		throw error;
 	}
 }
 
