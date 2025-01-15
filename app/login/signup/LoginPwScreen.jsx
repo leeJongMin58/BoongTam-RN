@@ -5,15 +5,23 @@ import {
 	TouchableWithoutFeedback,
 	KeyboardAvoidingView
 } from 'react-native'
-import { } from 'react-native-web'
+import { useRouter, useLocalSearchParams } from 'expo-router'
+import { useState, useEffect, useRef } from 'react'
+import { LoginAppbar } from '../../../src/components/LoginAppbar'
+import { STRINGS } from '../../../src/config/string'
 
-export function AuthenticationScreen() {
+export default function AuthenticationScreen() {
+	const local = useLocalSearchParams()
+	const router = useRouter()
+
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
 			<KeyboardAvoidingView
 				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.container}
-			></KeyboardAvoidingView>
+			>
+				<LoginAppbar title={STRINGS.LOGIN.SIGNUP} step={STRINGS.LOGIN.PWA.STEP}/>
+			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)
 }

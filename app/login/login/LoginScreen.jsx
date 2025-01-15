@@ -29,6 +29,10 @@ export default function LoginScreen() {
 		setModalVisible(false)
 	}
 
+	const moveToBoongTam = () => {
+		router.navigate('/boongtam')
+	}
+
 	const moveToSignup = () => {
 		router.navigate('/login/signup/LoginAuthScreen')
 	}
@@ -56,7 +60,7 @@ export default function LoginScreen() {
 
 				{/* 로그인, 회원가입, 아이디/패스워드 찾기 버튼 */}
 				<View style={styles.buttonList}>
-					<LoginLongBtn text={STRINGS.LOGIN.LOGIN} />
+					<LoginLongBtn text={STRINGS.LOGIN.LOGIN} onPress={moveToBoongTam}/>
 					<LoginLongBtn text={STRINGS.LOGIN.SIGNUP} onPress={openModal} />
 					<LoginFindBtn text={STRINGS.LOGIN.INPUT.FIND_ID} />
 					<LoginFindBtn text={STRINGS.LOGIN.INPUT.FIND_PW} />

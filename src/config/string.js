@@ -25,6 +25,7 @@ export const STRINGS = {
 		SIGNUP : '회원가입',
 		ID : '아이디',
 		PW : '비밀번호',
+		NEXT : '다음',
 		INPUT: {
 			SUB_TITLE : '회원 로그인',
 			FIND_ID : '아이디 찾기',
@@ -53,6 +54,16 @@ export const STRINGS = {
 			AUTH_SUCCESS : '본인인증 완료!\n회원가입 절차를\n진행해 주세요.',
 			SEND : '전송하기',
 			CHECK_CODE : '인증 확인',
+		},
+		IDE : {
+			STEP : '2/5',
+			IS_DUPILICATE : '중복체크',
+			DETIAL : '아이디는 영어와 숫자만 사용 가능하며 4 ~ 20 글자 사이로 입력해주세요.',
+			WARNING_DUPICATE : '중복된 아이디 입니다.\n다른 아이디를 입력해 주세요',
+			GOOD_ID : '사용 가능한 아이디 입니다.\n다음으로 넘어가세요'
+		},
+		PWA : {
+			STEP : '3/5'
 		}
 	},
 	BOONG_TAM: {

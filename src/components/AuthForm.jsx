@@ -5,15 +5,15 @@ import { STRINGS } from '../config/string'
 import Typography from '../styles/typhography'
 import Colors from '../styles/color'
 
-export function AuthForm({ 
-	msg, 
-	isWarning, 
-	phoneNumber, 
+export function AuthForm({
+	msg,
+	isWarning,
+	phoneNumber,
 	onChangePhoneNumber,
 	isGoodPhoneNumber,
 	onPressBtn,
 	code,
-	onChangeCode
+	onChangeCode,
 }) {
 	return (
 		<View style={styles.form}>
@@ -29,7 +29,7 @@ export function AuthForm({
 				onPressBtn={onPressBtn}
 			/>
 
-			<LoginInputBox 
+			<LoginInputBox
 				placeholder={STRINGS.LOGIN.AUTH.PLACEHOLDER2}
 				value={code}
 				onChangeText={onChangeCode}

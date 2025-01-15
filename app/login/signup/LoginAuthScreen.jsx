@@ -51,8 +51,9 @@ export default function LoginAuthScreen() {
 
 	const handleNextBtn = () => {
 		// todo api
+		Keyboard.dismiss()
 		router.push({
-			pathname: '/login/signup/LoginIdScreen',
+			pathname: '/login/signup/LoginAuthCompleteScreen',
 			params: {
 				phoneNumber: finallyPhoneNumber.current
 			},

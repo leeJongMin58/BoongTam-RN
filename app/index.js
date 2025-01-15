@@ -9,8 +9,8 @@ export default function App() {
 	return (
 		<TypographyProvider>
 			<StatusBar style="auto" />
-			{/* <OnboardingScreen /> */}
-			<LoginIdScreen />
+			<OnboardingScreen />
+			{/* <LoginIdScreen /> */}
 			<Toast />
 		</TypographyProvider>
 	)
