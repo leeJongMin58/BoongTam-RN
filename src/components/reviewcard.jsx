@@ -1,31 +1,49 @@
 import React from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Image } from "react-native";
+import { format } from "date-fns";
 
-const ReviewCard = ({ username, date, image, title, review }) => {
+const ReviewCard = ({ nickname, review_date, profile_picture, review_text, store_name, goods_name, review_first_image_url }) => {
+  const formattedDate = review_date ? format(new Date(review_date), 'yyyy-MM-dd') : '알 수 없음'
+  const title = store_name || goods_name || '알 수 없음';
   return (
     <View style={styles.card}>
       {/* 카드 전체를 이미지 배경으로 사용 */}
-      <ImageBackground source={image} style={styles.background} resizeMode="cover">
+      <ImageBackground
+        source={
+          review_first_image_url?.uri
+            ? review_first_image_url
+            : require('../../assets/images/background.png') // 기본 이미지 설정
+        }
+        style={styles.background}
+        resizeMode="cover">
         {/* 반투명 오버레이 */}
         <View style={styles.overlay} />
         {/* 텍스트 내용 */}
         <View style={styles.content}>
           {/* 사용자 정보 */}
           <View style={styles.header}>
-            <Text style={styles.profileText}>👤</Text>
+            <Image
+              source={
+                profile_picture?.uri
+                  ? profile_picture
+                  : require('../../assets/images/background.png') // 기본 이미지 설정
+              }
+              style={styles.profileImage}
+              resizeMode="cover"
+            />
             <View style={styles.userInfo}>
-              <Text style={styles.username}>{username}</Text>
-              <Text style={styles.date}>{date}</Text>
+              <Text style={styles.username}>{nickname}</Text>
+              <Text style={styles.date}>{formattedDate}</Text>
             </View>
           </View>
           {/* 제목 및 리뷰 */}
           <View style={styles.footer}>
             <Text style={styles.title}>{title}</Text>
-            <Text style={styles.review}>{review}</Text>
+            <Text style={styles.review}>{review_text}</Text>
           </View>
         </View>
       </ImageBackground>
-    </View>
+    </View >
   );
 };
 
@@ -54,10 +72,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  profileText: {
-    fontSize: 20,
+  profileImage: {
+    width: 40, // 프로필 사진 크기
+    height: 40, // 프로필 사진 크기
+    borderRadius: 20, // 동그랗게 만들기 위해 width, height의 절반 값
     marginRight: 8, // 아이콘과 텍스트 간격
-    color: "#fff",
+    borderWidth: 2, // 테두리 추가
+    borderColor: "#fff", // 테두리 색상
   },
   userInfo: {
     flexDirection: "column",
