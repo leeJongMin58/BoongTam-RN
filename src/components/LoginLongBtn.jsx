@@ -2,9 +2,20 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import Colors from '../styles/color'
 import Typography from '../styles/typhography'
 
-export function LoginLongBtn({ text, onPress }) {
+export function LoginLongBtn({ isActive = true, text, onPress }) {
 	return (
-		<TouchableOpacity style={styles.opacity} onPress={onPress}>
+		<TouchableOpacity
+			style={[
+				styles.opacity,
+				{
+					backgroundColor: !isActive
+						? Colors.gray200
+						: Colors.orange100,
+				},
+			]}
+			onPress={onPress}
+			disabled={!isActive}
+		>
 			<Text style={styles.startButtonText}>{text}</Text>
 		</TouchableOpacity>
 	)

@@ -6,7 +6,6 @@ import {
 	View,
 	TouchableWithoutFeedback,
 } from 'react-native'
-import {} from 'react-native-web'
 import { LoginAppbar } from '../../../src/components/LoginAppbar'
 import { STRINGS } from '../../../src/config/string'
 import { useState } from 'react'
@@ -14,6 +13,7 @@ import { LoginForm } from '../../../src/components/LoginForm'
 import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
 import { LoginFindBtn } from '../../../src/components/LoginFindBtn'
 import { AgreementModal } from './AgreementModal'
+import { router } from 'expo-router'
 
 export default function LoginScreen() {
 	const [id, setId] = useState('')
@@ -27,6 +27,13 @@ export default function LoginScreen() {
 
 	const closeModal = () => {
 		setModalVisible(false)
+	}
+
+	const moveToSignup = () => {
+		router.navigate('/login/signup/LoginAuthScreen')
+	}
+
+	const handleWarningMsg = () => {
 	}
 
 	return (
@@ -58,6 +65,7 @@ export default function LoginScreen() {
 				<AgreementModal
 					isVisible={isModalVisible}
 					onClose={closeModal}
+					onAgreement={moveToSignup}
 				/>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>

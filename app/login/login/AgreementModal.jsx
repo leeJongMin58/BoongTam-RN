@@ -4,7 +4,11 @@ import { STRINGS } from '../../../src/config/string'
 import Typography from '../../../src/styles/typhography'
 import Colors from '../../../src/styles/color'
 
-export function AgreementModal({ isVisible, onClose }) {
+export function AgreementModal({ isVisible, onClose, onAgreement }) {
+	const handleAgreement = () => {
+		onClose()
+		onAgreement()
+	}
 	return (
 		<Modal
 			transparent={true}
@@ -30,7 +34,7 @@ export function AgreementModal({ isVisible, onClose }) {
 					<View style={styles.modalButtons}>
 						<TouchableOpacity
 							style={styles.modalButton}
-							onPress={onClose}
+							onPress={handleAgreement}
 						>
 							<Text style={styles.modalButtonText}>{STRINGS.LOGIN.AGREEMENT.ALL_AGREEMENT}</Text>
 						</TouchableOpacity>

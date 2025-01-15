@@ -4,7 +4,6 @@ import {
 	View,
 	StyleSheet,
 	ActivityIndicator,
-	TouchableOpacity,
 	Image,
 	Animated,
 	PanResponder,

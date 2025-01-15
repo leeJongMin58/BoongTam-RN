@@ -3,16 +3,26 @@ import Colors from '../styles/color'
 import typography from '../styles/typhography'
 import colors from '../styles/color'
 
-export function LoginInputBox({ placeholder, value, onChangeText, isSecure=false }) {
+export function LoginInputBox({
+	placeholder,
+	value,
+	onChangeText,
+	isSecure = false,
+}) {
+	const handleTextChange = (text) => {
+	}
 	return (
 		<View>
 			<TextInput
-				style={[styles.input, value ? styles.inputText : null]} 
+				style={[styles.input, value ? styles.inputText : null]}
 				placeholder={placeholder}
-                placeholderTextColor={colors.gray300}
+				placeholderTextColor={colors.gray300}
 				value={value}
 				onChangeText={onChangeText}
+				isN
 				secureTextEntry={isSecure}
+				numberOfLines={1}
+				ellipsizeMode="tail"
 			/>
 		</View>
 	)
@@ -28,8 +38,8 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 		width: '100%',
 	},
-    inputText: {
-        ...typography.body.large,
-        color: Colors.gray500
-    }
+	inputText: {
+		...typography.body.large,
+		color: Colors.gray500,
+	},
 })

@@ -41,6 +41,18 @@ export const STRINGS = {
 			LOCATION : '3. 위치 정보 수집 및 사용에 동의 합니다.',
 			ALL_AGREEMENT : '모두 동의',
 			CANCEL : '취소'
+		},
+		AUTH : {
+			STEP : '1/5',
+			SUB_TITLE : '본인인증',
+			PLACEHOLDER : '010XXXXXXXX',
+			PLACEHOLDER2 : '인증번호',
+			DETAIL : 'SMS 본인 인증을 위해서 휴대폰 번호를 입력해 주세요.\n"-"은 생략하고 입력',
+			WARNING_NO_CODE : '전송된 인증번호를 입력해주세요.',
+			WARNING_AUTH_FAIL : '인증에 실패 했습니다. 다시 시도해 주세요.',
+			AUTH_SUCCESS : '본인인증 완료!\n회원가입 절차를\n진행해 주세요.',
+			SEND : '전송하기',
+			CHECK_CODE : '인증 확인',
 		}
 	},
 	BOONG_TAM: {
