@@ -6,21 +6,25 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
 import colors from '../../../src/styles/color';
+import { writeStoreReview } from '../../../src/usecases/communityUsecase';
 
 export default function ReviewPage() {
-  const [rating, setRating] = useState(0);
-  const [reviewText, setReviewText] = useState('');
-  const [images, setImages] = useState([]);
+  const [rating, setRating] = useState(0); // 별점 상태
+  const [reviewText, setReviewText] = useState(''); // 리뷰 텍스트 상태
+  const [images, setImages] = useState([]); // 리뷰 이미지 상태
+  const router = useRouter();
 
   const handleTextChange = (text) => {
     if (text.length <= 300) {
       setReviewText(text);
     } else {
-      alert('리뷰는 최대 300자까지 입력 가능합니다.');
+      Alert.alert('리뷰는 최대 300자까지 입력 가능합니다.');
     }
   };
 
@@ -29,26 +33,33 @@ export default function ReviewPage() {
   };
 
   const addImage = async () => {
-    if (images.length >= 3) {
-      alert('이미지는 최대 3장까지 추가할 수 있습니다.');
-      return;
-    }
+    console.log('이미지 선택 시작');
 
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    console.log('Permission Result:', permissionResult);
+
     if (!permissionResult.granted) {
-      alert('갤러리 접근 권한이 필요합니다.');
+      Alert.alert('갤러리 접근 권한이 필요합니다.');
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    console.log('갤러리 열기');
+    let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
+    console.log('Image Picker Result:', result);
+
     if (!result.canceled) {
+      if (images.length >= 3) {
+        Alert.alert('이미지는 최대 3장까지 추가할 수 있습니다.');
+        return;
+      }
       setImages((prevImages) => [...prevImages, result.assets[0].uri]);
+    } else {
+      console.log('이미지 선택이 취소되었습니다.');
     }
   };
 
@@ -56,26 +67,45 @@ export default function ReviewPage() {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  const handleRegister = () => {
-    alert(`별점: ${rating}점, 리뷰: ${reviewText}, 이미지 개수: ${images.length}장`);
+  const handleRegister = async () => {
+    try {
+      const storeId = 41;
+      const response = await writeStoreReview(storeId, reviewText, rating, images);
+
+      if (response.code === 201) {
+        Alert.alert(response.msg, '리뷰가 성공적으로 등록되었습니다.', [
+          {
+            text: '확인',
+            onPress: () => {
+              router.push('/(tabs)/(community)/(main)/community');
+            },
+          },
+        ]);
+      } else {
+        Alert.alert('리뷰 작성 실패', '리뷰 작성에 실패했습니다.');
+      }
+    } catch (error) {
+      Alert.alert('리뷰 작성 실패', '리뷰 작성 중 오류가 발생했습니다.');
+      console.error('Error in handleRegister:', error);
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* 상단 헤더 */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => alert('뒤로가기')}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.push('/(tabs)/(community)/(main)/community')}
+        >
           <MaterialIcons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>Community</Text>
+        <Text style={styles.title}>매장 리뷰 작성</Text>
       </View>
 
-      {/* 가게 이름 */}
       <View style={styles.shopInfo}>
         <Text style={styles.shopName}>봉순이네 - 역삼점</Text>
       </View>
 
-      {/* 별점 작성 */}
       <View style={styles.ratingSection}>
         <Text style={styles.sectionTitle}>별점 작성 하기</Text>
         <View style={styles.stars}>
@@ -91,7 +121,6 @@ export default function ReviewPage() {
         </View>
       </View>
 
-      {/* 리뷰 작성 */}
       <View style={styles.inputGroup}>
         <Text style={styles.sectionTitle}>리뷰 쓰기</Text>
         <TextInput
@@ -108,7 +137,6 @@ export default function ReviewPage() {
         <Text style={styles.charCount}>{reviewText.length} / 300</Text>
       </View>
 
-      {/* 사진 첨부 */}
       <View style={styles.photoSection}>
         <Text style={styles.sectionTitle}>사진 첨부하기</Text>
         <View style={styles.photoRow}>
@@ -123,13 +151,14 @@ export default function ReviewPage() {
               </TouchableOpacity>
             </View>
           ))}
-          <TouchableOpacity style={styles.addPhotoButton} onPress={addImage}>
-            <MaterialIcons name="add-a-photo" size={36} color="#fff" />
-          </TouchableOpacity>
+          {images.length < 3 && (
+            <TouchableOpacity style={styles.addPhotoButton} onPress={addImage}>
+              <MaterialIcons name="add-a-photo" size={36} color="#fff" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
-      {/* 등록 버튼 */}
       <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.registerButtonText}>등록하기</Text>
       </TouchableOpacity>
@@ -178,15 +207,13 @@ const styles = StyleSheet.create({
   },
   photoSection: { marginBottom: 20 },
   photoRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 },
-  imageContainer: {
-    position: 'relative',
-  },
+  imageContainer: { position: 'relative' },
   photo: { width: 100, height: 100, borderRadius: 10 },
   removeButton: {
     position: 'absolute',
     top: 5,
     right: 5,
-    backgroundColor:colors.orange200,
+    backgroundColor: colors.orange200,
     borderRadius: 10,
     padding: 2,
     zIndex: 1,

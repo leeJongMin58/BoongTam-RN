@@ -1,6 +1,5 @@
 const BASE_URL = 'http://3.39.104.44:80/'
 
-
 // 토큰이 필요없는 통신
 class Client {
 	async get(endpoint, requestBody) {
@@ -27,23 +26,24 @@ class Client {
 // 토큰이 필요한 통신 Client With Token
 class ClientWT {
 	async get(endpoint, requestBody) {
-		return await fetchData( true ,'GET', endpoint, requestBody)
+		return await fetchData(true, 'GET', endpoint, requestBody)
 	}
 
 	async post(endpoint, requestBody) {
-		return await fetchData('POST', endpoint, requestBody)
+		return await fetchData(true, 'POST', endpoint, requestBody);
 	}
 
 	async put(endpoint, requestBody) {
-		return await fetchData('PUT', endpoint, requestBody)
+		return await fetchData(true, 'PUT', endpoint, requestBody)
 	}
 
 	async patch(endpoint, requestBody) {
-		return await fetchData( true, 'PATCH', endpoint, requestBody)
+
+		return await fetchData(true, 'PATCH', endpoint, requestBody)
 	}
 
 	async delete(endpoint, requestBody) {
-		return await fetchData('DELETE', endpoint, requestBody)
+		return await fetchData(true, 'DELETE', endpoint, requestBody)
 	}
 }
 
@@ -53,7 +53,7 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 			method,
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: 'NAMHEE1111',
+				authorization: 'CHIHO3333',
 			},
 		}
 
@@ -61,18 +61,16 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 			options.body = JSON.stringify(requestBody)
 		}
 		const resp = await fetch(BASE_URL + endpoint, options)
-		console.log('client', BASE_URL + endpoint, options)
-		console.log('clientResp', resp)
+
 		if (!resp.ok) {
-			throw new Error(`HTTP error! status: ${resp.status}`)
+			throw new Error(`Client error! status: ${resp.status}`)
 		}
 
-		// const data = await resp.json()
-		// console.log('client data:', data)
-		// return data
-		return await resp.json();
-	} catch (error) {
-		console.error('ClientError:', error)
+		const data = await resp.json()
+		console.log('client', data)
+		return data
+	} catch (error) { 
+		console.error('client Error:', error)
 		throw error;
 	}
 }
