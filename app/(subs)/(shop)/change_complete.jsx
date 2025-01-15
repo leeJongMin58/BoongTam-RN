@@ -7,7 +7,7 @@ import { STRINGS } from '../../../src/config/string'
 import { useCart } from '../../../src/services/CartContext';
 
 export default function ReturnCompleteScreen() {
-  const { items, reason, selectedOption, address } = useLocalSearchParams();
+  const { items, reason, selectedOption, zipcode, address, detailedAddress } = useLocalSearchParams();
   const { clearCart } = useCart();
   const router = useRouter();
 
@@ -38,9 +38,11 @@ export default function ReturnCompleteScreen() {
 
       {/* 교환 정보 */}
       <View style={styles.infoContainer}>
-        <Text style={styles.infoText}>{STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_INFO_CAUSE} {reason}</Text>
-        <Text style={styles.infoText}>{STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_INFO_METHOD} {selectedOption}</Text>
-        <Text style={styles.infoText}>{STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_INFO_ADDRESS} {address}</Text>
+          <Text style={styles.infoText}>{STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_INFO_CAUSE} {reason}</Text>
+          <Text style={styles.infoText}>{STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_INFO_METHOD} {selectedOption}</Text>
+          <Text style={styles.infoText}>
+              {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_INFO_ADDRESS} {zipcode}, {address}, {detailedAddress}
+          </Text>
       </View>
 
       {/* 버튼 컨테이너 */}

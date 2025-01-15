@@ -38,6 +38,7 @@ class ClientWT {
 	}
 
 	async patch(endpoint, requestBody) {
+
 		return await fetchData(true, 'PATCH', endpoint, requestBody)
 	}
 
@@ -58,10 +59,8 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 
 		if (requestBody) {
 			options.body = JSON.stringify(requestBody)
-			console.log('clientbody:', options.body)
 		}
 		const resp = await fetch(BASE_URL + endpoint, options)
-		console.log('client resp:', BASE_URL + endpoint)
 
 		if (!resp.ok) {
 			throw new Error(`Client error! status: ${resp.status}`)
