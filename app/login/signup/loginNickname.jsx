@@ -1,70 +1,70 @@
 import React, { useState } from 'react'
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
-import Colors from '../../../src/styles/color';
-import Typography from '../../../src/styles/typhography';
-import { STRINGS } from '../../../src/config/string';
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	StyleSheet,
+	Alert,
+	KeyboardAvoidingView,
+	Platform,
+	TouchableWithoutFeedback,
+	Keyboard,
+} from 'react-native'
+import Colors from '../../../src/styles/color'
+import Typography from '../../../src/styles/typhography'
+import { STRINGS } from '../../../src/config/string'
+import { isDuplicateNickname } from '../../../src/usecases/authUsecase'
+import { LoginAppbar } from '../../../src/components/LoginAppbar'
 
 // 상수 정의
-const MIN_NICKNAME_LENGTH = 4
+const MIN_NICKNAME_LENGTH = 2
+const MAX_NICKNAME_LENGTH = 10
 
 const LoginNickname = () => {
 	const [nickname, setNickname] = useState('')
 	const [isDuplicateChecked, setIsDuplicateChecked] = useState(false)
-	const router = useRouter()
 
 	const handleNicknameChange = (text) => {
-		setNickname(text.trim()) // 공백 제거
-		setIsDuplicateChecked(false) // 닉네임이 변경되면 중복체크 초기화
+		setNickname(text.trim())
+		setIsDuplicateChecked(false)
+	}
+	const handleDuplicateCheck = () => {
+		if (!nickname) {
+			Alert.alert('오류', '닉네임을 입력해주세요.')
+			return
+		}
+
+		// todo api 연결
+		// const result = isDuplicateNickname(nickname)
+		const result = false
+
+		if (!result) {
+			Alert.alert('중복체크 완료!', '사용 가능한 닉네임입니다.')
+			setIsDuplicateChecked(true)
+		} else {
+			Alert.alert(
+				'중복체크 실패!',
+				'중복된 닉네임입니다. 다른 닉네임을 입력해주세요.',
+			)
+			setIsDuplicateChecked(false)
+		}
 	}
 
-  const handleDuplicateCheck = () => {
-    if (!nickname) {
-      Alert.alert('오류', '닉네임을 입력해주세요.');
-      return;
-    }
+	const handleNext = () => {
+		Keyboard.dismiss()
+	}
 
-    setIsDuplicateChecked(true);
-    Alert.alert('중복체크 완료', '사용 가능한 닉네임입니다!');
-  };
+	const isNextButtonEnabled = isDuplicateChecked
 
-  const handleNext = () => {
-    Keyboard.dismiss(); // 키보드를 닫아 떨림 방지
-    if (isDuplicateChecked) {
-      router.push('/login/signup/loginEmail');
-    }
-  };
+	return (
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				style={styles.container}
+			>
+				<LoginAppbar title={STRINGS.LOGIN.TITLE} step="1 / 3" />
 
-  const isNextButtonEnabled = isDuplicateChecked;
-
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
-      >
-        {/* 상단 네비게이션 */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>{STRINGS.SIGNUP.TITLE}</Text>
-          <Text style={styles.pageIndicator}>1 / 3</Text>
-        </View>
-
-				{/* 닉네임 입력 */}
 				<View style={styles.nicknameSection}>
 					<Text style={styles.label}>닉네임</Text>
 					<View style={styles.inputRow}>
@@ -73,6 +73,7 @@ const LoginNickname = () => {
 							placeholder="닉네임"
 							value={nickname}
 							onChangeText={handleNicknameChange}
+							maxLength={MAX_NICKNAME_LENGTH}
 						/>
 						<TouchableOpacity
 							style={[
@@ -93,116 +94,66 @@ const LoginNickname = () => {
 						</TouchableOpacity>
 					</View>
 					<Text style={styles.helperText}>
-						닉네임은 이모티콘 제외 4~10글자로 만들어주세요
+						닉네임은 이모티콘 제외 {MIN_NICKNAME_LENGTH}~
+						{MAX_NICKNAME_LENGTH}글자로 만들어주세요
 					</Text>
 				</View>
 
-        {/* 하단 버튼 */}
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={[
-              styles.nextButton,
-              {
-                backgroundColor: isNextButtonEnabled ? Colors.orange100 : Colors.gray200,
-              },
-            ]}
-            disabled={!isNextButtonEnabled}
-            onPress={handleNext}
-          >
-            <Text style={styles.nextButtonText}>
-              {isNextButtonEnabled ? '다음' : '건너뛰기'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
-  );
-};
+				{/* <LoginBottomBtn 
+					pathname='/login/signup/loginEmail'
+					signInfo={{nickname}}
+					isNextButtonEnabled={isNextButtonEnabled}
+					handleNext={() => handleNext()}
+				/> */}
+			</KeyboardAvoidingView>
+		</TouchableWithoutFeedback>
+	)
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  header: {
-    marginTop: 20,
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  backButton: {
-    padding: 5,
-  },
-  headerTitle: {
-    ...Typography.heading.small_bold,
-  },
-  pageIndicator: {
-    ...Typography.heading.small_bold,
-    color: Colors.orange100,
-  },
-  nicknameSection: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  label: {
-    ...Typography.body.large_bold,
-    marginBottom: 8,
-    alignSelf: 'flex-start',
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    flex: 1,
-    height: 60,
-    borderWidth: 1,
-    borderColor: Colors.orange100,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginRight: 10,
-  },
-  duplicateCheckButton: {
-    paddingVertical: 22,
-    paddingHorizontal: 25,
-    borderRadius: 5,
-  },
-  duplicateCheckText: {
-    color: Colors.gray500,
-  },
-  helperText: {
-    marginTop: 10,
-    ...Typography.body.medium,
-    color: Colors.gray300,
-    textAlign: 'center',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  nextButton: {
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    width: '100%',
-  },
-  nextButtonText: {
-    ...Typography.body.large_bold,
-    color: Colors.gray500,
-  },
-});
+	container: {
+		flex: 1,
+		padding: 20,
+	},
+	
+	nicknameSection: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	label: {
+		...Typography.body.large_bold,
+		marginBottom: 8,
+		alignSelf: 'flex-start',
+	},
+	inputRow: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	input: {
+		flex: 1,
+		height: 60,
+		borderWidth: 1,
+		borderColor: Colors.orange100,
+		borderRadius: 5,
+		paddingHorizontal: 10,
+		marginRight: 10,
+	},
+	duplicateCheckButton: {
+		paddingVertical: 22,
+		paddingHorizontal: 25,
+		borderRadius: 5,
+	},
+	duplicateCheckText: {
+		color: Colors.gray500,
+	},
+	helperText: {
+		marginTop: 10,
+		...Typography.body.medium,
+		color: Colors.gray300,
+		textAlign: 'center',
+	},
+})
 
-export default LoginNickname;
-
+export default LoginNickname

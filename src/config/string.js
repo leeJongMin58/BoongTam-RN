@@ -1,7 +1,8 @@
 export const STRINGS = {
 	APP_NAME: 'BonngTam',
-	LOGIN: {
-		TITLE: 'Login',
+	ON_BOARDING: {
+		
+		PASS : '건너뛰기',
 		SLIDE1: {
 			TITLE: '겨울 간식의 왕,\n붕어빵을 찾아드립니다!',
 			DESCRIPTION: '당신이 좋아하는 붕어빵 가게를 한눈에 확인하고\n나만 아는 가게도 등록해보세요.',
@@ -19,6 +20,55 @@ export const STRINGS = {
 			DESCRIPTION: '로그인하고 주변의 붕어빵 매장을\n한눈에 찾아보세요!',
 		},
 	},	
+	LOGIN: {
+		LOGIN : '로그인',
+		SIGNUP : '회원가입',
+		ID : '아이디',
+		PW : '비밀번호',
+		NEXT : '다음',
+		INPUT: {
+			SUB_TITLE : '회원 로그인',
+			FIND_ID : '아이디 찾기',
+			FIND_PW : '비밀번호 찾기',
+			WARNING_ID : '아이디는 4~10글자로 입력해 주세요',
+			WARNING_PW : '비밀번호는 4~10글자로 입력해 주세요',
+			WARNING_NO_ID : '등록되지 않은 아이디 입니다.',
+			WARNING_NO_MATCH : '아이디와 비밀번호가 일치하지 않습니다.',
+		},
+		AGREEMENT : {
+			TITLE : '회원가입 필수 동의 항목',
+			SERVICE : '1. 개인정보 처리방침에 동의합니다.',
+			PRIVACY : '2. 서비스 이용약관에 동의 합니다.',
+			LOCATION : '3. 위치 정보 수집 및 사용에 동의 합니다.',
+			ALL_AGREEMENT : '모두 동의',
+			CANCEL : '취소'
+		},
+		AUTH : {
+			STEP : '1/5',
+			SUB_TITLE : '본인인증',
+			PLACEHOLDER : '010XXXXXXXX',
+			PLACEHOLDER2 : '인증번호',
+			DETAIL : 'SMS 본인 인증을 위해서 휴대폰 번호를 입력해 주세요.\n"-"은 생략하고 입력',
+			WARNING_NO_CODE : '전송된 인증번호를 입력해주세요.',
+			WARNING_AUTH_FAIL : '인증에 실패 했습니다. 다시 시도해 주세요.',
+			AUTH_SUCCESS : '본인인증 완료!\n회원가입 절차를\n진행해 주세요.',
+			SEND : '전송하기',
+			CHECK_CODE : '인증 확인',
+		},
+		IDE : {
+			STEP : '2/5',
+			IS_DUPILICATE : '중복체크',
+			DETIAL : '아이디는 영어와 숫자만 사용 가능하며 4 ~ 20 글자 사이로 입력해주세요.',
+			WARNING_DUPICATE : '중복된 아이디 입니다.\n다른 아이디를 입력해 주세요',
+			GOOD_ID : '사용 가능한 아이디 입니다.\n다음으로 넘어가세요'
+		},
+		PASSPWORD : {
+			STEP : '3/5',
+			VALID_PW : '비밀번호 확인',
+			DETAIL : '비밀번호는 영어, 숫자, 특문만 사용가능하며 8 ~ 20 글자 사이로 입력해주새요.',WARNING_NO_VALID : '비밀번호 확인을 해주세요',
+			WARNING_NOT_SAME : '비밀번호와 비밀번호 확인이 일치 하지 않습니다.'
+		}
+	},
 	BOONG_TAM: {
 		TITLE: '붕탐 오더',
 		FILTER: '필터',
