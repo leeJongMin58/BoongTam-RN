@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default LoginEmail
+export default LoginEmailScreen
