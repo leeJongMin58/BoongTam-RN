@@ -7,7 +7,7 @@ import { STRINGS } from '../../../src/config/string'
 import { useCart } from '../../../src/services/CartContext';
 
 export default function ReturnCompleteScreen() {
-  const { items, reason, selectedOption, address } = useLocalSearchParams();
+  const { items, reason, selectedOption, zipcode, address, detailedAddress } = useLocalSearchParams();
   const { clearCart } = useCart();
   const router = useRouter();
   
@@ -40,29 +40,33 @@ export default function ReturnCompleteScreen() {
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>{STRINGS.SHOP.RETURN_COMPLETE.RETURN_INFO_CAUSE} {reason}</Text>
         <Text style={styles.infoText}>{STRINGS.SHOP.RETURN_COMPLETE.RETURN_INFO_METHOD} {selectedOption}</Text>
-        <Text style={styles.infoText}>{STRINGS.SHOP.RETURN_COMPLETE.RETURN_INFO_ADDRESS} {address}</Text>
+        <Text style={styles.infoText}>
+            {STRINGS.SHOP.RETURN_COMPLETE.RETURN_INFO_ADDRESS}
+            {zipcode}, {address}, {detailedAddress}    
+        </Text>
       </View>
 
       {/* 버튼 컨테이너 */}
       <View style={styles.buttonContainer}>
+        {/* 주문 확인 버튼 */}
         <TouchableOpacity
-              onPress={() => router.replace('(subs)/(my)/my_page_review')}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>
-                {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_ORDER_VIEW}
-              </Text>
-            </TouchableOpacity>
+            onPress={() => router.replace('(subs)/(my)/my_page_review')}
+            style={styles.button}
+        >
+          <Text style={styles.buttonText}>
+            {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_ORDER_VIEW}
+          </Text>
+        </TouchableOpacity>
 
-            {/* 쇼핑하기 버튼 */}
-            <TouchableOpacity
-              onPress={handleContinueShopping}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>
-                {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_SHOPPING_CONTINUE}
-              </Text>
-            </TouchableOpacity>
+        {/* 쇼핑하기 버튼 */}
+        <TouchableOpacity
+          onPress={handleContinueShopping}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>
+            {STRINGS.SHOP.CHANGE_COMPLETE.CHANGE_SHOPPING_CONTINUE}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

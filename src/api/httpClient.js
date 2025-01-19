@@ -1,5 +1,4 @@
-// const BASE_URL = 'http://3.39.104.44:80/'
-const BASE_URL = 'http://192.168.162.38:8081/'
+const BASE_URL = 'http://3.39.104.44:80/'
 
 // 토큰이 필요없는 통신
 class Client {
@@ -27,45 +26,36 @@ class Client {
 // 토큰이 필요한 통신 Client With Token
 class ClientWT {
 	async get(endpoint, requestBody) {
-		return await fetchData('GET', endpoint, requestBody)
+		return await fetchData(true, 'GET', endpoint, requestBody)
 	}
 
 	async post(endpoint, requestBody) {
-		return await fetchData('POST', endpoint, requestBody)
+		return await fetchData(true, 'POST', endpoint, requestBody);
 	}
 
 	async put(endpoint, requestBody) {
-		return await fetchData('PUT', endpoint, requestBody)
+		return await fetchData(true, 'PUT', endpoint, requestBody)
 	}
 
 	async patch(endpoint, requestBody) {
-		return await fetchData('PATCH', endpoint, requestBody)
+
+		return await fetchData(true, 'PATCH', endpoint, requestBody)
 	}
 
 	async delete(endpoint, requestBody) {
-		return await fetchData('DELETE', endpoint, requestBody)
+		return await fetchData(true, 'DELETE', endpoint, requestBody)
 	}
 }
 
 async function fetchData(requireToken, method, endpoint, requestBody) {
 	try {
 		const options = {
-			method: method,
+			method,
 			headers: {
 				'Content-Type': 'application/json',
+				authorization: 'CHIHO3333',
 			},
 		}
-
-		// 토큰 생성 코드 완성되면 테스트 필요
-		// if (requireToken) {
-		// 	const token =
-		// 		localStorage.getItem('token') || sessionStorage.getItem('token')
-		// 	if (token) {
-		// 		options.headers['Authorization'] = `Bearer ${token}`
-		// 	} else {
-		// 		throw new Error('No token found')
-		// 	}
-		// }
 
 		if (requestBody) {
 			options.body = JSON.stringify(requestBody)
@@ -73,13 +63,15 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 		const resp = await fetch(BASE_URL + endpoint, options)
 
 		if (!resp.ok) {
-			throw new Error(`HTTP error! status: ${resp.status}`)
+			throw new Error(`Client error! status: ${resp.status}`)
 		}
 
 		const data = await resp.json()
+		console.log('client', data)
 		return data
-	} catch (error) {
-		console.error('Error:', error)
+	} catch (error) { 
+		console.error('client Error:', error)
+		throw error;
 	}
 }
 

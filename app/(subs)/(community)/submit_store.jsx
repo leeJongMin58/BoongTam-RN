@@ -12,22 +12,26 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { useRouter } from 'expo-router';
+import { MaterialIcons } from 'react-native-vector-icons';
+import Colors from '../../../src/styles/color';
+import Typography from '../../../src/styles/typhography';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { submitStore } from '../../../src/usecases/communityUsecase';
 
 export default function App({ navigation }) {
+  const router = useRouter();
   const [location, setLocation] = useState('');
   const [currentCoords, setCurrentCoords] = useState(null);
   const [storeName, setStoreName] = useState('');
   const [storeType, setStoreType] = useState('길거리');
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [days, setDays] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [newTag, setNewTag] = useState('');
-  const [timeRange, setTimeRange] = useState({ start: new Date(), end: new Date() });
-  const [showPicker, setShowPicker] = useState({ start: false, end: false });
+  const [openHour, setOpenHour] = useState('');
+  const [closeHour, setCloseHour] = useState('');
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -37,238 +41,277 @@ export default function App({ navigation }) {
       }
       const { coords } = await Location.getCurrentPositionAsync({});
       setCurrentCoords(coords);
-      const address = await Location.reverseGeocodeAsync({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
-      if (address.length > 0) {
-        const { city, district, street } = address[0];
-        setLocation(`${city} ${district} ${street}`);
+
+      try {
+        const address = await Location.reverseGeocodeAsync({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+        if (address.length > 0) {
+          const { city = '', district = '', street = '', name = '' } = address[0];
+          const fullAddress = `${city} ${district} ${street} ${name}`.trim();
+          setLocation(fullAddress || '주소를 찾을 수 없습니다.');
+        } else {
+          setLocation('주소를 찾을 수 없습니다.');
+        }
+      } catch (error) {
+        console.error('Error in reverseGeocode:', error);
+        setLocation('주소를 가져오는 중 오류가 발생했습니다.');
       }
     })();
   }, []);
+
   const handleMarkerDragEnd = async (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     setCurrentCoords({ latitude, longitude });
-    const address = await Location.reverseGeocodeAsync({
-      latitude,
-      longitude,
-    });
+    const address = await Location.reverseGeocodeAsync({ latitude, longitude });
     if (address.length > 0) {
-      const { city, district, street } = address[0];
-      setLocation(`${city} ${district} ${street}`);
+      const { city = '', district = '', street = '', name = '' } = address[0];
+      setLocation(`${city} ${district} ${street} ${name}`.trim());
     } else {
       setLocation('주소를 찾을 수 없습니다.');
     }
   };
+
   const togglePaymentMethod = (method) => {
     setPaymentMethods((prev) =>
       prev.includes(method) ? prev.filter((m) => m !== method) : [...prev, method]
     );
   };
+
   const toggleDay = (day) => {
     setDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
     );
   };
-  const handleTimeChange = (event, selectedTime, type) => {
-    setShowPicker({ ...showPicker, [type]: false });
-    if (selectedTime) {
-      setTimeRange((prev) => ({
-        ...prev,
-        [type]: selectedTime,
-      }));
-    }
-  };
+
   const handleTimeInput = (text, type) => {
-    // 숫자만 입력 가능하도록 필터링
     let filteredText = text.replace(/[^0-9]/g, '');
-    // 4자리 이상 입력 불가
     if (filteredText.length > 4) {
       filteredText = filteredText.slice(0, 4);
     }
-    // 자동으로 ":" 추가
     if (filteredText.length > 2) {
       filteredText = `${filteredText.slice(0, 2)}:${filteredText.slice(2)}`;
     }
-    // 상태 업데이트
-    setTimeRange((prev) => ({
-      ...prev,
-      [type]: filteredText,
-    }));
+    if (type === 'open') {
+      setOpenHour(filteredText);
+    } else {
+      setCloseHour(filteredText);
+    }
   };
+
+  const handleSubmit = async () => {
+    if (!storeName || !location || !currentCoords) {
+      Alert.alert('필수 입력 누락', '매장 이름, 위치, 좌표를 입력하세요.');
+      return;
+    }
+
+    const isBoongtamOrder = paymentMethods.includes('붕탐오더');
+
+    const storeInfo = {
+      lat: currentCoords.latitude,
+      lng: currentCoords.longitude,
+      address: location,
+      name: storeName,
+      store_type: storeType,
+      appearance_day: days,
+      open_hour: openHour,
+      close_hour: closeHour,
+      payment_method: paymentMethods,
+      is_order_online: isBoongtamOrder,
+    };
+
+    try {
+      const response = await submitStore(storeInfo);
+      Alert.alert(
+        '등록 성공',
+        '매장 등록이 완료되었습니다.',
+        [
+          {
+            text: '확인',
+            onPress: () => {
+              router.push('/(tabs)/(community)/(main)/community');
+            },
+          },
+        ]
+      );
+    } catch (error) {
+      console.error('Submit Error:', error.response?.data || error.message);
+      Alert.alert('등록 실패', '매장 등록 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => {
-                  if (navigation) navigation.goBack();
-                  else alert('뒤로가기');
-                }}
-              >
-                <Text style={styles.backButtonText}>←</Text>
-              </TouchableOpacity>
-              <Text style={styles.title}>Community</Text>
-            </View>
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude: currentCoords?.latitude || 37.5665,
-                longitude: currentCoords?.longitude || 126.978,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02,
-              }}
-              region={
-                currentCoords && {
-                  latitude: currentCoords.latitude,
-                  longitude: currentCoords.longitude,
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <TouchableOpacity
+                  style={styles.backbutton}
+                  onPress={() => router.push('/(tabs)/(community)/(main)/community')}
+                >
+                  <MaterialIcons name="arrow-back" size={24} color={Colors.gray500} />
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>매장 제보하기</Text>
+              </View>
+              <MapView
+                style={styles.map}
+                initialRegion={{
+                  latitude: currentCoords?.latitude || 37.5665,
+                  longitude: currentCoords?.longitude || 126.978,
                   latitudeDelta: 0.02,
                   longitudeDelta: 0.02,
+                }}
+                region={
+                  currentCoords && {
+                    latitude: currentCoords.latitude,
+                    longitude: currentCoords.longitude,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02,
+                  }
                 }
-              }
-            >
-              {currentCoords && (
-                <Marker
-                  coordinate={currentCoords}
-                  draggable
-                  onDragEnd={handleMarkerDragEnd}
+              >
+                {currentCoords && (
+                  <Marker
+                    coordinate={currentCoords}
+                    draggable
+                    onDragEnd={handleMarkerDragEnd}
+                  />
+                )}
+              </MapView>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>가게 위치</Text>
+                <TextInput
+                  style={styles.input}
+                  value={location}
+                  onChangeText={setLocation}
+                  placeholder="가게 위치 입력"
                 />
-              )}
-            </MapView>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>가게 위치</Text>
-              <TextInput
-                style={styles.input}
-                value={location}
-                onChangeText={setLocation}
-                placeholder="가게 위치 입력"
-              />
-            </View>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>매장 이름</Text>
-              <TextInput
-                style={styles.input}
-                value={storeName}
-                onChangeText={setStoreName}
-                placeholder="매장 이름 입력"
-              />
-            </View>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>매장 형태</Text>
-              <View style={styles.buttonGroup}>
-                {['길거리', '매장', '편의점'].map((type) => (
-                  <TouchableOpacity
-                    key={type}
-                    style={[styles.button, storeType === type && styles.buttonSelected]}
-                    onPress={() => setStoreType(type)}
-                  >
-                    <Text style={styles.buttonText}>{type}</Text>
-                  </TouchableOpacity>
-                ))}
               </View>
-            </View>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>결제 방식 (다중 선택 가능)</Text>
-              <View style={styles.buttonGroup}>
-                {['현금', '카드', '계좌이체'].map((method) => (
-                  <TouchableOpacity
-                    key={method}
-                    style={[
-                      styles.button,
-                      paymentMethods.includes(method) && styles.buttonSelected,
-                    ]}
-                    onPress={() => togglePaymentMethod(method)}
-                  >
-                    <Text style={styles.buttonText}>{method}</Text>
-                  </TouchableOpacity>
-                ))}
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>매장 이름</Text>
+                <TextInput
+                  style={styles.input}
+                  value={storeName}
+                  onChangeText={setStoreName}
+                  placeholder="매장 이름 입력"
+                />
               </View>
-            </View>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>결제 시기</Text>
-              <View style={styles.buttonGroupSingleLine}>
-                {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
-                  <TouchableOpacity
-                    key={day}
-                    style={[
-                      styles.paymentButton,
-                      days.includes(day) && styles.paymentButtonSelected,
-                    ]}
-                    onPress={() => toggleDay(day)}
-                  >
-                    <Text style={styles.buttonText}>{day}</Text>
-                  </TouchableOpacity>
-                ))}
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>매장 형태</Text>
+                <View style={styles.buttonGroup}>
+                  {['길거리', '매장', '편의점'].map((type) => (
+                    <TouchableOpacity
+                      key={type}
+                      style={[styles.button, storeType === type && styles.buttonSelected]}
+                      onPress={() => setStoreType(type)}
+                    >
+                      <Text style={styles.buttonText}>{type}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>결제 방식 (다중 선택 가능)</Text>
+                <View style={styles.buttonGroup}>
+                  {['현금', '카드', '붕탐오더'].map((method) => (
+                    <TouchableOpacity
+                      key={method}
+                      style={[
+                        styles.button,
+                        paymentMethods.includes(method) && styles.buttonSelected,
+                      ]}
+                      onPress={() => togglePaymentMethod(method)}
+                    >
+                      <Text style={styles.buttonText}>{method}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>결제 시기</Text>
+                <View style={styles.buttonGroupSingleLine}>
+                  {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
+                    <TouchableOpacity
+                      key={day}
+                      style={[
+                        styles.paymentButton,
+                        days.includes(day) && styles.paymentButtonSelected,
+                      ]}
+                      onPress={() => toggleDay(day)}
+                    >
+                      <Text style={styles.buttonText}>{day}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>운영 시간</Text>
+                <View style={styles.row}>
+                  <TextInput
+                    style={styles.inputSmall}
+                    value={openHour}
+                    onChangeText={(text) => handleTimeInput(text, 'open')}
+                    placeholder="오픈 시간 (예: 10:00)"
+                    keyboardType="numeric"
+                    maxLength={5}
+                  />
+                  <Text style={styles.label}>부터</Text>
+                  <TextInput
+                    style={styles.inputSmall}
+                    value={closeHour}
+                    onChangeText={(text) => handleTimeInput(text, 'close')}
+                    placeholder="종료 시간 (예: 20:00)"
+                    keyboardType="numeric"
+                    maxLength={5}
+                  />
+                  <Text style={styles.label}>까지</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                <Text style={styles.submitButtonText}>등록하기</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.inputGroup}>
-  <Text style={styles.label}>출몰 시간대 (선택)</Text>
-  <View style={styles.row}>
-    <TextInput
-      style={styles.inputSmall}
-      value={timeRange.start}
-      onChangeText={(text) => handleTimeInput(text, 'start')}
-      placeholder="시작 시간 (12:00)"
-      keyboardType="numeric"
-      maxLength={5}
-    />
-    <Text style={styles.label}>부터</Text>
-    <TextInput
-      style={styles.inputSmall}
-      value={timeRange.end}
-      onChangeText={(text) => handleTimeInput(text, 'end')}
-      placeholder="종료 시간 (19:00)"
-      keyboardType="numeric"
-      maxLength={5}
-    />
-    <Text style={styles.label}>까지</Text>
-  </View>
-</View>
-            <TouchableOpacity style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>등록하기</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.gray100,
     padding: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.gray200,
+    padding: 10
   },
-  backButton: {
-    padding: 10,
+  backbutton: {
+    position: 'absolute',
+    left: 5,
+    padding: 5
   },
-  backButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    flex: 1,
+  headerTitle: {
+    ...Typography.heading.small_bold,
+    textAlign: 'center'
   },
   map: {
     height: 250,
     width: '100%',
     marginBottom: 20,
+    marginTop: 10
   },
   inputGroup: {
     marginBottom: 15,
@@ -328,28 +371,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 14,
     textAlign: 'center',
-  },
-  addButton: {
-    backgroundColor: '#FFD700',
-    borderRadius: 20,
-    padding: 10,
-  },
-  addButtonText: {
-    fontSize: 18,
-    color: '#fff',
-  },
-  tagGroup: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 10,
-  },
-  tag: {
-    backgroundColor: '#FFD700',
-    color: '#fff',
-    borderRadius: 20,
-    padding: 8,
-    marginRight: 5,
-    marginBottom: 5,
   },
   submitButton: {
     backgroundColor: '#FFA500',
