@@ -21,7 +21,7 @@ const MIN_EMAIL_LENGTH = 0
 // 이메일 유효성 검사 정규식
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const LoginEmail = () => {
+const LoginEmailScreen = () => {
 	const [email, setEmail] = useState('')
 	const { signInfo } = useLocalSearchParams()
 	const nickname = (signInfo ? JSON.parse(signInfo) : null)?.nickname

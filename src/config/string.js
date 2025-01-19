@@ -62,8 +62,11 @@ export const STRINGS = {
 			WARNING_DUPICATE : '중복된 아이디 입니다.\n다른 아이디를 입력해 주세요',
 			GOOD_ID : '사용 가능한 아이디 입니다.\n다음으로 넘어가세요'
 		},
-		PWA : {
-			STEP : '3/5'
+		PASSPWORD : {
+			STEP : '3/5',
+			VALID_PW : '비밀번호 확인',
+			DETAIL : '비밀번호는 영어, 숫자, 특문만 사용가능하며 8 ~ 20 글자 사이로 입력해주새요.',WARNING_NO_VALID : '비밀번호 확인을 해주세요',
+			WARNING_NOT_SAME : '비밀번호와 비밀번호 확인이 일치 하지 않습니다.'
 		}
 	},
 	BOONG_TAM: {

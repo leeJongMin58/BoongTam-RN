@@ -30,7 +30,7 @@ export default function LoginIdScreen() {
 		setDuplicateId(false)
 	}, [id])
 
-	const handleDuplocateBtn = () => {
+	const handleDuplicateBtn = () => {
 		// todo api
 		setDuplicateId(true)
 		setMsg(STRINGS.LOGIN.IDE.GOOD_ID)
@@ -64,7 +64,7 @@ export default function LoginIdScreen() {
 					id={id}
 					onChangeId={setId}
 					isGoodId={isGoodId}
-					onPressBtn={handleDuplocateBtn}
+					onPressBtn={handleDuplicateBtn}
 				/>
 
 				<LoginLongBtn isActive={isDuplicateId} text={STRINGS.LOGIN.NEXT} onPress={handleNextBtn}/>
