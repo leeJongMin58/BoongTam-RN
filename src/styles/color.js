@@ -14,6 +14,8 @@ const colors = {
 	red100: '#FF5252',
 	blue100: '#448AFF',
 	brown100: '#8D6E63',
+
+	modal_background : "rgba(0, 0, 0, 0.5)"
 }
 
 export default colors

@@ -2,8 +2,8 @@ import * as service from '../services/authService'
 
 export async function login(authcode) {
     try {
-        const response = await service.loginKakao({code : authcode})
-        return response.data
+        const response = await service.login({code : authcode})
+        return response.code
     } catch (error) {
         console.log(error)
     }

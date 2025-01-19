@@ -9,6 +9,7 @@ import {
     ScrollView,
     Modal,
     FlatList,
+    Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Picker } from '@react-native-picker/picker';
@@ -17,6 +18,7 @@ import colors from '../../../src/styles/color';
 import typography from '../../../src/styles/typhography';
 import { STRINGS } from '../../../src/config/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Postcode from '@actbase/react-daum-postcode'; // Daum Postcode 컴포넌트
 
 export default function BongTemShopReturn() {
     const { items } = useLocalSearchParams();
@@ -27,9 +29,13 @@ export default function BongTemShopReturn() {
 
     const [reason, setReason] = useState(''); // 교환 사유
     const [selectedOption, setSelectedOption] = useState(''); // 교환 방법 선택
-    const [address, setAddress] = useState(STRINGS.SHOP.CHANGE_SCREEN.CHANGE_NOW_ADDRESS); // 현재 주소
+    const [address, setAddress] = useState(''); // 주소
+    const [zipcode, setZipcode] = useState(''); // 우편번호
+    const [detailedAddress, setDetailedAddress] = useState(''); // 상세 주소
     const [shippingFee, setShippingFee] = useState(5000); // 배송비
     const [modalVisible, setModalVisible] = useState(false); // 교환 사유 선택 모달
+    const [addressModalVisible, setAddressModalVisible] = useState(false); // 주소 검색 모달
+
     const reasons = [
         STRINGS.SHOP.CHANGE_SCREEN.CHANGE_NOW_REASON.REASON1,
         STRINGS.SHOP.CHANGE_SCREEN.CHANGE_NOW_REASON.REASON2,
@@ -41,6 +47,38 @@ export default function BongTemShopReturn() {
     const handleReasonSelect = (selectedReason) => {
         setReason(selectedReason);
         setModalVisible(false);
+    };
+
+    const handleAddressSelect = (data) => {
+        setZipcode(data.zonecode);
+        setAddress(data.address);
+        setAddressModalVisible(false);
+    };
+
+    const handleSubmit = () => {
+        if (!zipcode || !address || !detailedAddress) {
+            Alert.alert('경고', '모든 주소 정보를 입력해주세요.');
+            return;
+        }
+        if (!reason) {
+            Alert.alert('경고', '교환 사유를 선택해주세요.');
+            return;
+        }
+        if (!selectedOption) {
+            Alert.alert('경고', '회수 방법을 선택해주세요.');
+            return;
+        }
+        router.push({
+            pathname: '(subs)/(shop)/change_complete',
+            params: {
+                items: JSON.stringify(parsedItems),
+                reason,
+                selectedOption,
+                zipcode,
+                address,
+                detailedAddress,
+            },
+        });
     };
 
     return (
@@ -105,15 +143,28 @@ export default function BongTemShopReturn() {
                     <View style={styles.addressContainer}>
                         <TextInput
                             style={styles.input}
-                            value={address}
+                            value={zipcode}
+                            placeholder="우편번호"
                             editable={false}
                         />
-                        <Link
-                            href="(subs)/(shop)/Address_api"
+                        <TextInput
+                            style={styles.input}
+                            value={address}
+                            placeholder="주소"
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={detailedAddress}
+                            placeholder="상세 주소"
+                            onChangeText={setDetailedAddress}
+                        />
+                        <TouchableOpacity
                             style={styles.changeButton}
+                            onPress={() => setAddressModalVisible(true)}
                         >
                             <Text style={styles.changeButtonText}>{STRINGS.SHOP.CHANGE_SCREEN.NOW_ADDRESS_CHANGE}</Text>
-                        </Link>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -127,20 +178,12 @@ export default function BongTemShopReturn() {
 
                 {/* 버튼 */}
                 <View style={styles.buttonContainer}>
-                    <Link
-                        href={{
-                            pathname: '(subs)/(shop)/change_complete',
-                            params: {
-                                items: JSON.stringify(parsedItems),
-                                reason,
-                                selectedOption,
-                                address,
-                            },
-                        }}
+                    <TouchableOpacity
+                        onPress={handleSubmit}
                         style={styles.actionButton}
                     >
                         <Text style={styles.actionButtonText}>{STRINGS.SHOP.CHANGE_SCREEN.CHANGE_APPLY}</Text>
-                    </Link>
+                    </TouchableOpacity>
                 </View>
 
                 {/* 교환 사유 모달 */}
@@ -174,10 +217,35 @@ export default function BongTemShopReturn() {
                         </View>
                     </View>
                 </Modal>
+
+                {/* 주소 검색 모달 */}
+                <Modal
+                    visible={addressModalVisible}
+                    transparent={true}
+                    animationType="slide"
+                    onRequestClose={() => setAddressModalVisible(false)}
+                >
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContainer}>
+                            <Postcode
+                                style={{ width: '100%', height: 400 }}
+                                jsOptions={{ animated: true }}
+                                onSelected={handleAddressSelect}
+                            />
+                            <TouchableOpacity
+                                style={styles.modalCloseButton}
+                                onPress={() => setAddressModalVisible(false)}
+                            >
+                                <Text style={styles.modalCloseButtonText}>{STRINGS.SHOP.CHANGE_SCREEN.CLOSE}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             </ScrollView>
         </SafeAreaView>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
