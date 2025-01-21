@@ -65,8 +65,9 @@ export default function ReviewPage() {
 
   const handleRegister = async () => {
     try {
-      const goodsId = 41;
-      const response = await writeGoodsReview(goodsId, reviewText, images);
+      const goodsId = 10;
+      const rating = -1
+      const response = await writeGoodsReview(goodsId, reviewText, rating, images);
 
       if (response.code === 201) {
         Alert.alert(response.msg, '리뷰가 성공적으로 등록되었습니다.', [

@@ -11,19 +11,19 @@ const ReviewCard = ({ nickname, review_date, profile_picture, review_text, store
       <ImageBackground
         source={
           review_first_image_url?.uri
-            ? review_first_image_url
+            ? review_first_image_url 
             : require('../../assets/images/background.png') // 기본 이미지 설정
         }
-        style={styles.background}
+        style={styles.background} 
         resizeMode="cover">
         {/* 반투명 오버레이 */}
         <View style={styles.overlay} />
         {/* 텍스트 내용 */}
         <View style={styles.content}>
           {/* 사용자 정보 */}
-          <View style={styles.header}>
+          <View style={styles.header}> 
             <Image
-              source={
+              source={ 
                 profile_picture?.uri
                   ? profile_picture
                   : require('../../assets/images/background.png') // 기본 이미지 설정

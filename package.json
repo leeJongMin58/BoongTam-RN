@@ -17,6 +17,7 @@
     "expo-auth-session": "~6.0.1",
     "expo-constants": "~17.0.3",
     "expo-font": "~13.0.2",
+    "expo-image": "^2.0.4",
     "expo-image-picker": "^14.7.1",
     "expo-linking": "~7.0.3",
     "expo-location": "~18.0.4",
