@@ -162,6 +162,7 @@ export default function ShopScreen() {
 				keyExtractor={(item) => item.id}
 				numColumns={2}
 				contentContainerStyle={styles.productList}
+				columnWrapperStyle={styles.columnWrapper} // 열 스타일 추가
 			/>
 		</View>
 	);
@@ -177,6 +178,9 @@ const styles = StyleSheet.create({
 		marginVertical: 5,
 		paddingHorizontal: 5,
 	},
+	columnWrapper: {
+		justifyContent: 'space-between', // 열 사이 간격 균등
+	  },
 	recommendTitleWrapper: {
 		backgroundColor: colors.orange100,
 		alignSelf: 'center',
@@ -199,7 +203,7 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 		backgroundColor: colors.white,
 		borderRadius: 8,
-		padding: 8,
+		padding: 1,
 		alignItems: 'center',
 		width: SCREEN_WIDTH / 2 - 10,
 		shadowColor: colors.gray300,
@@ -210,9 +214,12 @@ const styles = StyleSheet.create({
 	},
 	recommendImage: {
 		width: '100%',
-		borderRadius: 10,
+		borderTopLeftRadius: 20, 
+		borderTopRightRadius: 20, 
+		borderBottomLeftRadius: 0, 
+		borderBottomRightRadius: 0, 
 		height: 80,
-		resizeMode: 'contain',
+		resizeMode: 'cover',
 		marginBottom: 8,
 	},
 	categoryHeader: {
@@ -295,18 +302,19 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 	},
 	card: {
-		marginTop: 10,
-		flex: 1,
-		margin: 1,
+		flex: 1, // 부모의 너비를 균등 분배
+		margin: 3,
+		maxWidth: '48%', // 카드의 최대 너비 설정
 		backgroundColor: colors.gray200,
 		borderRadius: 10,
+		padding: 1,
 		flexDirection: 'column',
 		alignItems: 'flex-start',
-	},
+	  },
 	productImage: {
 		width: '100%',
 		height: 80,
-		resizeMode: 'contain',
+		resizeMode: 'cover',
 		marginBottom: 10,
 	},
 	productInfo: {

@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 10,
     flex: 1,
-    margin: 5,
+    margin: 1,
     backgroundColor: colors.white,
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 20,
+    padding: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
     shadowColor: colors.gray300,
@@ -40,7 +40,11 @@ const styles = StyleSheet.create({
   productImage: {
     width: '100%',
     height: 80,
-    resizeMode: 'contain',
+    borderTopLeftRadius: 20, 
+    borderTopRightRadius: 20, 
+    borderBottomLeftRadius: 0, 
+    borderBottomRightRadius: 0, 
+    resizeMode: 'cover',
     marginBottom: 10,
   },
   productInfo: {
@@ -48,13 +52,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
+    marginLeft: 15,
   },
   leftInfo: {
     alignItems: 'flex-start',
   },
   productCategory: {
     ...typography.label.large,
-    color: colors.gray400,
+    color: colors.red,
     marginBottom: 3,
   },
   productName: {
@@ -70,6 +75,7 @@ const styles = StyleSheet.create({
   reviewCount: {
     ...typography.label.normal,
     color: colors.gray400,
+    marginRight: 25,
     textAlign: 'right',
   },
 });
