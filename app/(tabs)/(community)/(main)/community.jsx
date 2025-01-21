@@ -12,6 +12,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import ReviewCard from '../../../../src/components/reviewcard';
+import colors from '../../../../src/styles/color';
 import {
   fetchPopularStoreReviews,
   fetchStoreReviews,
@@ -48,27 +49,47 @@ export default function CommunityScreen() {
     loadReviews();
   }, []);
 
-  // 리뷰 카드 렌더링 함수
-  const renderItem = ({ item }) => (
-
+  // 매장 리뷰 카드 렌더링
+  const renderStoreReview = ({ item }) => (
     <Link
       href={{
-        pathname: '(subs)/(community)/review_look',
-        params: { id: item.store_review_id },
+        pathname: "(subs)/(community)/store_review_look", // 매장 리뷰 상세 화면으로 이동
+        params: { review: JSON.stringify(item) }, // 매장 리뷰 데이터를 전달
       }}
-      style={{ textDecorationLine: 'none' }}
+      style={{ textDecorationLine: "none" }}
     >
       <ReviewCard
-        nickname={item.user_simple_info?.nickname || '익명'}
+        nickname={item.user_simple_info?.nickname || "익명"}
         review_date={item.review_date}
-        profile_picture={{ uri: item.user_simple_info.profile_picture || '' }}
-        review_first_image_url={{ uri: item.review_first_image_url || '' }}
+        profile_picture={{ uri: item.user_simple_info?.profile_picture || "" }}
+        review_first_image_url={{ uri: item.review_first_image_url || "" }}
         store_name={item.store_name}
         review_text={item.review_text}
-        goods_name={item.goods_name}
       />
     </Link>
   );
+
+  // 굿즈 리뷰 카드 렌더링
+  const renderGoodsReview = ({ item }) => (
+    <Link
+      href={{
+        pathname: "(subs)/(community)/goods_review_look", // 굿즈 리뷰 상세 화면으로 이동
+        params: { review: JSON.stringify(item) }, // 굿즈 리뷰 데이터를 전달
+      }}
+      style={{ textDecorationLine: "none" }}
+    >
+      <ReviewCard
+        nickname={item.user_simple_info?.nickname || "익명"}
+        review_date={item.review_date}
+        profile_picture={{ uri: item.user_simple_info?.profile_picture || "" }}
+        review_first_image_url={{ uri: item.review_first_image_url || "" }}
+        goods_name={item.goods_name}
+        review_text={item.review_text}
+      />
+    </Link>
+  );
+
+  
 
   const toggleMoreMenu = (section) => {
     setIsMoreMenuOpen((prevState) => ({
@@ -95,7 +116,7 @@ export default function CommunityScreen() {
                   <Text style={styles.sectionTitlePopular}>인기 컨텐츠</Text>
                   <FlatList
                     data={popularReviews}
-                    renderItem={renderItem}
+                    renderItem={renderStoreReview}
                     keyExtractor={(item) => item.store_review_id.toString()}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -111,20 +132,20 @@ export default function CommunityScreen() {
               {/* 매장 리뷰 섹션 */}
               <View style={styles.section}>
                 <View style={styles.sectionHeader}>
-                  <View style={styles.sectionHeader_min}>
+                  <View style={styles.sectionHeader_min}> 
                     <Text style={styles.sectionTitle}>매장 리뷰</Text>
                     <TouchableOpacity
-                      onPress={() => toggleMoreMenu('storeReviews')}
+                      onPress={() => router.push("/(tabs)/(community)/(main)/community")}
                       style={styles.moreButton}
                     >
                       <View style={styles.container_arrow}>
-                        <MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
+                        <MaterialIcons name="add" size={24} color={colors.white} />
                       </View>
                     </TouchableOpacity>
                   </View>
                   <FlatList
                     data={storeReviews}
-                    renderItem={renderItem}
+                    renderItem={renderStoreReview}
                     keyExtractor={(item) => item.store_review_id.toString()}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -135,16 +156,7 @@ export default function CommunityScreen() {
                     )}
                   />
                 </View>
-                {isMoreMenuOpen.storeReviews && (
-                  <View style={[styles.modalContainer, { top: -10 }]}>
-                    <TouchableOpacity onPress={closeMoreMenu}>
-                      <Text style={styles.modalText}>최신순</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={closeMoreMenu}>
-                      <Text style={styles.modalText}>인기순</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
+                
               </View>
 
               {/* 굿즈 리뷰 섹션 */}
@@ -153,17 +165,17 @@ export default function CommunityScreen() {
                   <View style={styles.sectionHeader_min}>
                     <Text style={styles.sectionTitle}>굿즈 리뷰</Text>
                     <TouchableOpacity
-                      onPress={() => toggleMoreMenu('goodsReviews')}
+                      onPress={() => router.push("/(tabs)/(community)/(main)/community")}
                       style={styles.moreButton}
                     >
                       <View style={styles.container_arrow}>
-                        <MaterialIcons name="keyboard-arrow-down" size={20} color="black" />
+                        <MaterialIcons name="add" size={24} color={colors.white} />
                       </View>
                     </TouchableOpacity>
                   </View>
                   <FlatList
                     data={goodsReviews}
-                    renderItem={renderItem}
+                    renderItem={renderGoodsReview}
                     keyExtractor={(item) => item.goods_review_id.toString()}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -174,16 +186,7 @@ export default function CommunityScreen() {
                     )}
                   />
                 </View>
-                {isMoreMenuOpen.goodsReviews && (
-                  <View style={[styles.modalContainer, { top: -10 }]}>
-                    <TouchableOpacity onPress={closeMoreMenu}>
-                      <Text style={styles.modalText}>최신순</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={closeMoreMenu}>
-                      <Text style={styles.modalText}>인기순</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
+                
                 {/* + 버튼 */}
                 <TouchableOpacity
                   style={styles.floatingButton}
