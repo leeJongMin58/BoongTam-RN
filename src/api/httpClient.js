@@ -73,7 +73,6 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 		}
 
 		const data = await resp.json()
-		console.log('client', data)
 		return data
 	} catch (error) {
 		return { code: extractStatusCode(error) }
