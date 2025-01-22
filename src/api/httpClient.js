@@ -49,16 +49,19 @@ class ClientWT {
 }
 
 async function fetchData(requireToken, method, endpoint, requestBody) {
-	const loadedToken = await AsyncStorage.getItem('token')
-
+	
 	try {
+		const loadedToken = await AsyncStorage.getItem('token')
+		const token = loadedToken ? loadedToken.replace(/"/g, '') : null;
+		console.log('token : ', token);
 		const options = {
 			method,
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: loadedToken,
+				'authorization': token,
 			},
 		}
+		console.log('headers : ', options.headers)
 
 		if (requestBody) {
 			options.body = JSON.stringify(requestBody)
