@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Material Icons 추가
-import { Link } from 'expo-router'; // Link 컴포넌트 추가
+import { Link, useRouter } from 'expo-router'; // Link 컴포넌트 추가
 import colors from '../../../src/styles/color';
 import typography from '../../../src/styles/typhography';
 import { fetchStoreReviews } from '../../../src/usecases/communityUsecase';
@@ -19,6 +19,7 @@ const ReviewScreen = () => {
   const [storeReviews, setStoreReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   // 데이터 로드 함수
   const loadReviews = async () => {
@@ -68,7 +69,15 @@ const ReviewScreen = () => {
         {/* 본문 내용 */}
         <View style={styles.screenContainer}>
           {storeReviews.map((review) => (
-            <View key={review.store_review_id} style={styles.cardContainer}>
+            <TouchableOpacity
+              key={review.store_review_id}
+              onPress={() =>
+                router.push({
+                  pathname: "/(subs)/(community)/store_review_look",
+                  params: { review: JSON.stringify(review) }, // 리뷰 데이터를 JSON으로 전달
+                })
+              }
+              style={styles.cardContainer}>
               {/* Header */}
               <View style={styles.headerContainer}>
                 <Image
@@ -90,7 +99,7 @@ const ReviewScreen = () => {
                       <MaterialIcons
                         key={index}
                         name={
-                          index < review.store_rating ? 'star' : 'star-border'
+                          index < review.review_rating ? 'star' : 'star-border'
                         }
                         size={20}
                         color={colors.orange200}
@@ -138,28 +147,28 @@ const ReviewScreen = () => {
                 }}
                 style={styles.link}
               >
-                <View style={styles.shopInfo}>
+                <View style={[styles.shopInfo, { height: 150 }]}>
                   <View style={styles.shopInfodata}>
                     <Text style={styles.shopName}>{review.store_name}</Text>
                     <Text style={styles.shopAddress}>{review.address}</Text>
-                    <TouchableOpacity style={styles.shopButton}>
+                    <TouchableOpacity 
+                    onPress={() => router.push("/(subs)/(boongtam)/boongtamDetail")}
+                    style={styles.shopButton}>
                       <Text style={styles.buttonText}>바로가기 →</Text>
                     </TouchableOpacity>
                   </View>
-                  {review.store_image_url ? (
-                    <Image
-                      source={{ uri: review.store_image_url }}
-                      style={styles.ArrowImage}
-                    />
-                  ) : (
-                    <Image
-                      source={require('../../../assets/images/background.png')} // 기본 이미지
-                      style={styles.ArrowImage}
-                    />
-                  )}
+                  <Image
+                    source={
+                      review.thumbnail_url
+                        ? { uri: review.thumbnail_url }
+                        : require('../../../assets/images/placeHolder.png')
+                    }
+                    style={styles.ArrowImage}
+                    resizeMode="contain" // 이미지가 컨테이너를 가득 채우되 비율을 유지
+                  />
                 </View>
               </Link>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </SafeAreaView>
@@ -168,54 +177,54 @@ const ReviewScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  safeContainer: { 
-    flex: 1, 
-    backgroundColor: colors.gray100, 
-    marginTop: 35 
+  safeContainer: {
+    flex: 1,
+    backgroundColor: colors.gray100,
+    marginTop: 35
   },
-  screenContainer: { 
-    flex: 1, 
-    backgroundColor: colors.gray100, 
-    padding: 16 
+  screenContainer: {
+    flex: 1,
+    backgroundColor: colors.gray100,
+    padding: 16
   },
-  header: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    height: 50, 
-    borderBottomWidth: 1, 
-    borderBottomColor: colors.gray200 
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray200
   },
-  backbutton: { 
-    position: 'absolute', 
-    left: 10 
+  backbutton: {
+    position: 'absolute',
+    left: 10
   },
-  headerTitle: { 
-    ...typography.heading.small_bold, 
-    color: colors.gray500, 
-    textAlign: 'center' 
+  headerTitle: {
+    ...typography.heading.small_bold,
+    color: colors.gray500,
+    textAlign: 'center'
   },
-  cardContainer: { 
-    backgroundColor: colors.white, 
-    borderRadius: 10, 
-    padding: 10, 
-    marginVertical: 8, 
-    shadowColor: '#000', 
-    shadowOpacity: 0.1, 
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowRadius: 5, 
-    elevation: 3 
+  cardContainer: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 3
   },
-  headerContainer: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    marginBottom: 10 
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10
   },
-  profileImage: { 
-    width: 50, 
-    height: 50, 
-    borderRadius: 25, 
-    marginRight: 15 
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 15
   },
   profileInfoContainer: { flex: 1 },
   userName: { ...typography.body.large_bold, color: colors.gray500 },
@@ -227,26 +236,26 @@ const styles = StyleSheet.create({
   actionItem: { flexDirection: 'row', alignItems: 'center', marginRight: 16 },
   actionText: { marginLeft: 6, ...typography.body.medium, color: colors.gray400 },
   reviewText: { ...typography.body.medium, color: colors.gray500, marginVertical: 8 },
-  shopInfo: { 
+  shopInfo: {
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
     borderRadius: 8,
     backgroundColor: colors.orange100,
-    marginBottom: 16, 
+    marginBottom: 16,
   },
   shopInfodata: { flex: 1 },
   shopName: { ...typography.heading.medium, color: colors.gray500 },
   shopAddress: { ...typography.body.medium, color: colors.gray400, marginBottom: 8 },
-  shopButton: { 
+  shopButton: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     backgroundColor: colors.white,
     borderRadius: 8,
-    alignSelf: "flex-start", 
+    alignSelf: "flex-start",
   },
   buttonText: { ...typography.heading.small, color: colors.orange200 },
-  ArrowImage: { width: 80, height: 110, borderRadius: 8, marginLeft: 12 },
+  ArrowImage: { width: 130, height: 130, borderRadius: 8, marginLeft: 12 },
   errorText: { fontSize: 16, color: colors.red, textAlign: 'center', marginTop: 20 },
 });
 

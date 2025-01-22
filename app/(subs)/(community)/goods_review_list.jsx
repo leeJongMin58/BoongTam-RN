@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import colors from '../../../src/styles/color';
 import typography from '../../../src/styles/typhography';
 import { fetchGoodsReviews } from '../../../src/usecases/communityUsecase';
@@ -37,7 +37,7 @@ export default function ReviewScreen() {
 
   // 컴포넌트가 마운트되었을 때 데이터 로드
   useEffect(() => {
-    loadReviews();  
+    loadReviews();
   }, []);
 
   // 로딩 상태 처리
@@ -76,82 +76,91 @@ export default function ReviewScreen() {
         <View style={styles.screenContainer}>
           {goodsReviews.length > 0 ? (
             goodsReviews.map((review) => (
-              <View key={review.goods_review_id} style={styles.cardContainer}>
-                {/* 헤더 */}
-                <View style={styles.header}>
-                  <View style={styles.header2}>
-                    <Image
-                      source={
-                        review.user_simple_info.profile_picture
-                          ? { uri: review.user_simple_info.profile_picture }
-                          : require('../../../assets/images/background.png') // 기본 이미지
-                      }
-                      style={styles.profileImage}
-                    />
-                    <View style={styles.headerTextContainer}>
-                      <Text style={styles.userName}>{review.user_simple_info.nickname}</Text>
-                      <Text style={styles.userInfo}>리뷰: 12개</Text>
+              <TouchableOpacity
+                key={review.goods_review_id}
+                onPress={() =>
+                  router.push({
+                    pathname: "/(subs)/(community)/goods_review_look",
+                    params: { review: JSON.stringify(review) }, // 리뷰 데이터를 JSON으로 전달
+                  })
+                }
+                style={styles.cardContainer}>
+
+                  {/* 헤더 */}
+                  <View style={styles.header}>
+                    <View style={styles.header2}>
+                      <Image
+                        source={
+                          review.user_simple_info.profile_picture
+                            ? { uri: review.user_simple_info.profile_picture }
+                            : require('../../../assets/images/background.png') // 기본 이미지
+                        }
+                        style={styles.profileImage}
+                      />
+                      <View style={styles.headerTextContainer}>
+                        <Text style={styles.userName}>{review.user_simple_info.nickname}</Text>
+                        <Text style={styles.userInfo}>리뷰: 12개</Text>
+                      </View>
                     </View>
-                  </View>
-                  <TouchableOpacity style={styles.moreButton}>
-                    <MaterialIcons name="more-vert" size={24} color={colors.gray500} />
-                  </TouchableOpacity>
-                </View>
-
-                {/* 이미지 리스트 */}
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.imageContainer}
-                >
-                  {review.goods_review_photo_url.split(',').map((url, index) => (
-                    <Image
-                      key={index}
-                      source={{ uri: url }}
-                      style={styles.productImage}
-                    />
-                  ))}
-                </ScrollView>
-
-                {/* 좋아요 및 댓글 */}
-                <View style={styles.actionContainer}>
-                  <View style={styles.actionItem}>
-                    <MaterialIcons name="favorite" size={24} color={colors.orange200} />
-                    <Text style={styles.actionText}>{review.like_count}</Text>
-                  </View>
-                  <View style={styles.actionItem}>
-                    <MaterialIcons name="chat-bubble-outline" size={24} color={colors.gray300} />
-                    <Text style={styles.actionText}>21</Text>
-                  </View>
-                </View>
-
-                {/* 리뷰 텍스트 */}
-                <Text style={styles.reviewText}>{review.review_text}</Text>
-
-                {/* 매장 정보 섹션 */}
-                <View style={styles.shopInfo}>
-                  <View style={styles.shopDetails}>
-                    <Text style={styles.shopName}>붕템샵</Text>
-                    <Text style={styles.shopAddress}>{review.goods_name}</Text>
-                    <TouchableOpacity style={styles.navigateButton}>
-                      <Text style={styles.navigateButtonText}>바로가기 →</Text>
+                    <TouchableOpacity style={styles.moreButton}>
+                      <MaterialIcons name="more-vert" size={24} color={colors.gray500} />
                     </TouchableOpacity>
                   </View>
-                  {review.goods_image_url ? (
-                    <Image
-                      source={{ uri: review.goods_image_url }} // 굿즈 썸네일사진
-                      style={styles.shopImage}
-                      resizeMode="contain"
-                    />
-                  ) : (
-                    <Image
-                      source={require('../../../assets/images/background.png')} // 기본 이미지
-                      style={styles.shopImage}
-                      resizeMode="contain"
-                    />
-                  )}
-                </View>
-              </View>
+
+                  {/* 이미지 리스트 */}
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.imageContainer}
+                  >
+                    {review.goods_review_photo_url.split(',').map((url, index) => (
+                      <Image
+                        key={index}
+                        source={{ uri: url }}
+                        style={styles.productImage}
+                      />
+                    ))}
+                  </ScrollView>
+
+                  {/* 좋아요 및 댓글 */}
+                  <View style={styles.actionContainer}>
+                    <View style={styles.actionItem}>
+                      <MaterialIcons name="favorite" size={24} color={colors.orange200} />
+                      <Text style={styles.actionText}>{review.like_count}</Text>
+                    </View>
+                    <View style={styles.actionItem}>
+                      <MaterialIcons name="chat-bubble-outline" size={24} color={colors.orange200} />
+                      <Text style={styles.actionText}>21</Text>
+                    </View>
+                  </View>
+
+                  {/* 리뷰 텍스트 */}
+                  <Text style={styles.reviewText}>{review.review_text}</Text>
+
+                  {/* 매장 정보 섹션 */}
+                  <View style={[styles.shopInfo, { height: 150 }]}>
+                    <View style={styles.shopDetails}>
+                      <Text style={styles.shopName}>붕템샵</Text>
+                      <Text style={styles.shopAddress}>{review.goods_name}</Text>
+                      <TouchableOpacity style={styles.navigateButton}>
+                        <Text style={styles.navigateButtonText}>바로가기 →</Text>
+                      </TouchableOpacity>
+                    </View>
+                    {review.goods_image_url ? (
+                      <Image
+                        source={{ uri: review.goods_image_url }} // 굿즈 썸네일사진
+                        style={styles.shopImage}
+                        resizeMode="contain"
+                      />
+                    ) : (
+                      <Image
+                        source={require('../../../assets/images/background.png')} // 기본 이미지
+                        style={styles.shopImage}
+                        resizeMode="contain"
+                      />
+                    )}
+                  </View>
+              </TouchableOpacity>
             ))
           ) : (
             // 데이터가 없을 때 메시지 표시
@@ -234,7 +243,7 @@ const styles = StyleSheet.create({
   userName: {
     ...typography.body.large_bold,
     color: colors.gray500,
-    marginTop:5
+    marginTop: 5
   },
   userInfo: {
     ...typography.body.medium,
@@ -301,8 +310,8 @@ const styles = StyleSheet.create({
     color: colors.orange200
   },
   shopImage: {
-    width: 110,
-    height: 110,
+    width: 130,
+    height: 130,
     borderRadius: 8,
     marginLeft: 12,
   },

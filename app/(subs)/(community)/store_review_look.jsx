@@ -51,7 +51,7 @@ const ReviewLook = () => {
     store_review_photo_url = "",
     address = ""
   } = review;
-  console.log('reviewall', store_review_photo_url)
+  console.log('revieimg', store_review_photo_url)
 
   return (
     <SafeAreaView style={styles.safeArea}>

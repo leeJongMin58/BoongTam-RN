@@ -48,7 +48,7 @@ const GoodsReviewLook = () => {
     goods_review_photo_url = "",
     goods_image_url = ""
   } = review;
-  console.log('goodsimg', goods_image_url)
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>

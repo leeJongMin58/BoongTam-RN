@@ -135,15 +135,13 @@ export default function CommunityScreen() {
                 <View style={styles.sectionHeader}>
                   <View style={styles.sectionHeader_min}>
                     <Text style={styles.sectionTitle}>매장 리뷰</Text>
-                    <TouchableOpacity style={styles.moreButton}>
-                      <Link
-                        href="/(subs)/(community)/store_review_list" // 이동할 경로
-                        style={{ textDecorationLine: "none" }} // 기본 스타일 제거
-                      >
-                        <View style={styles.container_arrow}>
-                          <MaterialIcons name="add" size={24} color={colors.white} />
-                        </View>
-                      </Link>
+                    <TouchableOpacity
+                      onPress={() => router.push("/(subs)/(community)/store_review_list")}
+                      style={styles.moreButton}
+                    >
+                      <View style={styles.container_arrow}>
+                        <MaterialIcons name="add" size={24} color={colors.white} />
+                      </View>
                     </TouchableOpacity>
 
                   </View>
