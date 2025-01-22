@@ -87,12 +87,12 @@ export default function UserInfoScreen() {
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {[
-          { label: "닉네임", type: "nickname", value: userInfo.nickname },
-          { label: "포인트", type: "points", value: userInfo.points },
-          { label: "프로필 사진", type: "profile_picture", value: userInfo.profile_picture },
-          { label: "이메일", type: "email", value: userInfo.email },
-          { label: "주소", type: "address1", value: userInfo.address1 },
-          { label: "전화번호", type: "ph", value: userInfo.ph },
+          { label: "닉네임", type: "nickname", value: userInfo.nickname || "Nickname" },
+          { label: "포인트", type: "points", value: userInfo.points || "0" },
+          { label: "프로필 사진", type: "profile_picture", value: userInfo.profile_picture || "profile.png" },
+          { label: "이메일", type: "email", value: userInfo.email || "example@mate.com" },
+          { label: "주소", type: "address1", value: userInfo.address1 || "경기도 판교시 서울동"},
+          { label: "전화번호", type: "ph", value: userInfo.ph || "010-1234-5678"},
         ].map((item, index) => (
           <View key={index} style={styles.infoItem}>
             <View style={styles.textContainer}>

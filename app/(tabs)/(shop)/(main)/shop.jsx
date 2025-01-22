@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
 	recommendCard: {
 		marginRight: 10,
 		backgroundColor: colors.white,
-		borderRadius: 8,
+		borderRadius: 20,
 		padding: 1,
 		alignItems: 'center',
 		width: SCREEN_WIDTH / 2 - 10,
@@ -324,18 +324,17 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	leftInfo: {
+		marginLeft: 10,
 		alignItems: 'flex-start',
 	},
 	productCategory: {
 		...typography.label.large,
 		color: colors.gray400,
-		marginBottom: 3,
 	},
 	productName: {
 		...typography.body.medium,
 		fontWeight: 'bold',
 		color: colors.gray500,
-		marginBottom: 5,
 	},
 	productPrice: {
 		...typography.body.large_bold,
@@ -345,5 +344,6 @@ const styles = StyleSheet.create({
 		...typography.label.normal,
 		color: colors.gray400,
 		textAlign: 'right',
+		marginRight: 10,
 	},
 });

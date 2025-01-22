@@ -141,7 +141,7 @@ const shopOrder = () => {
                                     style={styles.searchButton}
                                     onPress={() => setModalVisible(true)}
                                 >
-                                    <Text style={styles.searchButtonText}>{STRINGS.SIGNUP.INFO.FIND_ADDRESS}</Text>
+                                    <Text style={styles.searchButtonText}>주소 찾기</Text>
                                 </TouchableOpacity>
                             </View>
                             <TextInput
@@ -246,7 +246,7 @@ const shopOrder = () => {
                             style={{ flex: 1 }}
                         />
                         <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.closeButtonText}>{STRINGS.SIGNUP.INFO.CLOSE}</Text>
+                            <Text style={styles.closeButtonText}>닫기</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

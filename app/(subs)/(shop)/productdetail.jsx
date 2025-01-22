@@ -141,11 +141,11 @@ const styles = StyleSheet.create({
   backbutton: {
     position: "absolute",
     left: 10,
-},
-settingsButton: {
+  },
+  settingsButton: {
     position: "absolute",
     right: 10,
-},
+  },
   headerTitle: {
     ...typography.heading.small_bold,
     textAlign: 'center',
@@ -157,8 +157,8 @@ settingsButton: {
     marginBottom: 8,
   },
   productImage: {
-    width: 200,
-    height: 100,
+    width: 300,
+    height: 200,
     resizeMode: 'contain',
     marginBottom: 16,
   },
@@ -168,7 +168,7 @@ settingsButton: {
     marginBottom: 8,
   },
   productPrice: {
-    ...typography.body.large_bold,
+    ...typography.heading.small_bold,
     color: colors.orange200,
     marginBottom: 16,
   },
