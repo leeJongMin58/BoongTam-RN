@@ -1,43 +1,59 @@
-import React, { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
-	View,
-	Text,
-	TextInput,
 	StyleSheet,
 	KeyboardAvoidingView,
 	Platform,
 	TouchableWithoutFeedback,
 	Keyboard,
 } from 'react-native'
-import { router, useLocalSearchParams } from 'expo-router'
-import Colors from '../../../src/styles/color'
-import Typography from '../../../src/styles/typhography'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { STRINGS } from '../../../src/config/string'
 import { LoginAppbar } from '../../../src/components/LoginAppbar'
-
-// 상수 정의
-const MIN_EMAIL_LENGTH = 0
-
-// 이메일 유효성 검사 정규식
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+import LoginEmailForm from '../../../src/components/LoginEmailForm'
+import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
+import { signupUseCase } from '../../../src/usecases/authUsecase'
 
 const LoginEmailScreen = () => {
+	const local = useLocalSearchParams()
+	const router = useRouter()
+
+	const emailStates = {
+		GOOD: 'good',
+		FAIL_REQUIREMENT: 'fail_requirement',
+		NO_EMAIL: 'no_email',
+	}
+
 	const [email, setEmail] = useState('')
-	const { signInfo } = useLocalSearchParams()
-	const nickname = (signInfo ? JSON.parse(signInfo) : null)?.nickname
+	const [emailState, setEmailState] = useState(emailStates.NO_EMAIL)
+	const [buttonText, setButtonText] = useState(STRINGS.LOGIN.NEXT)
 
-	const handleEmailChange = (text) => {
-		setEmail(text.trim())
-	}
+	const finallyEmail = useRef(null)
 
-	const handleNext = () => {
-		Keyboard.dismiss()
-		if (EMAIL_REGEX.test(email) || email.length === MIN_EMAIL_LENGTH) {
-			router.push('/login/signup/loginAddress')
+	useEffect(() => {
+		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+		if (regex.test(email)) {
+			setEmailState(emailStates.GOOD)
+			setButtonText(STRINGS.LOGIN.NEXT)
+			finallyEmail.current = email
+		} else {
+			setEmailState(emailStates.FAIL_REQUIREMENT)
+			setButtonText(STRINGS.LOGIN.PASS)
+			finallyEmail.current = null
 		}
-	}
+	})
 
-	const isNextButtonEnabled = EMAIL_REGEX.test(email)
+	const handleNextBtn = async () => {
+		Keyboard.dismiss()
+		router.push({
+			pathname: '/login/signup/loginAddress',
+			params: {
+				id: local.id,
+				phoneNumber: local.phoneNumber,
+				password: local.password,
+				email: finallyEmail.current,
+			},
+		})
+	}
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -46,30 +62,14 @@ const LoginEmailScreen = () => {
 				style={styles.container}
 			>
 				{/* 상단 네비게이션 */}
-				<LoginAppbar title={STRINGS.LOGIN.TITLE} step="2 / 3" />
+				<LoginAppbar
+					title={STRINGS.LOGIN.EMAIl.EMAIL}
+					step={STRINGS.LOGIN.EMAIl.STEP}
+				/>
 
-				{/* 이메일 입력 */}
-				<View style={styles.emailSection}>
-					<Text style={styles.label}>이메일</Text>
-					<TextInput
-						style={styles.input}
-						placeholder="이메일"
-						value={email}
-						onChangeText={handleEmailChange}
-						keyboardType="email-address"
-					/>
-					<Text style={styles.helperText}>
-						이메일 양식에 맞춰 작성해주세요.
-					</Text>
-				</View>
+				<LoginEmailForm email={email} onChangeEmail={setEmail} />
 
-				{/* 하단 버튼 */}
-				{/* <LoginBottomBtn
-					pathname="/login/signup/loginAddress"
-					signInfo={{ nickname, email }}
-					isNextButtonEnabled={true}
-					handleNext={() => handleNext()}
-				/> */}
+				<LoginLongBtn text={buttonText} onPress={handleNextBtn} />
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)
@@ -79,31 +79,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-		justifyContent: 'space-between',
-	},
-	emailSection: {
-		flex: 1,
-		justifyContent: 'center', // 수직 위치 조정
-		alignItems: 'center', // 수평 위치 중앙
-	},
-	label: {
-		...Typography.body.large_bold,
-		marginBottom: 8,
-		alignSelf: 'flex-start',
-	},
-	input: {
-		height: 60,
-		borderWidth: 1,
-		borderColor: Colors.orange100,
-		borderRadius: 5,
-		paddingHorizontal: 10,
-		marginRight: 10,
-		width: '100%',
-	},
-	helperText: {
-		marginTop: 10,
-		...Typography.body.medium,
-		color: Colors.gray300,
+		justifyContent: 'center',
 	},
 })
 

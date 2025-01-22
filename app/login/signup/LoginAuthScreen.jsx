@@ -11,6 +11,10 @@ import { AuthForm } from '../../../src/components/AuthForm'
 import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'expo-router'
+import {
+	sendAuthCodeUseCase,
+	verifyAuthCodeUseCase,
+} from '../../../src/usecases/authUsecase'
 
 export default function LoginAuthScreen() {
 	const router = useRouter()
@@ -41,23 +45,47 @@ export default function LoginAuthScreen() {
 		setGoodCode(codeRegex.test(code))
 	}, [code])
 
-	const handleSendBtn = () => {
-		// todo api
-		setSendSMS(true)
-		setWarning(true)
-		setMsg(STRINGS.LOGIN.AUTH.WARNING_NO_CODE)
+	const handleSendBtn = async () => {
 		finallyPhoneNumber.current = phoneNumber
+		const result = await sendAuthCodeUseCase(finallyPhoneNumber.current)
+		if (result == 200) {
+			setSendSMS(true)
+			setWarning(true)
+			setMsg(STRINGS.LOGIN.AUTH.WARNING_AUTH_FAIL)
+		}
+
+		// setSendSMS(true)
+		// setWarning(true)
+		// setMsg(STRINGS.LOGIN.AUTH.WARNING_AUTH_FAIL)
 	}
 
-	const handleNextBtn = () => {
-		// todo api
-		Keyboard.dismiss()
-		router.push({
-			pathname: '/login/signup/LoginAuthCompleteScreen',
-			params: {
-				phoneNumber: finallyPhoneNumber.current
-			},
-		})
+	const handleNextBtn = async () => {
+		try {
+			const result = await verifyAuthCodeUseCase(code, finallyPhoneNumber.current)
+			
+			if (result.code == 200) {
+				Keyboard.dismiss()
+				router.push({
+					pathname: '/login/signup/LoginAuthCompleteScreen',
+					params: {
+						phoneNumber: finallyPhoneNumber.current,
+					},
+				})
+			} else {
+				setWarning(STRINGS.LOGIN.AUTH.CHECK_CODE)
+				setWarning(true)
+			}
+		} catch (error) {
+			console.log(error)
+		}
+
+		// Keyboard.dismiss()
+		// router.push({
+		// 	pathname: '/login/signup/LoginAuthCompleteScreen',
+		// 	params: {
+		// 		phoneNumber: finallyPhoneNumber.current,
+		// 	},
+		// })
 	}
 
 	return (

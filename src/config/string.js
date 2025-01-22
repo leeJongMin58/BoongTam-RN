@@ -1,73 +1,91 @@
 export const STRINGS = {
 	APP_NAME: 'BonngTam',
 	ON_BOARDING: {
-		
-		PASS : '건너뛰기',
+		PASS: '건너뛰기',
 		SLIDE1: {
 			TITLE: '겨울 간식의 왕,\n붕어빵을 찾아드립니다!',
-			DESCRIPTION: '당신이 좋아하는 붕어빵 가게를 한눈에 확인하고\n나만 아는 가게도 등록해보세요.',
+			DESCRIPTION:
+				'당신이 좋아하는 붕어빵 가게를 한눈에 확인하고\n나만 아는 가게도 등록해보세요.',
 		},
 		SLIDE2: {
 			TITLE: '붕어빵 리뷰 평점 확인!\n 지금 바로!',
-			DESCRIPTION: '사람들이 작성한 리뷰를 살펴보고\n최고의 붕어빵 가게를 찾아보세요.',
+			DESCRIPTION:
+				'사람들이 작성한 리뷰를 살펴보고\n최고의 붕어빵 가게를 찾아보세요.',
 		},
 		SLIDE3: {
 			TITLE: '붕어빵 매장\n 직접 등록하세요!',
-			DESCRIPTION: '내가 찾은 정말 맛있는 붕어빵 가게를 등록하고,\n다른 사람들과 공유해보세요.',
+			DESCRIPTION:
+				'내가 찾은 정말 맛있는 붕어빵 가게를 등록하고,\n다른 사람들과 공유해보세요.',
 		},
 		SLIDE4: {
 			TITLE: '붕어빵 찾기\n지금 시작해볼까요?',
 			DESCRIPTION: '로그인하고 주변의 붕어빵 매장을\n한눈에 찾아보세요!',
 		},
-	},	
+	},
 	LOGIN: {
-		LOGIN : '로그인',
-		SIGNUP : '회원가입',
-		ID : '아이디',
-		PW : '비밀번호',
-		NEXT : '다음',
+		LOGIN: '로그인',
+		SIGNUP: '회원가입',
+		ID: '아이디',
+		PW: '비밀번호',
+		NEXT: '다음',
+		PASS: '건너뛰기',
+		COMPLETE : '회원가입 완료!\n내 주변 붕어빵 매장을 찾으러 가볼까요?',
+		COMPLETE2 : '붕어탐정 시작하기',
 		INPUT: {
-			SUB_TITLE : '회원 로그인',
-			FIND_ID : '아이디 찾기',
-			FIND_PW : '비밀번호 찾기',
-			WARNING_ID : '아이디는 4~10글자로 입력해 주세요',
-			WARNING_PW : '비밀번호는 4~10글자로 입력해 주세요',
-			WARNING_NO_ID : '등록되지 않은 아이디 입니다.',
-			WARNING_NO_MATCH : '아이디와 비밀번호가 일치하지 않습니다.',
+			SUB_TITLE: '회원 로그인',
+			FIND_ID: '아이디 찾기',
+			FIND_PW: '비밀번호 찾기',
+			WARNING_ID: '아이디는 4~10글자로 입력해 주세요',
+			WARNING_PW: '비밀번호는 4~10글자로 입력해 주세요',
+			WARNING_NO_ID: '등록되지 않은 아이디 입니다.',
+			WARNING_NO_MATCH: '아이디와 비밀번호를 확인해주세요.',
 		},
-		AGREEMENT : {
-			TITLE : '회원가입 필수 동의 항목',
-			SERVICE : '1. 개인정보 처리방침에 동의합니다.',
-			PRIVACY : '2. 서비스 이용약관에 동의 합니다.',
-			LOCATION : '3. 위치 정보 수집 및 사용에 동의 합니다.',
-			ALL_AGREEMENT : '모두 동의',
-			CANCEL : '취소'
+		AGREEMENT: {
+			TITLE: '회원가입 필수 동의 항목',
+			SERVICE: '1. 개인정보 처리방침에 동의합니다.',
+			PRIVACY: '2. 서비스 이용약관에 동의 합니다.',
+			LOCATION: '3. 위치 정보 수집 및 사용에 동의 합니다.',
+			ALL_AGREEMENT: '모두 동의',
+			CANCEL: '취소',
 		},
-		AUTH : {
-			STEP : '1/5',
-			SUB_TITLE : '본인인증',
-			PLACEHOLDER : '010XXXXXXXX',
-			PLACEHOLDER2 : '인증번호',
-			DETAIL : 'SMS 본인 인증을 위해서 휴대폰 번호를 입력해 주세요.\n"-"은 생략하고 입력',
-			WARNING_NO_CODE : '전송된 인증번호를 입력해주세요.',
-			WARNING_AUTH_FAIL : '인증에 실패 했습니다. 다시 시도해 주세요.',
-			AUTH_SUCCESS : '본인인증 완료!\n회원가입 절차를\n진행해 주세요.',
-			SEND : '전송하기',
-			CHECK_CODE : '인증 확인',
+		AUTH: {
+			STEP: '1/5',
+			SUB_TITLE: '본인인증',
+			PLACEHOLDER: '010XXXXXXXX',
+			PLACEHOLDER2: '인증번호',
+			DETAIL: 'SMS 본인 인증을 위해서 휴대폰 번호를 입력해 주세요.\n"-"은 생략하고 입력',
+			WARNING_NO_CODE: '전송된 인증번호를 입력해주세요.',
+			WARNING_AUTH_FAIL: '인증에 실패 했습니다. 다시 시도해 주세요.',
+			AUTH_SUCCESS: '본인인증 완료!\n회원가입 절차를\n진행해 주세요.',
+			SEND: '전송하기',
+			CHECK_CODE: '인증 확인',
 		},
-		IDE : {
-			STEP : '2/5',
-			IS_DUPILICATE : '중복체크',
-			DETIAL : '아이디는 영어와 숫자만 사용 가능하며 4 ~ 20 글자 사이로 입력해주세요.',
-			WARNING_DUPICATE : '중복된 아이디 입니다.\n다른 아이디를 입력해 주세요',
-			GOOD_ID : '사용 가능한 아이디 입니다.\n다음으로 넘어가세요'
+		IDE: {
+			STEP: '2/5',
+			IS_DUPILICATE: '중복체크',
+			DETIAL: '아이디는 영어와 숫자만 사용 가능하며 4 ~ 20 글자 사이로 입력해주세요.',
+			GO_DUPLICATE_TEST: '아이디 중복확인을 해주세요',
+			WARNING_DUPICATE:
+				'중복된 아이디 입니다.\n다른 아이디를 입력해 주세요',
+			GOOD_ID: '사용 가능한 아이디 입니다.\n다음으로 넘어가세요',
 		},
-		PASSPWORD : {
-			STEP : '3/5',
-			VALID_PW : '비밀번호 확인',
-			DETAIL : '비밀번호는 영어, 숫자, 특문만 사용가능하며 8 ~ 20 글자 사이로 입력해주새요.',WARNING_NO_VALID : '비밀번호 확인을 해주세요',
-			WARNING_NOT_SAME : '비밀번호와 비밀번호 확인이 일치 하지 않습니다.'
-		}
+		PASSPWORD: {
+			STEP: '3/5',
+			VALID_PW: '비밀번호 확인',
+			DETAIL: '비밀번호는 영어, 숫자, 특문만 사용가능하며 8 ~ 20 글자 사이로 입력해주새요.',
+			WARNING_NO_VALID: '비밀번호 확인을 해주세요',
+			WARNING_NOT_SAME: '비밀번호와 비밀번호 확인이 일치 하지 않습니다.',
+		},
+		EMAIl: {
+			STEP: '4/5',
+			EMAIL : '이메일',
+			WARNING_EMAIL : '이메일 양식에 맞춰 작성해 주세요.'
+		},
+		ADDRESS: {
+			STEP: '5/5',
+			ADDRESS1 : '주소',
+			ADDRESS2 : '상세주소',
+		},
 	},
 	BOONG_TAM: {
 		TITLE: '붕탐 오더',
@@ -76,7 +94,7 @@ export const STRINGS = {
 			STORE_INFO: '매장 정보',
 			STORE_FORM: '가게 형태',
 			STORE_APPEARANCE: '출몰 시기',
-			STORE_TIME: '출몰 시간'
+			STORE_TIME: '출몰 시간',
 		},
 		INFO: {
 			FIND_LOAD: '길찾기',
@@ -93,11 +111,11 @@ export const STRINGS = {
 			POINT: '포인트',
 			BOONG_POINT: '붕 포인트',
 			APPLICATION: '적용',
-			GO_BOONGTEM: '붕템샵으로 이동하기'
+			GO_BOONGTEM: '붕템샵으로 이동하기',
 		},
 		REVIEW: {
 			WRITE_REVIEW: '리뷰 쓰기',
-			REVIEW: '리뷰'
+			REVIEW: '리뷰',
 		},
 		PAY: {
 			TOTAL_PAYMENT: '총 주문 금액',
@@ -110,7 +128,7 @@ export const STRINGS = {
 			PAY: '결제하기',
 			SUCCESS_PAY: '결제 완료!',
 			SUCCESS_PAY_DISCRIPTION: '열심히 배송 중 이에요!',
-			PAY_DAY: '주문 일시'
+			PAY_DAY: '주문 일시',
 		},
 		ORDER: {
 			ORDER: '주문하기',
@@ -123,11 +141,11 @@ export const STRINGS = {
 			CHECK_ORDER: '가게에서 주문을 확인 중 이에요!',
 			AFTER_TIME: '이만큼 남았어요~',
 			CANCEL_ORDER: '주문 취소',
-			ADDRESS_PRODUCT : '배송지 정보',
+			ADDRESS_PRODUCT: '배송지 정보',
 			INQUIRY: '배송 조회',
 			CANCEL_MESSAGE1: '주문이 취소되었습니다',
-			CANCEL_MESSAGE2: '이용해주셔서 감사합니다'
-		}
+			CANCEL_MESSAGE2: '이용해주셔서 감사합니다',
+		},
 	},
 	COMMYNUITY: {
 		TITLE: 'Community',
@@ -154,23 +172,27 @@ export const STRINGS = {
 			edit: '수정',
 			userDetails: [
 				{ label: '이메일', value: 'bung-aaa@bung.com', icon: 'email' },
-				{ label: '주소', value: '서울특별시 봉어동', icon: 'location-on' },
+				{
+					label: '주소',
+					value: '서울특별시 봉어동',
+					icon: 'location-on',
+				},
 				{ label: '전화번호', value: '010-1111-1111', icon: 'phone' },
 				{ label: '연결된 소셜 계정', value: 'KAKAO', icon: 'link' },
-			  ],
-			policy: { 
+			],
+			policy: {
 				name: '공지사항',
-				description: '다양한 공지'
+				description: '다양한 공지',
 			},
-			service: { 
+			service: {
 				name: '고객 센터',
-				description: '문제가  있을 시 문의 주세요'
+				description: '문제가  있을 시 문의 주세요',
 			},
-			notice: { 
+			notice: {
 				name: '약관 및 정책',
-				description: '변경 사항에 대한 알림'
+				description: '변경 사항에 대한 알림',
 			},
-			version: '현재 버전: 1.1.1'
+			version: '현재 버전: 1.1.1',
 		},
 		bill: {
 			TABS: {
@@ -184,94 +206,94 @@ export const STRINGS = {
 			},
 			allData: [
 				{
-					id: "1",
-					category: "매장·포장",
-					date: "12.13 (월)",
-					status: "주문 완료",
-					place: "서울 역삼점",
-					items: "슈붕 2개",
-					price: "3,800원",
+					id: '1',
+					category: '매장·포장',
+					date: '12.13 (월)',
+					status: '주문 완료',
+					place: '서울 역삼점',
+					items: '슈붕 2개',
+					price: '3,800원',
 				},
 				{
-					id: "2",
-					category: "매장·포장",
-					date: "12.14 (화)",
-					status: "주문 완료",
-					place: "서울 역삼점",
-					items: "팥붕 외 3개",
-					price: "7,800원",
+					id: '2',
+					category: '매장·포장',
+					date: '12.14 (화)',
+					status: '주문 완료',
+					place: '서울 역삼점',
+					items: '팥붕 외 3개',
+					price: '7,800원',
 				},
 				{
-					id: "3",
-					category: "매장·포장",
-					date: "12.14 (화)",
-					status: "주문 완료",
-					place: "서울 역삼점",
-					items: "팥붕 12개",
-					price: "51,800원",
+					id: '3',
+					category: '매장·포장',
+					date: '12.14 (화)',
+					status: '주문 완료',
+					place: '서울 역삼점',
+					items: '팥붕 12개',
+					price: '51,800원',
 				},
 				{
-					id: "4",
-					category: "매장·포장",
-					date: "12.15 (수)",
-					status: "주문 완료",
-					place: "서울 영등포점",
-					items: "슈붕 외 22개",
-					price: "32,800원",
+					id: '4',
+					category: '매장·포장',
+					date: '12.15 (수)',
+					status: '주문 완료',
+					place: '서울 영등포점',
+					items: '슈붕 외 22개',
+					price: '32,800원',
 				},
 				{
-					id: "5",
-					category: "매장·포장",
-					date: "12.17 (금)",
-					status: "주문 완료",
-					place: "서울 강남점",
-					items: "팥붕 외 12개",
-					price: "50,800원",
+					id: '5',
+					category: '매장·포장',
+					date: '12.17 (금)',
+					status: '주문 완료',
+					place: '서울 강남점',
+					items: '팥붕 외 12개',
+					price: '50,800원',
 				},
 				{
-					id: "6",
-					category: "굿즈",
-					date: "12.15 (수)",
-					status: "배송 완료",
-					place: "굿즈 배송",
-					items: "텀블러 외 1개",
-					price: "12,000원",
+					id: '6',
+					category: '굿즈',
+					date: '12.15 (수)',
+					status: '배송 완료',
+					place: '굿즈 배송',
+					items: '텀블러 외 1개',
+					price: '12,000원',
 				},
 				{
-					id: "7",
-					category: "굿즈",
-					date: "12.18 (금)",
-					status: "배송 완료",
-					place: "굿즈 배송",
-					items: "종이 외 3개",
-					price: "19,000원",
+					id: '7',
+					category: '굿즈',
+					date: '12.18 (금)',
+					status: '배송 완료',
+					place: '굿즈 배송',
+					items: '종이 외 3개',
+					price: '19,000원',
 				},
 				{
-					id: "8",
-					category: "굿즈",
-					date: "12.17 (목)",
-					status: "배송 완료",
-					place: "굿즈 배송",
-					items: "장난감",
-					price: "90,000원",
+					id: '8',
+					category: '굿즈',
+					date: '12.17 (목)',
+					status: '배송 완료',
+					place: '굿즈 배송',
+					items: '장난감',
+					price: '90,000원',
 				},
 				{
-					id: "9",
-					category: "굿즈",
-					date: "12.19 (토)",
-					status: "배송 완료",
-					place: "굿즈 배송",
-					items: "보틀",
-					price: "30,000원",
+					id: '9',
+					category: '굿즈',
+					date: '12.19 (토)',
+					status: '배송 완료',
+					place: '굿즈 배송',
+					items: '보틀',
+					price: '30,000원',
 				},
 				{
-					id: "10",
-					category: "굿즈",
-					date: "12.16 (목)",
-					status: "배송 완료",
-					place: "굿즈 배송",
-					items: "스티커 외 5개",
-					price: "18,000원",
+					id: '10',
+					category: '굿즈',
+					date: '12.16 (목)',
+					status: '배송 완료',
+					place: '굿즈 배송',
+					items: '스티커 외 5개',
+					price: '18,000원',
 				},
 			],
 		},
@@ -319,21 +341,43 @@ export const STRINGS = {
 		},
 		CUSTOMER_SERVICE_SCREEN: {
 			OPTIONS: [
-				{ title: '자주 묻는 질문', description: '궁금한 사항에 대해 적어주세요', icon: 'question-answer' },
-				{ title: '전화 연결', description: '상담사와 연결하세요', icon: 'phone' },
-				{ title: '이메일 문의', description: '이메일로 문의해 주세요', icon: 'email' },
-				{ title: '고객안심센터 상담', description: '가입자의 정보 보호 불편, 불리한 처리, 대리…', icon: 'home' },
-				{ title: '안전거래센터 신고', description: '법 또는 정책을 위반한 거래를 신고하세요.', icon: 'lock' },
+				{
+					title: '자주 묻는 질문',
+					description: '궁금한 사항에 대해 적어주세요',
+					icon: 'question-answer',
+				},
+				{
+					title: '전화 연결',
+					description: '상담사와 연결하세요',
+					icon: 'phone',
+				},
+				{
+					title: '이메일 문의',
+					description: '이메일로 문의해 주세요',
+					icon: 'email',
+				},
+				{
+					title: '고객안심센터 상담',
+					description: '가입자의 정보 보호 불편, 불리한 처리, 대리…',
+					icon: 'home',
+				},
+				{
+					title: '안전거래센터 신고',
+					description: '법 또는 정책을 위반한 거래를 신고하세요.',
+					icon: 'lock',
+				},
 			],
-		},	
+		},
 		WITHDRAWAL_SCREEN: {
 			NOTICE: {
 				TITLE: '회원탈퇴 유의사항',
 				BADGE: '주의!',
 				DESCRIPTION: '회원 탈퇴 전에 꼭 확인하세요',
-				EXPANDED_TEXT: '회원 탈퇴를 진행하시면 사용 중인 쿠폰, 포인트, 상품권 등이 모두 소멸되며 복구할 수 없습니다. 이 점 유의하시기 바랍니다.',
+				EXPANDED_TEXT:
+					'회원 탈퇴를 진행하시면 사용 중인 쿠폰, 포인트, 상품권 등이 모두 소멸되며 복구할 수 없습니다. 이 점 유의하시기 바랍니다.',
 			},
-			CONFIRMATION: '유의사항을 모두 확인하였으며, 회원 탈퇴 시 쿠폰, 포인트, 상품권, 소멸에 동의합니다',
+			CONFIRMATION:
+				'유의사항을 모두 확인하였으며, 회원 탈퇴 시 쿠폰, 포인트, 상품권, 소멸에 동의합니다',
 			BUTTON: '회원 탈퇴',
 			ALERTS: {
 				WARNING_TITLE: '주의',
@@ -341,7 +385,7 @@ export const STRINGS = {
 				SUCCESS_TITLE: '회원 탈퇴',
 				SUCCESS_MESSAGE: '회원 탈퇴가 완료되었습니다.',
 			},
-		},		
+		},
 	},
 	PAY: {
 		TITLE: 'Pay',
@@ -358,25 +402,26 @@ export const STRINGS = {
 			},
 			SUB_CATEGORIES: {
 				ACCESSORY: {
-					KEYLING: '키링', 
-					GRIPTOK: '그립톡', 
+					KEYLING: '키링',
+					GRIPTOK: '그립톡',
 					PHONECASE: '폰케이스',
 				},
 				DOLL: {
-					FULL_DOLL: '전신인형', 
-					MINI_DOLL: '미니인형', 
+					FULL_DOLL: '전신인형',
+					MINI_DOLL: '미니인형',
 					BONGSOON: '붕순이',
 				},
 				HOME_PRODUCTS: {
-					OVEN: '오븐', 
-					SHAKER: '쉐이커', 
-					TOWEL: '타월', 
+					OVEN: '오븐',
+					SHAKER: '쉐이커',
+					TOWEL: '타월',
 					PLATE: '그릇',
 				},
 			},
 		},
 		ADDRESS: {
-			SUTTLE_TEXT: '배송지를 정확히 입력해 주세요. 잘못된 주소로 인해 발생한 문제는 교환/반품이 어렵습니다.',
+			SUTTLE_TEXT:
+				'배송지를 정확히 입력해 주세요. 잘못된 주소로 인해 발생한 문제는 교환/반품이 어렵습니다.',
 			SUTTLE_INPUT_TEXT: '예) 서울특별시 강남구 테헤란로 235',
 			SUTTLE_SAVE_TEXT: '저장',
 		},
@@ -388,7 +433,6 @@ export const STRINGS = {
 			APPLY_ORDER_VIEW: '주문 상세보기',
 			APPLY_CHANGE_TEXT: '교환하기',
 			APPLY_RETURN_TEXT: '반품하기',
-
 		},
 		CHANGE_COMPLETE: {
 			CHANGE_COMPLTETE: '교환 신청완료',
@@ -404,10 +448,10 @@ export const STRINGS = {
 			CHANGE_NOW_ADDRESS: '서울시 역삼역 붕어빵빌딩',
 			CHANGE_NOW_REASON: {
 				REASON1: '상품 내용이 상세 정보와 달라요',
-			    REASON2: '상품이 불량이에요',
-			 	REASON3: '상품이 파손되었어요',
+				REASON2: '상품이 불량이에요',
+				REASON3: '상품이 파손되었어요',
 				REASON4: '다른 상품이 왔어요',
-			 	REASON5: '기타 사유',
+				REASON5: '기타 사유',
 			},
 			CHANGE_HEADER_TEXT: '교환하기',
 			CHANGE_ORDER_VIEW: '주문 상세보기',
@@ -447,10 +491,10 @@ export const STRINGS = {
 			RETURN_NOW_ADDRESS: '서울시 역삼역 붕어빵빌딩',
 			RETURN_NOW_REASON: {
 				REASON1: '상품 내용이 상세 정보와 달라요',
-			    REASON2: '상품이 불량이에요',
-			 	REASON3: '상품이 파손되었어요',
+				REASON2: '상품이 불량이에요',
+				REASON3: '상품이 파손되었어요',
 				REASON4: '다른 상품이 왔어요',
-			 	REASON5: '기타 사유',
+				REASON5: '기타 사유',
 			},
 			RETURN_HEADER_TEXT: '교환하기',
 			RETURN_ORDER_VIEW: '주문 상세보기',
@@ -483,9 +527,7 @@ export const STRINGS = {
 			},
 			CHECKOUT_TEXT: '결제하기',
 		},
-		PRODUCT_LIST: {
-
-		},
+		PRODUCT_LIST: {},
 		PRODUCT_DETAIL: {
 			ERROR: {
 				FETCH_FAILED: '상품 정보를 불러올 수 없습니다.',
@@ -503,20 +545,12 @@ export const STRINGS = {
 				ADD_TO_CART_SUCCESS: '상품이 장바구니에 추가되었습니다.',
 			},
 			DESCRIPTION: {
-				DEFAULT: '은(는) 매우 유용하고 귀여운 상품입니다! 다양한 용도로 사용할 수 있으며 품질이 뛰어납니다.',
+				DEFAULT:
+					'은(는) 매우 유용하고 귀여운 상품입니다! 다양한 용도로 사용할 수 있으며 품질이 뛰어납니다.',
 			},
 			REVIEWS: {
 				RATING_TEXT: '평점: ',
 			},
 		},
 	},
-	SIGNUP: {
-		TITLE: '회원가입',
-		INFO: {
-			ADDRESS: '주소',
-			FIND_ADDRESS: '주소 찾기',
-			ADDRESS_DISCRIPTION: '주소에 이모티콘은 사용할 수 없습니다.',
-			CLOSE: '닫기'
-		}
-	}
-};
+}
