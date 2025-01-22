@@ -10,7 +10,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import ReviewCard from '../../../../src/components/reviewcard';
 import colors from '../../../../src/styles/color';
 import {
@@ -26,6 +26,7 @@ export default function CommunityScreen() {
   const [storeReviews, setStoreReviews] = useState([]);
   const [goodsReviews, setGoodsReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   // 데이터 로드 함수
   const loadReviews = async () => {
@@ -40,7 +41,7 @@ export default function CommunityScreen() {
     } catch (error) {
       console.error('Error loading reviews:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   };
 
@@ -89,7 +90,7 @@ export default function CommunityScreen() {
     </Link>
   );
 
-  
+
 
   const toggleMoreMenu = (section) => {
     setIsMoreMenuOpen((prevState) => ({
@@ -132,16 +133,19 @@ export default function CommunityScreen() {
               {/* 매장 리뷰 섹션 */}
               <View style={styles.section}>
                 <View style={styles.sectionHeader}>
-                  <View style={styles.sectionHeader_min}> 
+                  <View style={styles.sectionHeader_min}>
                     <Text style={styles.sectionTitle}>매장 리뷰</Text>
-                    <TouchableOpacity
-                      onPress={() => router.push("/(tabs)/(community)/(main)/community")}
-                      style={styles.moreButton}
-                    >
-                      <View style={styles.container_arrow}>
-                        <MaterialIcons name="add" size={24} color={colors.white} />
-                      </View>
+                    <TouchableOpacity style={styles.moreButton}>
+                      <Link
+                        href="/(subs)/(community)/store_review_list" // 이동할 경로
+                        style={{ textDecorationLine: "none" }} // 기본 스타일 제거
+                      >
+                        <View style={styles.container_arrow}>
+                          <MaterialIcons name="add" size={24} color={colors.white} />
+                        </View>
+                      </Link>
                     </TouchableOpacity>
+
                   </View>
                   <FlatList
                     data={storeReviews}
@@ -156,7 +160,7 @@ export default function CommunityScreen() {
                     )}
                   />
                 </View>
-                
+
               </View>
 
               {/* 굿즈 리뷰 섹션 */}
@@ -165,7 +169,7 @@ export default function CommunityScreen() {
                   <View style={styles.sectionHeader_min}>
                     <Text style={styles.sectionTitle}>굿즈 리뷰</Text>
                     <TouchableOpacity
-                      onPress={() => router.push("/(tabs)/(community)/(main)/community")}
+                      onPress={() => router.push("/(subs)/(community)/goods_review_list")}
                       style={styles.moreButton}
                     >
                       <View style={styles.container_arrow}>
@@ -186,7 +190,7 @@ export default function CommunityScreen() {
                     )}
                   />
                 </View>
-                
+
                 {/* + 버튼 */}
                 <TouchableOpacity
                   style={styles.floatingButton}
@@ -198,18 +202,32 @@ export default function CommunityScreen() {
                 {/* 메뉴 모달 */}
                 {isMenuOpen && (
                   <Modal transparent={true} animationType="fade">
+                    {/* 모달 배경을 터치했을 때 모달 닫기 */}
                     <TouchableOpacity
                       style={styles.overlay}
                       onPress={() => setIsMenuOpen(false)}
                     />
                     <View style={styles.menu}>
-                      <Link href="(subs)/(community)/submit_store" style={styles.menuItem}>
+                      {/* Link 컴포넌트에 onPress로 모달 닫기 추가 */}
+                      <Link
+                        href="(subs)/(community)/submit_store"
+                        style={styles.menuItem}
+                        onPress={() => setIsMenuOpen(false)} // 모달 닫기
+                      >
                         <Text style={styles.menuText}>매장 제보하기</Text>
                       </Link>
-                      <Link href="(subs)/(community)/shop_review_write" style={styles.menuItem}>
+                      <Link
+                        href="(subs)/(community)/store_review_write"
+                        style={styles.menuItem}
+                        onPress={() => setIsMenuOpen(false)} // 모달 닫기
+                      >
                         <Text style={styles.menuText}>매장 리뷰 쓰기</Text>
                       </Link>
-                      <Link href="(subs)/(community)/goods_review_write" style={styles.menuItem}>
+                      <Link
+                        href="(subs)/(community)/goods_review_write"
+                        style={styles.menuItem}
+                        onPress={() => setIsMenuOpen(false)} // 모달 닫기
+                      >
                         <Text style={styles.menuText}>굿즈 리뷰 쓰기</Text>
                       </Link>
                     </View>

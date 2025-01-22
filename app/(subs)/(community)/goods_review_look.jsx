@@ -26,6 +26,11 @@ const GoodsReviewLook = () => {
     review = null;
   }
 
+  // 이미지 배열 변환
+  const goodsReviewPhotos = review?.goods_review_photo_url
+    ? review.goods_review_photo_url.split(",")
+    : []; // 쉼표로 구분된 문자열을 배열로 변환
+
   const isGoodsReview = review?.goods_id !== undefined;
   if (!review || !isGoodsReview) {
     return (
@@ -38,11 +43,12 @@ const GoodsReviewLook = () => {
   const {
     user_simple_info: { nickname = "익명", profile_picture = "" } = {},
     review_text = "리뷰 내용이 없습니다.",
-    review_first_image_url = "",
     like_count = 0,
     goods_name = "",
+    goods_review_photo_url = "",
+    goods_image_url = ""
   } = review;
-
+  console.log('goodsimg', goods_image_url)
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -77,12 +83,23 @@ const GoodsReviewLook = () => {
           </View>
 
           {/* 이미지 섹션 */}
-          {review_first_image_url ? (
-            <Image
-              source={{ uri: encodeURI(review_first_image_url) }}
-              style={styles.reviewImage}
-              resizeMode="contain"
-            />
+          {goodsReviewPhotos.length > 0 ? (
+            <ScrollView horizontal contentContainerStyle={styles.imageScroll}>
+              {goodsReviewPhotos.map((photoUrl, index) => (
+                <View key={index} style={styles.imageContainer}>
+                  {/* 이미지 */}
+                  <Image
+                    source={{ uri: encodeURI(photoUrl.trim()) }} // 공백 제거 후 URI 인코딩
+                    style={styles.reviewImage}
+                    resizeMode="contain"
+                  />
+                  {/* 구분선 */}
+                  {index < goodsReviewPhotos.length - 1 && (
+                    <View style={styles.divider} />
+                  )}
+                </View>
+              ))}
+            </ScrollView>
           ) : (
             <Image
               source={require("../../../assets/images/background.png")}
@@ -111,9 +128,9 @@ const GoodsReviewLook = () => {
               <Text style={styles.navigateButtonText}>바로가기 →</Text>
             </TouchableOpacity>
           </View>
-          {review_first_image_url ? (
+          {goods_image_url ? (
             <Image
-              source={{ uri: encodeURI(review_first_image_url) }} // 굿즈 썸네일사진
+              source={{ uri: encodeURI(goods_image_url) }} // 굿즈 썸네일사진
               style={styles.shopImage}
               resizeMode="contain"
             />
@@ -191,6 +208,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "justify",
   },
+  reviewImage: {
+    width: 300, // 이미지 크기
+    height: 200,
+    borderRadius: 8,
+    marginHorizontal: 10, // 이미지 간 간격
+  },
   likeSection: {
     flexDirection: "row",
     alignItems: "center",
@@ -228,6 +251,23 @@ const styles = StyleSheet.create({
   },
   shopImage: { width: 120, height: 120, borderRadius: 8, marginLeft: 12 },
   errorText: { fontSize: 18, color: "red", textAlign: "center", marginTop: 50 },
+  imageScroll: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 16,
+  },
+  imageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  divider: {
+    width: 2,
+    height: 150,
+    backgroundColor: colors.white,
+    borderColor: colors.gray500, // 디버깅용
+    borderWidth: 1,     // 디버깅용
+    marginHorizontal: 10,
+  },
 });
 
 export default GoodsReviewLook;

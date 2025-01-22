@@ -26,6 +26,11 @@ const ReviewLook = () => {
     review = null;
   }
 
+  // 이미지 배열 변환
+  const storeReviewPhotos = review?.store_review_photo_url
+    ? review.store_review_photo_url.split(",")
+    : []; // 쉼표로 구분된 문자열을 배열로 변환
+
   // 매장 리뷰인지 확인
   const isStoreReview = review?.store_id !== undefined;
 
@@ -41,11 +46,12 @@ const ReviewLook = () => {
     user_simple_info: { nickname = "익명", profile_picture = "" } = {},
     review_text = "리뷰 내용이 없습니다.",
     store_name = "상점 정보 없음",
-    review_first_image_url = "",
     review_rating = 0,
     like_count = 0,
-    review_date,
+    store_review_photo_url = "",
+    address = ""
   } = review;
+  console.log('reviewall', store_review_photo_url)
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -75,9 +81,7 @@ const ReviewLook = () => {
             />
             <View style={styles.userInfo}>
               <Text style={styles.profileName}>{nickname}</Text>
-              <Text style={styles.profileDetails}>
-                리뷰: 123개
-              </Text>
+              <Text style={styles.profileDetails}>리뷰: 123개</Text>
             </View>
             <TouchableOpacity>
               <MaterialIcons name="more-horiz" size={24} color={colors.orange200} />
@@ -107,15 +111,26 @@ const ReviewLook = () => {
           </View>
 
           {/* 이미지 섹션 */}
-          {review_first_image_url ? (
-            <Image
-              source={{ uri: encodeURI(review_first_image_url) }}
-              style={styles.reviewImage}
-              resizeMode="contain"
-            />
+          {storeReviewPhotos.length > 0 ? (
+            <ScrollView horizontal contentContainerStyle={styles.imageScroll}>
+              {storeReviewPhotos.map((photoUrl, index) => (
+                <View key={index} style={styles.imageContainer}>
+                  {/* 이미지 */}
+                  <Image
+                    source={{ uri: encodeURI(photoUrl.trim()) }} // 공백 제거 후 URI 인코딩
+                    style={styles.reviewImage}
+                    resizeMode="contain"
+                  />
+                  {/* 구분선 */}
+                  {index < storeReviewPhotos.length - 1 && (
+                    <View style={styles.divider} />
+                  )}
+                </View>
+              ))}
+            </ScrollView>
           ) : (
             <Image
-              source={require('../../../assets/images/background.png')}
+              source={require("../../../assets/images/background.png")}
               style={styles.reviewImage}
               resizeMode="contain"
             />
@@ -137,10 +152,10 @@ const ReviewLook = () => {
         <View style={styles.shopInfo}>
           <View style={styles.shopDetails}>
             <Text style={styles.shopName}>{store_name}</Text>
-            <Text style={styles.shopAddress}>서울시 강남구 역삼동 ...</Text>
-            <TouchableOpacity 
-            onPress={()=> router.push("/(sub)/(boongtam)/boongtamDetail")}
-            style={styles.navigateButton}>
+            <Text style={styles.shopAddress}>{address}</Text>
+            <TouchableOpacity
+              onPress={() => router.push("/(subs)/(boongtam)/boongtamDetail")}
+              style={styles.navigateButton}>
               <Text style={styles.navigateButtonText}>바로가기 →</Text>
             </TouchableOpacity>
           </View>
@@ -213,11 +228,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   reviewImage: {
-    width: "100%",
-    height: 400,
+    width: 300, // 이미지 크기
+    height: 200,
     borderRadius: 8,
-    marginBottom: 16,
-    borderColor: colors.gray100
+    marginHorizontal: 10, // 이미지 간 간격
   },
   likeSection: {
     flexDirection: "row",
@@ -249,12 +263,29 @@ const styles = StyleSheet.create({
     color: colors.gray500,
     marginBottom: 4
   },
+  imageScroll: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 16,
+  },
   navigateButton: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     backgroundColor: colors.white,
     borderRadius: 8,
     alignSelf: "flex-start",
+  },
+  imageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  divider: {
+    width: 2,
+    height: 150,
+    backgroundColor: colors.white,
+    borderColor: colors.gray100, // 디버깅용
+    borderWidth: 1,     // 디버깅용
+    marginHorizontal: 10,
   },
   navigateButtonText: {
     ...typography.heading.small,

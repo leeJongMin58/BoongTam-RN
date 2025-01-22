@@ -34,9 +34,9 @@ export async function writeGoodsReview(goods_id, review_text, review_rating, rev
 }
 
 // 매장 리뷰 가져오기
-export async function fetchStoreReviews(authorization) {
+export async function fetchStoreReviews(sort, count) {
     try {
-        const response = await service.fetchStoreReviews(authorization)
+        const response = await service.fetchStoreReviews(sort, count)
         return response
     } catch (error) {
         console.log(error)
@@ -54,9 +54,9 @@ export async function fetchPopularStoreReviews(authorization) {
 }
 
 // 굿즈 리뷰 가져오기
-export async function fetchGoodsReviews(authorization) {
+export async function fetchGoodsReviews(sort, count) {
     try {
-        const response = await service.fetchGoodsReviews(authorization)
+        const response = await service.fetchGoodsReviews(sort, count)
         return response
     } catch (error) {
         console.log(error)

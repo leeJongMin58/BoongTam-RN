@@ -61,13 +61,14 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 			options.body = JSON.stringify(requestBody)
 		}
 		const resp = await fetch(BASE_URL + endpoint, options)
+		console.log('client1', resp)
 
 		if (!resp.ok) {
 			throw new Error(`Client error! status: ${resp.status}`)
 		}
 
 		const data = await resp.json()
-		console.log('client', data)
+		console.log('client2', data)
 		return data
 	} catch (error) { 
 		console.error('client Error:', error)

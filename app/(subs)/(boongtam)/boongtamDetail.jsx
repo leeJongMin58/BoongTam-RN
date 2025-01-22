@@ -83,7 +83,7 @@ const BoongtamDetail = () => {
                             <MaterialIcons name="navigation" size={24} color={Colors.orange100} />
                             <Text style={styles.actionButtonText}>{STRINGS.BOONG_TAM.INFO.FIND_LOAD}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.actionButton} onPress={() => router.push('/(subs)/(community)/shop_review_write')}>
+                        <TouchableOpacity style={styles.actionButton} onPress={() => router.push('/(subs)/(community)/store_review_write')}>
                             <MaterialIcons name="rate-review" size={24} color={Colors.orange100} />
                             <Text style={styles.actionButtonText}>{STRINGS.BOONG_TAM.REVIEW.WRITE_REVIEW}</Text>
                         </TouchableOpacity>

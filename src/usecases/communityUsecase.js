@@ -13,16 +13,16 @@ export const writeGoodsReview = async (goods_id, review_text, review_rating, rev
     (await repository.writeGoodsReview(goods_id, review_text, review_rating, review_photos))
 
 // 매장 리뷰 가져오기
-export const fetchStoreReviews = async (authorization) => 
-    await repository.fetchStoreReviews(authorization)
+export const fetchStoreReviews = async (sort, count) => 
+    await repository.fetchStoreReviews(sort, count)
 
 // 매장 인기리뷰 가져오기
 export const fetchPopularStoreReviews = async (authorization) => 
     await repository.fetchPopularStoreReviews(authorization)
 
 // 굿즈 리뷰 가져오기
-export const fetchGoodsReviews = async (authorization) => 
-    await repository.fetchGoodsReviews(authorization)
+export const fetchGoodsReviews = async (sort, count) => 
+    await repository.fetchGoodsReviews(sort, count)
 
 // 리뷰 상세정보
 export const storeReviewDetailInfo = async (sort, count) => 

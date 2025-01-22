@@ -9,11 +9,8 @@ const clientWT = new ClientWT();
 
 // 매장 등록하기
 export const submitStore = async (storeInfo) => {
-    console.log('Store Info Sent:', storeInfo); // 디버깅용 로그
     const endpoint = makeEndPoint('community/store');
-    console.log('Endpoint:', endpoint); // 디버깅용 로그
     const response = await clientWT.post(endpoint, storeInfo);
-    console.log('Response:', response); // 서버 응답 확인
     return response;
 };
 
@@ -26,16 +23,13 @@ export const storeReview = async (storeInfo) =>
 export const writeStoreReview = async (store_id, review_text, review_rating, review_photos) => {
     const endpoint = makeEndPoint('community/store/review')
     const response = await clientWT.post(endpoint, store_id, review_text, review_rating, review_photos)
-    console.log('service resp:', response)
     return response
 };
 
 // 굿즈 리뷰 작성하기
 export const writeGoodsReview = async (goods_id, review_text, review_rating, review_photos) => {
-
     const endpoint = makeEndPoint('community/goods/review')
     const response = await clientWT.post(endpoint, goods_id, review_text, review_rating, review_photos)
-    console.log('service resp:', response)
     return response
 };
 
@@ -47,9 +41,10 @@ export const fetchStoreReviews = async (sort, count) => {
 };
 
 // 리뷰(인기순) 가져오기
-export const fetchPopularStoreReviews = async (sort = 'popular', count) => {
+export const fetchPopularStoreReviews = async (sort, count) => {
     const endpoint = makeEndPoint('community/sre', {}, { sort, count });
     const response = await clientWT.get(endpoint);
+    console.log('service', makeEndPoint. response)
     return response; // 필요한 데이터만 반환
 };
 
