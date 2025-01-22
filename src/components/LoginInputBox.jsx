@@ -9,8 +9,6 @@ export function LoginInputBox({
 	onChangeText,
 	isSecure = false,
 }) {
-	const handleTextChange = (text) => {
-	}
 	return (
 		<View>
 			<TextInput

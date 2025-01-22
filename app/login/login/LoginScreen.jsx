@@ -14,6 +14,7 @@ import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
 import { LoginFindBtn } from '../../../src/components/LoginFindBtn'
 import { AgreementModal } from './AgreementModal'
 import { router } from 'expo-router'
+import { loginUseCase } from '../../../src/usecases/authUsecase'
 
 export default function LoginScreen() {
 	const [id, setId] = useState('')
@@ -29,15 +30,21 @@ export default function LoginScreen() {
 		setModalVisible(false)
 	}
 
-	const moveToBoongTam = () => {
-		router.navigate('/boongtam')
+	const handleLoginBtn = async () => {
+		try {
+			const result = await loginUseCase(id, password)
+			if (result.code == 200) {
+				router.navigate('/boongtam')
+			} else {
+				setWarning(STRINGS.LOGIN.INPUT.WARNING_NO_MATCH)
+			}
+		} catch (error) {
+			
+		}
 	}
 
 	const moveToSignup = () => {
 		router.navigate('/login/signup/LoginAuthScreen')
-	}
-
-	const handleWarningMsg = () => {
 	}
 
 	return (
@@ -60,7 +67,7 @@ export default function LoginScreen() {
 
 				{/* 로그인, 회원가입, 아이디/패스워드 찾기 버튼 */}
 				<View style={styles.buttonList}>
-					<LoginLongBtn text={STRINGS.LOGIN.LOGIN} onPress={moveToBoongTam}/>
+					<LoginLongBtn text={STRINGS.LOGIN.LOGIN} onPress={handleLoginBtn}/>
 					<LoginLongBtn text={STRINGS.LOGIN.SIGNUP} onPress={openModal} />
 					<LoginFindBtn text={STRINGS.LOGIN.INPUT.FIND_ID} />
 					<LoginFindBtn text={STRINGS.LOGIN.INPUT.FIND_PW} />

@@ -174,8 +174,7 @@ export default function Boongtam() {
 				<View style={styles.storeInfo}>
 					<Text style={styles.storeName}>{sampleStore.name}</Text>
 					<Text style={styles.storeDetails}>
-						리뷰 {sampleStore.reviews}개 | 거리{' '}
-						{sampleStore.distance}
+						리뷰 {sampleStore.reviews}개
 					</Text>
 					<View style={styles.storeActions}>
 						<TouchableOpacity
@@ -190,7 +189,7 @@ export default function Boongtam() {
 								color={Colors.gray500}
 							/>
 							<Text style={styles.storeButtonText}>
-								붕탐 오더
+								매장 상세보기
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
