@@ -103,7 +103,7 @@ export default function ReviewPage() {
       </View>
 
       <View style={styles.shopInfo}>
-        <Text style={styles.shopName}>봉순이네 - 역삼점</Text>
+        <Text style={styles.shopName}>황금F 잉어빵 역삼GFC역점</Text>
       </View>
 
       <View style={styles.ratingSection}>

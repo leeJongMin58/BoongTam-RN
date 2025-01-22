@@ -138,7 +138,7 @@ export default function ReviewScreen() {
                   <Text style={styles.reviewText}>{review.review_text}</Text>
 
                   {/* 매장 정보 섹션 */}
-                  <View style={[styles.shopInfo, { height: 150 }]}>
+                  <View style={[styles.shopInfo, { height: 180 }]}>
                     <View style={styles.shopDetails}>
                       <Text style={styles.shopName}>붕템샵</Text>
                       <Text style={styles.shopAddress}>{review.goods_name}</Text>

@@ -4,11 +4,11 @@ import {
 	View,
 	StyleSheet,
 	ActivityIndicator,
-	Image,
 	Animated,
 	PanResponder,
 	SafeAreaView,
 } from 'react-native'
+import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { useTypography } from '../../../src/utils/TypographyContext'
 import colors from '../../../src/styles/color'
@@ -16,23 +16,26 @@ import { STRINGS } from '../../../src/config/string'
 import typography from '../../../src/styles/typhography'
 import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
 
-
 const slides = [
 	{
 		text: STRINGS.ON_BOARDING.SLIDE1.TITLE,
 		description: STRINGS.ON_BOARDING.SLIDE1.DESCRIPTION,
+		image: require('../../../assets/Designer_2.jpeg'),
 	},
 	{
 		text: STRINGS.ON_BOARDING.SLIDE2.TITLE,
 		description: STRINGS.ON_BOARDING.SLIDE2.DESCRIPTION,
+		image: require('../../../assets/Designer_3.jpeg'),
 	},
 	{
 		text: STRINGS.ON_BOARDING.SLIDE3.TITLE,
 		description: STRINGS.ON_BOARDING.SLIDE3.DESCRIPTION,
+		image: require('../../../assets/Designer_4.jpeg'),
 	},
 	{
 		text: STRINGS.ON_BOARDING.SLIDE4.TITLE,
 		description: STRINGS.ON_BOARDING.SLIDE4.DESCRIPTION,
+		image: require('../../../assets/Designer_5.jpeg'),
 	},
 ]
 
@@ -96,11 +99,11 @@ export default function OnboardingScreen() {
 					style={{ transform: [{ translateX }] }}
 					{...panResponder.panHandlers}
 				>
-					<Image
-						source={require('../../../assets/icon/ic_boong')}
-						style={styles.backgroundImage}
-					/>
 					<View style={styles.content}>
+						<Image
+							style={styles.slideImage}
+							source={slides[currentSlide].image}
+						/>
 						<Text style={styles.title}>
 							{slides[currentSlide].text}
 						</Text>
@@ -121,34 +124,34 @@ export default function OnboardingScreen() {
 					/>
 				))}
 			</View>
-
-			<LoginLongBtn text={STRINGS.ON_BOARDING.PASS} onPress={moveToLogin}/>
-
+			<LoginLongBtn
+				text={STRINGS.ON_BOARDING.PASS}
+				onPress={moveToLogin}
+			/>
 		</SafeAreaView>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		...typography.display.small,
 		flex: 1,
-		backgroundColor: colors.white,
+		backgroundColor: colors.gray100,
 	},
 	slideContainer: {
 		flex: 2,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	backgroundImage: {
-		width: '100%',
-		height: '60%',
-	},
 	content: {
-		flex: 1,
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 		alignItems: 'center',
-
-		padding: 20,
+		paddingHorizontal: 20,
+	},
+	slideImage: {
+		width: 240,
+		height: 240,
+		marginBottom: 16,
+		resizeMode: 'contain',
 	},
 	dotsContainer: {
 		flexDirection: 'row',
@@ -176,21 +179,5 @@ const styles = StyleSheet.create({
 		...typography.body.medium,
 		textAlign: 'center',
 		color: colors.gray400,
-	},
-	kakaoButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		backgroundColor: '#FEE500',
-		borderRadius: 12,
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		alignSelf: 'center',
-		elevation: 2,
-		boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.1)',
-		marginBottom: 120,
-	},
-	kakaoImage: {
-		width: 200,
-		height: 30,
 	},
 })
