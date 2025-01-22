@@ -147,7 +147,7 @@ const ReviewScreen = () => {
                 }}
                 style={styles.link}
               >
-                <View style={[styles.shopInfo, { height: 150 }]}>
+                <View style={[styles.shopInfo, { height: 180 }]}>
                   <View style={styles.shopInfodata}>
                     <Text style={styles.shopName}>{review.store_name}</Text>
                     <Text style={styles.shopAddress}>{review.address}</Text>
