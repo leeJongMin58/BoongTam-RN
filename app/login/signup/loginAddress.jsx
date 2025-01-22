@@ -12,31 +12,30 @@ import {
 	Modal,
 	LogBox,
 } from 'react-native'
+import { useRouter, useLocalSearchParams } from 'expo-router'
 import Postcode from '@actbase/react-daum-postcode'
 import Colors from '../../../src/styles/color'
 import Typography from '../../../src/styles/typhography'
 import { STRINGS } from '../../../src/config/string'
 import { LoginAppbar } from '../../../src/components/LoginAppbar'
 import { signupUseCase } from '../../../src/usecases/authUsecase'
+import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
+import { ro } from 'date-fns/locale'
 
 LogBox.ignoreLogs([
 	'Warning: Postcode: Support for defaultProps will be removed from function components in a future major release',
 ])
 
-const MIN_ADDRESS_LENGTH = 0
-
 const AddressInput = () => {
+	const local = useLocalSearchParams()
+	const router = useRouter()
+
 	const [zipcode, setZipcode] = useState('')
 	const [address, setAddress] = useState('')
 	const [detailedAddress, setDetailedAddress] = useState('')
 	const [isModalVisible, setModalVisible] = useState(false)
 
-	const isNextButtonEnabled =
-		address.length > MIN_ADDRESS_LENGTH &&
-		detailedAddress.length > MIN_ADDRESS_LENGTH
-	const isSkipButtonEnabled =
-		address.length === MIN_ADDRESS_LENGTH &&
-		detailedAddress.length === MIN_ADDRESS_LENGTH
+	console.log(local)
 
 	const handleAddressSelect = (data) => {
 		setZipcode(data.zonecode)
@@ -44,9 +43,36 @@ const AddressInput = () => {
 		setModalVisible(false)
 	}
 
-    const handleNext = () => {
-        signupUseCase
-    }
+	const handleNextBtn = async () => {
+		try {
+			console.log(local.phoneNumber)
+			const result = await signupUseCase(
+				local.phoneNumber,
+				local.id,
+				local.password,
+				address,
+				detailedAddress,
+				zipcode,
+				local.email
+			)
+			if (result.code == 200) {
+				router.push({
+					pathname: '/login/signup/loginSuccess'
+				})
+			}
+		} catch (error) {
+			console.log(error)
+		}
+		
+		router.push({
+			pathname: '/boongtam',
+			params: {
+				id: local.id,
+				phoneNumber: local.phoneNumber,
+				password: finallyPw.current,
+			},
+		})
+	}
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -54,12 +80,15 @@ const AddressInput = () => {
 				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				style={styles.container}
 			>
-				<LoginAppbar title={STRINGS.LOGIN.TITLE} step="3 / 3" />
+				<LoginAppbar
+					title={STRINGS.LOGIN.SIGNUP}
+					step={STRINGS.LOGIN.ADDRESS.STEP}
+				/>
 
 				{/* 주소 입력 */}
 				<View style={styles.addressSection}>
 					<Text style={styles.label}>
-						{STRINGS.SIGNUP.INFO.ADDRESS}
+						{STRINGS.LOGIN.ADDRESS.ADDRESS1}
 					</Text>
 					<View style={styles.inputRow}>
 						<TextInput
@@ -73,7 +102,7 @@ const AddressInput = () => {
 							onPress={() => setModalVisible(true)}
 						>
 							<Text style={styles.searchButtonText}>
-								{STRINGS.SIGNUP.INFO.FIND_ADDRESS}
+								{STRINGS.LOGIN.ADDRESS.ADDRESS2}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -89,10 +118,8 @@ const AddressInput = () => {
 						value={detailedAddress}
 						onChangeText={(text) => setDetailedAddress(text.trim())}
 					/>
-					<Text style={styles.helperText}>
-						{STRINGS.SIGNUP.INFO.ADDRESS_DISCRIPTION}
-					</Text>
 				</View>
+				<LoginLongBtn text={STRINGS.LOGIN.PASS} onPress={handleNextBtn} />
 
 				{/* 주소 검색 모달 */}
 				<Modal
@@ -123,13 +150,6 @@ const AddressInput = () => {
 						</View>
 					</View>
 				</Modal>
-
-				{/* <LoginBottomBtn
-					pathname="/login/signup/loginSuccess"
-					signInfo={{  }}
-					isNextButtonEnabled={true}
-					handleNext={() => handleNext()}
-				/> */}
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)

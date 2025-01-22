@@ -11,38 +11,70 @@ import { STRINGS } from '../../../src/config/string'
 import { LoginIdForm } from '../../../src/components/LoginIdForm'
 import { LoginLongBtn } from '../../../src/components/LoginLongBtn'
 import { useState, useEffect, useRef } from 'react'
+import { isDuplicateIDUseCase } from '../../../src/usecases/authUsecase'
 
 export default function LoginIdScreen() {
 	const local = useLocalSearchParams()
 	const router = useRouter()
 
+	const idStates = {
+		GOOD : 'good',
+		FAIL_REQUIREMENT : 'fail_requirement',
+		TODO_VALI_DUPLICATION : 'todo_vali_dupilcation',
+		DUPICATION : 'duplication'
+	}
+
 	const [msg, setMsg] = useState(STRINGS.LOGIN.IDE.DETIAL)
 	const [isWarning, setWarning] = useState(false)
 	const [id, setId] = useState('')
-	const [isGoodId, setGoodId] = useState(false)
-	const [isDuplicateId, setDuplicateId] = useState(false)
+	const [idState, setIdState] = useState(idStates.FAIL_REQUIREMENT)
 
 	const finallyId = useRef()
 
 	useEffect(() => {
+		setIdState(idStates.FAIL_REQUIREMENT)
 		const codeRegex = /^[a-zA-Z0-9]{4,20}$/
-		setGoodId(codeRegex.test(id))
-		setDuplicateId(false)
+		if (codeRegex.test(id)) {
+			setIdState(idStates.TODO_VALI_DUPLICATION)
+			setWarning(false)
+			setMsg(STRINGS.LOGIN.IDE.GO_DUPLICATE_TEST)
+		} else {
+			setWarning(true)
+			setMsg(STRINGS.LOGIN.IDE.DETIAL)
+		}
 	}, [id])
 
-	const handleDuplicateBtn = () => {
-		// todo api
-		setDuplicateId(true)
-		setMsg(STRINGS.LOGIN.IDE.GOOD_ID)
-		finallyId.current = id
+	useEffect(() => {
+		console.log(idState)
+	}, [idState])
+
+	const handleDuplicateBtn = async () => {
+		try {
+			finallyId.current = id
+			const result = await isDuplicateIDUseCase(finallyId.current)
+			if (result.code == 200) {
+				setMsg(STRINGS.LOGIN.IDE.GOOD_ID)
+				setWarning(false)
+				setIdState(idStates.GOOD)
+	
+			} if (result.code == 409) {
+				setMsg(STRINGS.LOGIN.IDE.WARNING_DUPICATE)
+				setWarning(true)
+			} else {
+				// todo error 처리
+			}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const handleNextBtn = () => {
+		Keyboard.dismiss()
 		router.push({
 			pathname: '/login/signup/LoginPwScreen',
 			params: {
 				phoneNumber: local.phoneNumber,
-				id : finallyId.current
+				id: finallyId.current,
 			},
 		})
 	}
@@ -63,11 +95,15 @@ export default function LoginIdScreen() {
 					isWarning={isWarning}
 					id={id}
 					onChangeId={setId}
-					isGoodId={isGoodId}
+					isGoodId={idState != idStates.FAIL_REQUIREMENT}
 					onPressBtn={handleDuplicateBtn}
 				/>
 
-				<LoginLongBtn isActive={isDuplicateId} text={STRINGS.LOGIN.NEXT} onPress={handleNextBtn}/>
+				<LoginLongBtn
+					isActive={idState == idStates.GOOD}
+					text={STRINGS.LOGIN.NEXT}
+					onPress={handleNextBtn}
+				/>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	)

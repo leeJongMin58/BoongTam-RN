@@ -4,8 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import Colors from '../styles/color'
 import typography from '../styles/typhography'
 
-export function LoginAppbar({title = '', step = ''}) {
-
+export function LoginAppbar({ title = '', step = '' }) {
 	return (
 		<View style={styles.header}>
 			<TouchableOpacity

@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const BASE_URL = 'http://3.39.104.44:80/'
 
 // 토큰이 필요없는 통신
@@ -30,7 +32,7 @@ class ClientWT {
 	}
 
 	async post(endpoint, requestBody) {
-		return await fetchData(true, 'POST', endpoint, requestBody);
+		return await fetchData(true, 'POST', endpoint, requestBody)
 	}
 
 	async put(endpoint, requestBody) {
@@ -38,7 +40,6 @@ class ClientWT {
 	}
 
 	async patch(endpoint, requestBody) {
-
 		return await fetchData(true, 'PATCH', endpoint, requestBody)
 	}
 
@@ -48,12 +49,14 @@ class ClientWT {
 }
 
 async function fetchData(requireToken, method, endpoint, requestBody) {
+	const loadedToken = await AsyncStorage.getItem('token')
+
 	try {
 		const options = {
 			method,
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: 'CHIHO3333',
+				authorization: loadedToken,
 			},
 		}
 
@@ -69,10 +72,14 @@ async function fetchData(requireToken, method, endpoint, requestBody) {
 		const data = await resp.json()
 		console.log('client', data)
 		return data
-	} catch (error) { 
-		console.error('client Error:', error)
-		throw error;
+	} catch (error) {
+		return { code: extractStatusCode(error) }
 	}
+}
+
+function extractStatusCode(error) {
+	const match = error.message.match(/status: (\d{3})/)
+	return match ? match[1] : null
 }
 
 export { Client, ClientWT }
