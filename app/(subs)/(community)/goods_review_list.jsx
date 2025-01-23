@@ -128,10 +128,6 @@ export default function ReviewScreen() {
                       <MaterialIcons name="favorite" size={24} color={colors.orange200} />
                       <Text style={styles.actionText}>{review.like_count}</Text>
                     </View>
-                    <View style={styles.actionItem}>
-                      <MaterialIcons name="chat-bubble-outline" size={24} color={colors.orange200} />
-                      <Text style={styles.actionText}>21</Text>
-                    </View>
                   </View>
 
                   {/* 리뷰 텍스트 */}

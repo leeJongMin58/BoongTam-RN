@@ -112,8 +112,6 @@ const GoodsReviewLook = () => {
           <View style={styles.likeSection}>
             <MaterialIcons name="favorite" size={24} color={colors.orange200} />
             <Text style={styles.likeCount}>{like_count}</Text>
-            <MaterialIcons name="chat-bubble-outline" size={24} color={colors.orange200} />
-            <Text style={styles.commentCount}>20</Text>
           </View>
 
           {/* 리뷰 텍스트 섹션 */}

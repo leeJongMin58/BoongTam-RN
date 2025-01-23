@@ -37,29 +37,33 @@ export default function App({ navigation }) {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('위치 권한 필요', '현재 위치를 가져오기 위해 권한이 필요합니다.');
+        setCurrentCoords({ latitude: 37.5665, longitude: 126.978 }); // 서울 기본 위치
         return;
       }
-      const { coords } = await Location.getCurrentPositionAsync({});
-      setCurrentCoords(coords);
 
       try {
+        const { coords } = await Location.getCurrentPositionAsync({});
+        setCurrentCoords(coords); // 현재 위치 설정
+
         const address = await Location.reverseGeocodeAsync({
           latitude: coords.latitude,
           longitude: coords.longitude,
         });
         if (address.length > 0) {
-          const { city = '', district = '', street = '', name = '' } = address[0];
-          const fullAddress = `${city} ${district} ${street} ${name}`.trim();
+          const { region = '', district = '', street = '', name = '' } = address[0];
+          const fullAddress = `${region} ${district} ${street} ${name}`.trim();
           setLocation(fullAddress || '주소를 찾을 수 없습니다.');
         } else {
           setLocation('주소를 찾을 수 없습니다.');
         }
       } catch (error) {
         console.error('Error in reverseGeocode:', error);
+        setCurrentCoords({ latitude: 37.5665, longitude: 126.978 }); // 서울 기본 위치
         setLocation('주소를 가져오는 중 오류가 발생했습니다.');
       }
     })();
   }, []);
+
 
   const handleMarkerDragEnd = async (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
@@ -162,17 +166,17 @@ export default function App({ navigation }) {
               <MapView
                 style={styles.map}
                 initialRegion={{
-                  latitude: currentCoords?.latitude || 37.5665,
+                  latitude: currentCoords?.latitude || 37.5665, // 서울 기본 위치
                   longitude: currentCoords?.longitude || 126.978,
-                  latitudeDelta: 0.02,
-                  longitudeDelta: 0.02,
+                  latitudeDelta: 0.05,
+                  longitudeDelta: 0.05,
                 }}
                 region={
                   currentCoords && {
                     latitude: currentCoords.latitude,
                     longitude: currentCoords.longitude,
-                    latitudeDelta: 0.02,
-                    longitudeDelta: 0.02,
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
                   }
                 }
               >
@@ -365,8 +369,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonSelected: {
-    backgroundColor: '#FFD700',
-    borderColor: '#ff0',
+    backgroundColor: Colors.orange100,
+    borderColor: Colors.orange100,
   },
   buttonText: {
     fontSize: 14,
@@ -380,7 +384,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   submitButtonText: {
-    color: '#fff',
+    color: Colors.gray500,
     fontSize: 20,
   },
   paymentButton: {
@@ -393,7 +397,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   paymentButtonSelected: {
-    backgroundColor: '#FFD700',
-    borderColor: '#ff0',
+    backgroundColor: Colors.orange100,
+    borderColor: Colors.orange100,
   },
 });

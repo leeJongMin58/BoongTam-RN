@@ -60,9 +60,12 @@ const ReviewScreen = () => {
       <SafeAreaView style={styles.safeContainer}>
         {/* 헤더 */}
         <View style={styles.header}>
-          <Link href="(tabs)/(my)/my" style={styles.backbutton}>
+          <TouchableOpacity
+            onPress={() => router.push('/(tabs)/(community)/(main)/community')}
+            style={styles.backButton}
+          >
             <MaterialIcons name="arrow-back" size={24} color={colors.gray500} />
-          </Link>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>매장 리뷰</Text>
         </View>
 
@@ -108,6 +111,9 @@ const ReviewScreen = () => {
                     ))}
                   </View>
                 </View>
+                <TouchableOpacity style={styles.moreButton}>
+                  <MaterialIcons name="more-vert" size={24} color={colors.gray500} />
+                </TouchableOpacity>
               </View>
 
               {/* 이미지 리스트 */}
@@ -131,10 +137,6 @@ const ReviewScreen = () => {
                   <MaterialIcons name="favorite" size={24} color={colors.orange200} />
                   <Text style={styles.actionText}>{review.like_count}</Text>
                 </View>
-                <View style={styles.actionItem}>
-                  <MaterialIcons name="chat-bubble-outline" size={24} color={colors.gray300} />
-                  <Text style={styles.actionText}>{review.comment_count}</Text>
-                </View>
               </View>
 
               {/* Review Text */}
@@ -151,9 +153,9 @@ const ReviewScreen = () => {
                   <View style={styles.shopInfodata}>
                     <Text style={styles.shopName}>{review.store_name}</Text>
                     <Text style={styles.shopAddress}>{review.address}</Text>
-                    <TouchableOpacity 
-                    onPress={() => router.push("/(subs)/(boongtam)/boongtamDetail")}
-                    style={styles.shopButton}>
+                    <TouchableOpacity
+                      onPress={() => router.push("/(subs)/(boongtam)/boongtamDetail")}
+                      style={styles.shopButton}>
                       <Text style={styles.buttonText}>바로가기 →</Text>
                     </TouchableOpacity>
                   </View>
@@ -193,11 +195,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 50,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray200
+    borderBottomColor: colors.gray200,
+    position: "relative",
   },
-  backbutton: {
+  backButton: {
     position: 'absolute',
     left: 10
+  },
+  moreButton: {
+    marginBottom: 10,
   },
   headerTitle: {
     ...typography.heading.small_bold,
@@ -226,6 +232,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 15
   },
+
   profileInfoContainer: { flex: 1 },
   userName: { ...typography.body.large_bold, color: colors.gray500 },
   userInfo: { ...typography.body.medium, color: colors.gray400 },
