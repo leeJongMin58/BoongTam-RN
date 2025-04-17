@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+# ![붕탐long](https://github.com/user-attachments/assets/2c9866d7-6deb-4f0d-a1b1-be63efe251bc)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+# 붕어탐정 (BoongTam-RN)
 
-1. Install dependencies
+**붕어탐정 프로젝트**는 **React Native (Expo)** 기반의 모바일 애플리케이션입니다.  
+이 앱은 사용자가 상품을 탐색하고, 정보를 확인하며, 구매 결정을 쉽게 내릴 수 있도록 도와줍니다.  
 
-   ```bash
-   npm install
-   ```
+> 🚀 **현재 진행 중인 기능 개발**: [이슈 트래커]()에서 확인하세요.  
 
-2. Start the app
+---
 
-   ```bash
-    npx expo start
-   ```
+## 📌 주요 기능
 
-In the output, you'll find options to open the app in a
+### 🔍 상품 검색 및 탐색
+- **Google Maps** 기반으로 붕어빵 매장을 찾아볼 수 있습니다.  
+- **맵 뷰 & 리스트 뷰** 기능을 제공하여 매장을 한눈에 볼 수 있습니다.  
+- 다양한 상품을 **카테고리별**로 구분하여 매장과 굿즈를 탐색할 수 있습니다.  
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 📄 상세 정보 확인
+- 각 상품의 상세 페이지에서 **별점, 리뷰, 인기 리뷰** 등을 확인할 수 있습니다.  
+- 신뢰도 높은 사용자 리뷰를 제공하여 구매 결정을 돕습니다.  
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 🎯 맞춤형 추천 시스템
+- 사용자의 **구매 이력 & 리뷰 기록**을 기반으로 맞춤형 상품을 추천합니다.  
+- 가장 많이 구매한 상품과 댓글을 남겼던 상품을 **리스트 뷰**로 제공합니다.  
 
-## Get a fresh project
+### 🔐 간편한 로그인 및 회원가입
+- **온슬립 애니메이션(One-Slip Animation)**을 적용한 직관적인 로그인 화면  
+- **간결한 회원가입 UX**로 사용자 경험을 개선  
 
-When you're ready, run:
+### 🎨 사용자 친화적인 UI/UX
+- **Figma**로 설계된 깔끔한 인터페이스  
+- 균형 잡힌 레이아웃으로 눈의 피로도를 최소화  
+
+### 🔀 유연한 화면 전환
+- `link`와 `router`를 혼합하여 **효율적인 페이지 이동**을 구현  
+  - 특정 페이지 이동 시: `link` 사용  
+  - 어디서든 접근 가능한 페이지 이동 시: `router` 사용  
+
+---
+
+## 📂 프로젝트 폴더 구조
 
 ```bash
-npm run reset-project
+BoongTam-RN
+│── app/               # 페이지 라우팅 구조
+│   ├── subs/          # 서브 페이지 (상품 관련)
+│   │   ├── product-detail.jsx
+│   ├── tabs/          # 탭 네비게이션
+│   ├── login/         # 로그인 관련 페이지
+│   ├── _layout.jsx    # 전체 레이아웃 설정
+│── src/               # 핵심 로직 및 서비스
+│   ├── api/           # API 관련 코드
+│   ├── components/    # 재사용 가능한 UI 컴포넌트
+│   ├── config/        # 설정 파일
+│   ├── repositories/  # 데이터 관리 계층 (shopRepository.js 등)
+│   ├── services/      # 비즈니스 로직 (shopService.js 등)
+│   ├── styles/        # 스타일 관련 파일 (color.js, typography.js)
+│   ├── utils/         # 유틸리티 함수 모음
+│── assets/            # 이미지 및 정적 파일
+│── app.json           # Expo 설정 파일
+│── package.json       # 프로젝트 의존성 정보
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 주요 기능
 
-## Learn more
+### 🔍 상품 검색 및 조회
+### 🛒 장바구니 기능
+### 💳 결제 기능
+### 👤 로그인/회원가입 
 
-To learn more about developing your project with Expo, look at the following resources:
+## 스타일 가이드
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### prettier 설정 유지 (.prettierrc 참고)
 
-## Join the community
+### 디자인 = color.js와 typography.js에서 스타일 참조
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
